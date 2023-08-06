@@ -1,7 +1,7 @@
 import RNPickerSelect from "react-native-picker-select";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ui/ColorPalette";
 import { useState } from "react";
-import { formatTime } from "../../../util/formatTime";
+import { formatTime } from "../../../../util/formatTime";
 
 import { View, Text, StyleSheet } from "react-native";
 

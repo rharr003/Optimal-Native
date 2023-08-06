@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import WorkoutHeaderTimer from "./WorkoutHeaderTimer";
+import WorkoutHeaderTimer from "../active/WorkoutHeaderTimers";
 import { useSelector } from "react-redux";
 import { ColorPalette } from "../../ui/ColorPalette";
 
@@ -9,7 +9,7 @@ export default function WorkoutHomeActiveWorkoutLabel() {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Text style={styles.text}>{name}</Text>
-        <WorkoutHeaderTimer color={"#000000"} />
+        <WorkoutHeaderTimer color={"#000000"} overRideRestTimer={true} />
       </View>
     </View>
   );

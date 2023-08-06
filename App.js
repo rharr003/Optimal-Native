@@ -14,13 +14,48 @@ import handleAppClose from "./util/handleAppClose";
 import handleAppOpen from "./util/handleAppOpen";
 import { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    };
+  },
+});
+
+const allowsNotificationsAsync = async () => {
+  const settings = await Notifications.getPermissionsAsync();
+  return (
+    settings.granted ||
+    settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
+  );
+};
+
+const requestNotificationsAsync = async () => {
+  const { granted } = await Notifications.requestPermissionsAsync();
+  return granted;
+};
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [appState, setAppState] = useState(AppState.currentState);
+  async function initNotifications() {
+    const allowed = await allowsNotificationsAsync();
+    if (!allowed) {
+      const granted = await requestNotificationsAsync();
+      if (!granted) {
+        return;
+      }
+    }
+  }
+
   useEffect(() => {
     init();
+    initNotifications();
 
     //wipeDatabase();
   }, []);

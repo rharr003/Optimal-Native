@@ -1,63 +1,55 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, AppState } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { stopRestTimer } from "../../../util/workout";
+import { useEffect } from "react";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import WorkoutModals from "./WorkoutModals";
-import WorkoutExerciseList from "./ExerciseList";
-import WorkoutActiveFooter from "./WorkoutActiveFooter";
+import WorkoutExerciseList from "./exercises/ExerciseList";
 import React from "react";
+import * as Notifications from "expo-notifications";
+import { useDispatch, useSelector } from "react-redux";
+import { setTimeClosed, decrementRestTimer } from "../../../util/restTimer";
 
 export default function WorkoutActiveMain({ onFocus, toggleExerciseModal }) {
   const isFocused = useIsFocused();
-  const [showManageExerciseModal, setShowManageExerciseModal] = useState(false);
-  const [exerciseToEditIdx, setExerciseToEditIdx] = useState(null);
-  const showRestTimerModal = useSelector(
-    (state) => state.workout.restTimerActive
-  );
-
+  const appState = AppState.currentState;
   const dispatch = useDispatch();
+  const timeClosed = useSelector((state) => state.restTimer.timeClosed);
 
-  function handleRestTimerClose() {
-    dispatch(stopRestTimer());
-  }
-
-  function handleManageExerciseModalClose() {
-    setExerciseToEditIdx(null);
-
-    setShowManageExerciseModal(false);
-  }
-
-  function handleManageExerciseModalOpen(idx) {
-    setExerciseToEditIdx(idx);
-    setShowManageExerciseModal(true);
-  }
-
+  // re-enables the swipe to close gesture when the component is focused
   useEffect(() => {
     if (isFocused) {
       onFocus();
+      Notifications.cancelAllScheduledNotificationsAsync();
     }
   }, [isFocused]);
 
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (newAppState) => {
+      if (newAppState === "active") {
+        Notifications.cancelAllScheduledNotificationsAsync();
+      }
+    });
+    return () => {
+      subscription.remove();
+    };
+  }, [appState]);
+
+  useEffect(() => {
+    if (timeClosed) {
+      const timePassedInSeconds = Math.ceil(
+        (new Date().getTime() - timeClosed) / 1000
+      );
+      dispatch(decrementRestTimer({ amount: timePassedInSeconds }));
+    }
+
+    return () => {
+      dispatch(setTimeClosed());
+    };
+  }, []);
+
   return (
     <View style={styles.centeredView}>
-      <WorkoutModals
-        handleRestTimerClose={handleRestTimerClose}
-        showRestTimerModal={showRestTimerModal}
-        handleManageExerciseModalClose={handleManageExerciseModalClose}
-        showManageExerciseModal={showManageExerciseModal}
-        exerciseToEditIdx={exerciseToEditIdx}
-        toggleExerciseModal={toggleExerciseModal}
-      />
-      <WorkoutExerciseList
-        handleManageExerciseModalOpen={handleManageExerciseModalOpen}
-      />
+      <WorkoutExerciseList toggleExerciseModal={toggleExerciseModal} />
       <KeyboardSpacer />
-      <WorkoutActiveFooter
-        style={{ position: "absolute", bottom: 0 }}
-        toggleExerciseModal={toggleExerciseModal}
-      />
     </View>
   );
 }

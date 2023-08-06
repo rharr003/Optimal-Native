@@ -5,8 +5,6 @@ const workoutSlice = createSlice({
   initialState: {
     isActive: false,
     timer: 0,
-    restTimer: 0,
-    restTimerActive: false,
     workout: {
       name: "My Workout",
       exercises: [],
@@ -24,6 +22,9 @@ const workoutSlice = createSlice({
 
     stopWorkout(state) {
       state.isActive = false;
+      state.restTimerActive = false;
+      state.restTimer = 0;
+      state.initialRestTime = 0;
       state.timer = 0;
       state.workout = {
         name: "My Workout",
@@ -34,15 +35,20 @@ const workoutSlice = createSlice({
     updateWorkoutDuration(state, action) {
       state.workout.duration = state.workout.duration + 1;
     },
-    addExercise(state, action) {
-      state.workout.exercises.push(action.payload);
+
+    bulkAddExercises(state, action) {
+      state.workout.exercises = [...state.workout.exercises, ...action.payload];
     },
     removeExercise(state, action) {
-      state.workout.exercises = state.workout.exercises.filter(
-        (exercise) => exercise.id !== action.payload.id
-      );
+      const { id, index } = action.payload;
+      state.workout.exercises.splice(index, 1);
     },
     updateExerciseOrder(state, action) {
+      console.log(
+        "action payload vals:",
+        action.payload[0].sets.length,
+        action.payload[1].sets.length
+      );
       state.workout.exercises = action.payload;
     },
 
@@ -74,9 +80,9 @@ const workoutSlice = createSlice({
       });
     },
     bulkUpdateSets(state, action) {
-      const { exerciseId, sets } = action.payload;
+      const { reactId, sets } = action.payload;
       const exercise = state.workout.exercises.find(
-        (exercise) => exercise.id === exerciseId
+        (exercise, idx) => exercise.reactId === reactId
       );
       if (exercise) exercise.sets = sets;
     },
@@ -119,40 +125,13 @@ const workoutSlice = createSlice({
     incrementTimer(state, action) {
       state.timer = state.timer + action.payload.amount;
     },
-
-    startRestTimer(state, action) {
-      state.restTimerActive = true;
-      state.restTimer = action.payload.restTime;
-    },
-
-    stopRestTimer(state) {
-      state.restTimerActive = false;
-      state.restTimer = 0;
-    },
-
-    incrementRestTimer(state, action) {
-      state.restTimer = state.restTimer + action.payload.amount;
-    },
-
-    decrementRestTimer(state, action) {
-      if (state.restTimer - action.payload.amount < 0) {
-        state.restTimer = 0;
-        state.restTimerActive = false;
-        return;
-      }
-
-      state.restTimer = state.restTimer - action.payload.amount;
-      if (state.restTimer === 0) {
-        state.restTimerActive = false;
-      }
-    },
   },
 });
 
 export const startWorkout = workoutSlice.actions.startWorkout;
 export const setWorkout = workoutSlice.actions.setWorkout;
 export const stopWorkout = workoutSlice.actions.stopWorkout;
-export const addExercise = workoutSlice.actions.addExercise;
+export const bulkAddExercises = workoutSlice.actions.bulkAddExercises;
 export const removeExercise = workoutSlice.actions.removeExercise;
 export const addSet = workoutSlice.actions.addSet;
 export const completeSet = workoutSlice.actions.completeSet;
@@ -162,10 +141,6 @@ export const updateSet = workoutSlice.actions.updateSet;
 export const updateWorkoutDuration = workoutSlice.actions.updateWorkoutDuration;
 export const updateExerciseOrder = workoutSlice.actions.updateExerciseOrder;
 export const incrementTimer = workoutSlice.actions.incrementTimer;
-export const startRestTimer = workoutSlice.actions.startRestTimer;
-export const stopRestTimer = workoutSlice.actions.stopRestTimer;
-export const incrementRestTimer = workoutSlice.actions.incrementRestTimer;
-export const decrementRestTimer = workoutSlice.actions.decrementRestTimer;
 export const replaceExercise = workoutSlice.actions.replaceExercise;
 export const updateExerciseRestTime =
   workoutSlice.actions.updateExerciseRestTime;

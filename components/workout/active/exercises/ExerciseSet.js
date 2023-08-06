@@ -1,32 +1,66 @@
 import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { ColorPalette } from "../../../ui/ColorPalette";
+import * as Haptics from "expo-haptics";
+import * as Notifications from "expo-notifications";
 import { useDispatch } from "react-redux";
-import { startRestTimer, completeSet } from "../../../util/workout";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { stopRestTimer, startRestTimer } from "../../../../util/restTimer";
+import React from "react";
 
-export default function ExerciseSetCells({
+function ExerciseSet({
   set,
   setNum,
+  setSets,
   restTime,
-  updateSet,
-  completeSet,
+  setShowRestTimerModal,
 }) {
   const dispatch = useDispatch();
 
   function handleChangeText(text, type) {
-    if (type === "weight") {
-      updateSet(text, setNum - 1, "weight");
-    } else {
-      updateSet(text, setNum - 1, "reps");
-    }
+    setSets((prevSets) => {
+      const newSet = prevSets.map((set, setIndex) => {
+        if (setIndex === setNum - 1) {
+          return {
+            ...set,
+            [type]: text,
+          };
+        }
+        return set;
+      });
+      return newSet;
+    });
   }
 
   function handleComplete() {
     if (!set.completed) {
-      dispatch(startRestTimer({ restTime: restTime }));
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      dispatch(stopRestTimer());
+      setTimeout(() => {
+        dispatch(startRestTimer({ restTime }));
+        setShowRestTimerModal(true);
+      }, 100);
+    } else {
+      Notifications.cancelAllScheduledNotificationsAsync();
+      dispatch(stopRestTimer());
     }
-    completeSet(setNum - 1);
+
+    setSets((prevSets) => {
+      const newSet = prevSets.map((set, setIndex) => {
+        if (setIndex === setNum - 1) {
+          return {
+            ...set,
+            completed: !set.completed,
+          };
+        }
+        return set;
+      });
+      return newSet;
+    });
   }
+
+  // function handleComplete() {
+  //   completeSet(setNum - 1);
+  // }
   return (
     <>
       <View
@@ -159,3 +193,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
+
+export default React.memo(ExerciseSet);

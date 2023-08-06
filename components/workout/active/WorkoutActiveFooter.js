@@ -11,9 +11,11 @@ export default function WorkoutActiveFooter({ style, toggleExerciseModal }) {
   const navigation = useNavigation();
   async function cancelWorkout() {
     dispatch(stopWorkout());
+    // removes the saved workout from AsyncStorage
     await AsyncStorage.removeItem("prevState");
     navigation.goBack();
   }
+
   return (
     <View style={[styles.footer, style]}>
       <CustomButton
@@ -35,12 +37,10 @@ export default function WorkoutActiveFooter({ style, toggleExerciseModal }) {
 const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: 20,
+    marginVertical: "10%",
     width: "100%",
-    height: 75,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-
-    backgroundColor: ColorPalette.dark.gray800,
   },
 });

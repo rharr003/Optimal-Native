@@ -1,32 +1,26 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { ColorPalette } from "../../../ui/ColorPalette";
 import AddExerciseModalExerciseItem from "./AddExerciseModalExerciseItem";
+import React from "react";
 
-export default function AddExerciseModalMuscleGroup({
+function AddExerciseModalLetterGroup({
   exerciseArr,
-  muscleGroup,
-  handleSelect,
+  letter,
+  setSelectedExercises,
+  selectedExercises,
+  isReplacing,
 }) {
-  const sortedArr = exerciseArr.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
-
   return (
     <View>
-      <Text style={styles.title}>{muscleGroup}</Text>
-      {sortedArr.map((exercise) => {
+      <Text style={styles.title}>{letter}</Text>
+      {exerciseArr.map((exercise) => {
         return (
           <AddExerciseModalExerciseItem
             key={exercise.id}
             exercise={exercise}
-            handleSelect={handleSelect}
-            muscleGroup={muscleGroup}
+            setSelectedExercises={setSelectedExercises}
+            isReplacing={isReplacing}
+            idOfSelectedForReplacing={selectedExercises[0]?.id}
           />
         );
       })}
@@ -67,3 +61,5 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 });
+
+export default React.memo(AddExerciseModalLetterGroup);

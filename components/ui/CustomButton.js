@@ -1,6 +1,5 @@
-import { Pressable, Text, StyleSheet, View } from "react-native";
+import { Pressable, Text, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import WorkoutHeaderTimer from "../workout/main/WorkoutHeaderTimer";
 
 export default function CustomButton({
   onPress,

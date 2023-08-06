@@ -1,12 +1,12 @@
-import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { ColorPalette } from "../../../ui/ColorPalette";
 import ManageModalItem from "./ManageModalItem";
-import { removeExercise } from "../../../util/workout";
-import { updateExerciseRestTime } from "../../../util/db";
-import { updateExerciseRestTime as updateRestTimeState } from "../../../util/workout";
-import { formatTime } from "../../../util/formatTime";
+import { removeExercise } from "../../../../util/workout";
+import { updateExerciseRestTime } from "../../../../util/db";
+import { updateExerciseRestTime as updateRestTimeState } from "../../../../util/workout";
+import { formatTime } from "../../../../util/formatTime";
 import { useDispatch } from "react-redux";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import RestTimePicker from "./RestTimePicker";
 import { useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -84,7 +84,7 @@ export default function ManageExerciseModalMainMenu({
         icon={"trash-outline"}
         iconColor={ColorPalette.dark.error}
         onPress={() => {
-          dispatch(removeExercise({ id: exercise.id }));
+          dispatch(removeExercise({ id: exercise.id, index }));
           handleClose();
         }}
       />

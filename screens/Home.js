@@ -11,7 +11,6 @@ const Stack = createNativeStackNavigator();
 
 export default function Home() {
   const isFocused = useIsFocused();
-  console.log("home");
   const [widgets, setWidgets] = useState([]);
   useEffect(() => {
     async function checkWidgets() {

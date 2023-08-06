@@ -1,5 +1,4 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function ManageModalItem({

@@ -1,13 +1,13 @@
 import { ColorPalette } from "../../ui/ColorPalette";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutActiveMain from "./WorkoutActiveMain";
-import WorkoutHeaderTimer from "../main/WorkoutHeaderTimer";
-import AddExerciseModal from "../add-exercise-modal/AddExerciseModal";
-import ManageExerciseModalStack from "../../deprecated/DEPRECATED_ManageExerciseModalStack";
+import WorkoutHeaderTimer from "./WorkoutHeaderTimers";
+import AddExerciseModal from "../modals/add-exercise-modal/AddExerciseModal";
 
 const Stack = createNativeStackNavigator();
 
 export default function WorkoutActive({ navigation }) {
+  // we define this here because if you set the navigation options in the component it is reffering to a different navigation object and will not disable the swipe to close gesture on the modal
   function toggleExerciseModal(e, data = { isReplacing: false }) {
     navigation.navigate("addExercise", data);
     navigation.setOptions({
@@ -53,13 +53,6 @@ export default function WorkoutActive({ navigation }) {
           title: "Add Exercise",
         }}
       />
-      <Stack.Group
-        screenOptions={{
-          presentation: "transparentModal",
-          headerShown: false,
-          contentStyle: { backgroundColor: "transparent" },
-        }}
-      ></Stack.Group>
     </Stack.Navigator>
   );
 }

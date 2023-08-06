@@ -1,19 +1,12 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  FlatList,
-  ScrollView,
-} from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
-import CustomButton from "../../ui/CustomButton";
-import { fetchExercises } from "../../../util/db";
+import { View, StyleSheet, TextInput, FlatList } from "react-native";
+import { ColorPalette } from "../../../ui/ColorPalette";
+import CustomButton from "../../../ui/CustomButton";
+import { fetchExercises } from "../../../../util/db";
 import { useState, useEffect } from "react";
-import AddExerciseModalMuscleGroup from "./AddExerciseModalMuscleGroup";
+import AddExerciseModalLetterGroup from "./AddExerciseModalLetterGroup";
 import { useDispatch } from "react-redux";
-import { addExercise, replaceExercise } from "../../../util/workout";
-import { fetchRecentExercisePerformance } from "../../../util/db";
+import { replaceExercise, bulkAddExercises } from "../../../../util/workout";
+import { fetchRecentExercisePerformance } from "../../../../util/db";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function AddExerciseModal({ navigation, route }) {
@@ -41,52 +34,25 @@ export default function AddExerciseModal({ navigation, route }) {
     setFilteredExercises(filteredExercises);
   }
 
-  function handleComplete() {
-    selectedExercises.forEach(async (exercise, idx) => {
+  async function handleComplete() {
+    if (isReplacing) {
       const recentExercisePerformance = await fetchRecentExercisePerformance(
-        exercise.id
+        selectedExercises[0].id
       );
-      if (isReplacing) {
-        dispatch(
-          replaceExercise({
-            index: index,
-            exercise: {
-              id: exercise.id,
-              name: exercise.name,
-              unit: "lbs",
-              sets:
-                recentExercisePerformance.length > 0
-                  ? recentExercisePerformance.map((prevSet) => ({
-                      prevWeight: prevSet.weight,
-                      prevReps: prevSet.reps,
-                      reps: "",
-                      weight: "",
-                      completed: false,
-                    }))
-                  : [
-                      {
-                        reps: "",
-                        weight: "",
-                        prevWeight: null,
-                        prevReps: null,
-                        completed: false,
-                      },
-                    ],
-            },
-          })
-        );
-      } else {
-        dispatch(
-          addExercise({
-            id: exercise.id,
-            name: exercise.name,
-            restTime: exercise.restTime,
-            unit: "lbs",
+
+      dispatch(
+        replaceExercise({
+          index: index,
+          exercise: {
+            id: selectedExercises[0].id,
+            name: selectedExercises[0].name,
+            restTime: selectedExercises[0].restTime,
             sets:
               recentExercisePerformance.length > 0
                 ? recentExercisePerformance.map((prevSet) => ({
                     prevWeight: prevSet.weight,
                     prevReps: prevSet.reps,
+                    unit: prevSet.unit,
                     reps: "",
                     weight: "",
                     completed: false,
@@ -95,20 +61,48 @@ export default function AddExerciseModal({ navigation, route }) {
                     {
                       reps: "",
                       weight: "",
+                      unit: "lbs",
                       prevWeight: null,
                       prevReps: null,
                       completed: false,
                     },
                   ],
-          })
-        );
-      }
-
-      if (idx === selectedExercises.length - 1) {
-        if (isReplacing) navigation.navigate("main");
-        else navigation.goBack();
-      }
-    });
+          },
+        })
+      );
+      navigation.navigate("main");
+    } else {
+      const promiseArray = [];
+      selectedExercises.forEach((exercise, idx) => {
+        promiseArray.push(fetchRecentExercisePerformance(exercise.id));
+      });
+      const recentExercisePerformance = await Promise.all(promiseArray);
+      const exercisesToAdd = selectedExercises.map((exercise, idx) => ({
+        ...exercise,
+        sets:
+          recentExercisePerformance[idx].length > 0
+            ? recentExercisePerformance[idx].map((prevSet) => ({
+                prevWeight: prevSet.weight,
+                prevReps: prevSet.reps,
+                unit: prevSet.unit,
+                reps: "",
+                weight: "",
+                completed: false,
+              }))
+            : [
+                {
+                  reps: "",
+                  weight: "",
+                  unit: "lbs",
+                  prevWeight: null,
+                  prevReps: null,
+                  completed: false,
+                },
+              ],
+      }));
+      dispatch(bulkAddExercises(exercisesToAdd));
+      navigation.goBack();
+    }
   }
 
   useEffect(() => {
@@ -141,19 +135,6 @@ export default function AddExerciseModal({ navigation, route }) {
     }
   }, [selectedExercises]);
 
-  function handleSelect(id, muscleGroup) {
-    setSelectedExercises((selectedExercises) => {
-      const exercise = exercises[muscleGroup].find(
-        (exercise) => exercise.id === id
-      );
-      if (selectedExercises.find((exercise) => exercise.id === id)) {
-        return selectedExercises.filter((exercise) => exercise.id !== id);
-      } else {
-        if (isReplacing) return [exercise];
-        else return [...selectedExercises, exercise];
-      }
-    });
-  }
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -176,10 +157,12 @@ export default function AddExerciseModal({ navigation, route }) {
         style={styles.exerciseContainer}
         data={Object.keys(search === "" ? exercises : filteredExercises)}
         renderItem={({ item }) => (
-          <AddExerciseModalMuscleGroup
+          <AddExerciseModalLetterGroup
             exerciseArr={(search === "" ? exercises : filteredExercises)[item]}
-            muscleGroup={item}
-            handleSelect={handleSelect}
+            letter={item}
+            setSelectedExercises={setSelectedExercises}
+            isReplacing={isReplacing}
+            selectedExercises={selectedExercises}
           />
         )}
         keyExtractor={(item) => item}

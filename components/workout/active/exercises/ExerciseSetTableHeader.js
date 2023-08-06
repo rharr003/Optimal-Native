@@ -1,8 +1,8 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ui/ColorPalette";
 
-export default function WorkoutExerciseTableHeader({ handleModalToggle }) {
+export default function ExerciseSetTableHeader({ handleModalToggle }) {
   return (
     <View style={styles.tableRow}>
       <Text style={[styles.tableCellExtraSmall, styles.tableHeaderText]}>

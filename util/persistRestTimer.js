@@ -1,16 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import store from "./store";
 
-export default function handleAppClose() {
+export default function persistRestTimer(initialRestTime, currentRestTime) {
   const state = store.getState().workout;
-  if (state.isActive) {
+  if (state.restTimerActive) {
     AsyncStorage.setItem(
-      "prevState",
+      "prevRestTimerState",
       JSON.stringify({
-        workout: state.workout,
-        isActive: state.isActive,
+        restTimerActive: true,
+        restTimer: currentRestTime,
+        initialRestTime: initialRestTime,
         timeClosed: new Date().getTime(),
-        currTimer: state.timer,
       })
     );
   }

@@ -229,23 +229,21 @@ export const updateExerciseRestTime = (id, restTime) => {
 
 function buildExerciseObj(arr) {
   const exerciseObj = arr.reduce((acc, curr) => {
-    if (acc[curr.muscleGroup]) {
-      acc[curr.muscleGroup].push({
+    if (acc[curr.name[0]]) {
+      acc[curr.name[0]].push({
         id: curr.id,
         name: curr.name,
         equipment: curr.equipment,
         restTime: curr.restTime,
-        selected: false,
       });
       return acc;
     } else {
-      acc[curr.muscleGroup] = [
+      acc[curr.name[0]] = [
         {
           id: curr.id,
           name: curr.name,
           equipment: curr.equipment,
           restTime: curr.restTime,
-          selected: false,
         },
       ];
       return acc;
@@ -259,7 +257,7 @@ export const fetchExercises = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT * FROM exercises ORDER BY exercises.muscleGroup;`,
+        `SELECT * FROM exercises ORDER BY exercises.name;`,
         [],
         (_, result) => resolve(buildExerciseObj(result.rows._array)),
         (_, err) => reject(err)

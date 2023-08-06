@@ -1,22 +1,31 @@
 import CenteredModal from "../../ui/CenteredModal";
-import RestTimer from "./RestTimer";
-import ManageExerciseModalMainMenu from "../manage-modal/ManageExerciseModalMainMenu";
+import ManageExerciseModalMainMenu from "./manage-modal/ManageExerciseModalMainMenu";
+import RestTimerCombined from "../active/RestTimerCombined";
 
 export default function WorkoutModals({
-  handleRestTimerClose,
+  finishRestTimer,
+  setShowRestTimerModal,
   showRestTimerModal,
   handleManageExerciseModalClose,
   showManageExerciseModal,
   exerciseToEditIdx,
   toggleExerciseModal,
 }) {
+  function minimizeRestTimer() {
+    setShowRestTimerModal(false);
+  }
+
   return (
     <>
       <CenteredModal
-        handleClose={handleRestTimerClose}
+        handleClose={minimizeRestTimer}
         showModal={showRestTimerModal}
       >
-        <RestTimer handleClose={handleRestTimerClose} />
+        <RestTimerCombined
+          finishRestTimer={finishRestTimer}
+          isMinimized={false}
+          size={200}
+        />
       </CenteredModal>
       <CenteredModal
         showModal={showManageExerciseModal}

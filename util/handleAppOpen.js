@@ -6,8 +6,10 @@ import {
   incrementTimer,
   stopWorkout,
 } from "./workout";
+import { setSavedRestTimer } from "./restTimer";
 
 export default async function handleAppOpen() {
+  console.log("handleAppOpen");
   await AsyncStorage.getItem("prevState").then((data) => {
     const prevState = JSON.parse(data);
     store.dispatch(stopWorkout());
@@ -21,6 +23,21 @@ export default async function handleAppOpen() {
         incrementTimer({ amount: prevState.currTimer + timePassedInSeconds })
       );
       store.dispatch(startWorkout());
+    }
+  });
+
+  await AsyncStorage.getItem("prevRestTimerState").then((data) => {
+    const prevRestTimerState = JSON.parse(data);
+    if (prevRestTimerState && prevRestTimerState.restTimerActive) {
+      const timePassedInSeconds = Math.ceil(
+        (new Date().getTime() - prevRestTimerState.timeClosed) / 1000
+      );
+      store.dispatch(
+        setSavedRestTimer({
+          restTime: prevRestTimerState.restTimer - timePassedInSeconds,
+          initialRestTime: prevRestTimerState.initialRestTime,
+        })
+      );
     }
   });
 }
