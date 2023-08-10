@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, AppState, AppConfig } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  AppState,
+  AppConfig,
+  SafeAreaView,
+} from "react-native";
 import { init, wipeDatabase } from "./util/db";
 import { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
@@ -57,7 +64,7 @@ export default function App() {
     init();
     initNotifications();
 
-    //wipeDatabase();
+    // wipeDatabase();
   }, []);
 
   useEffect(() => {
@@ -81,9 +88,7 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={{
-            headerStyle: {
-              backgroundColor: ColorPalette.dark.gray800,
-            },
+            headerShown: false,
             tabBarStyle: {
               backgroundColor: ColorPalette.dark.gray800,
             },

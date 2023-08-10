@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Keyboard } from "react-native";
 import { ColorPalette } from "../../../ui/ColorPalette";
 import CustomButton from "../../../ui/CustomButton";
 import { fetchExercises } from "../../../../util/db";
@@ -7,32 +7,60 @@ import AddExerciseModalLetterGroup from "./AddExerciseModalLetterGroup";
 import { useDispatch } from "react-redux";
 import { replaceExercise, bulkAddExercises } from "../../../../util/workout";
 import { fetchRecentExercisePerformance } from "../../../../util/db";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import NewExerciseModal from "./NewExerciseModal";
+import SearchBar from "./SearchBar";
 
 export default function AddExerciseModal({ navigation, route }) {
   const [exercises, setExercises] = useState({});
   const [filteredExercises, setFilteredExercises] = useState({});
   const [selectedExercises, setSelectedExercises] = useState([]);
-  const [search, setSearch] = useState("");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [search, setSearch] = useState({ name: "", category: "" });
   const { isReplacing, index } = route.params;
   const dispatch = useDispatch();
 
-  function handleSearch(text) {
-    setSearch(text);
-    const filteredExercises = Object.keys(exercises).reduce(
-      (filteredExercises, muscleGroup) => {
-        const filteredMuscleGroupExercises = exercises[muscleGroup].filter(
-          (exercise) => exercise.name.toLowerCase().includes(text.toLowerCase())
-        );
-        if (filteredMuscleGroupExercises.length > 0) {
-          filteredExercises[muscleGroup] = filteredMuscleGroupExercises;
-        }
-        return filteredExercises;
-      },
-      {}
-    );
-    setFilteredExercises(filteredExercises);
-  }
+  useEffect(() => {
+    fetchExercises().then((result) => {
+      setExercises(result);
+      if (isReplacing) {
+        navigation.setOptions({
+          title: "Replace Exercise",
+        });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    // sets the header right button to add/replace if there are selected exercises
+    if (selectedExercises.length > 0) {
+      navigation.setOptions({
+        headerRight: () => (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CustomButton
+              onPress={handleComplete}
+              title={
+                isReplacing
+                  ? "Replace"
+                  : "Add" + ` (${selectedExercises.length})`
+              }
+              iconName="checkmark-outline"
+              style={{ padding: 0 }}
+              textColor="#FFFFFF"
+            />
+          </View>
+        ),
+      });
+    } else {
+      navigation.setOptions({
+        headerRight: () => null,
+      });
+    }
+  }, [selectedExercises]);
 
   async function handleComplete() {
     if (isReplacing) {
@@ -105,60 +133,42 @@ export default function AddExerciseModal({ navigation, route }) {
     }
   }
 
-  useEffect(() => {
-    fetchExercises().then((result) => {
-      setExercises(result);
-      if (isReplacing) {
-        navigation.setOptions({
-          title: "Replace Exercise",
-        });
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (selectedExercises.length > 0) {
-      navigation.setOptions({
-        headerRight: () => (
-          <CustomButton
-            onPress={handleComplete}
-            title={isReplacing ? "Replace" : "Add"}
-            iconName="checkmark-outline"
-            color="transparent"
-          />
-        ),
-      });
-    } else {
-      navigation.setOptions({
-        headerRight: () => null,
-      });
-    }
-  }, [selectedExercises]);
+  function handleAddModalOpen() {
+    // clear search so that when the modal is closed, the newly added exercise will show up first
+    setSearch({ name: "", category: "" });
+    Keyboard.dismiss();
+    setShowAddModal(true);
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Ionicons
-          name="search-outline"
-          size={20}
-          color={ColorPalette.dark.gray500}
-        />
-        <TextInput
-          placeholder="Search"
-          placeholderTextColor={ColorPalette.dark.gray500}
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          onChangeText={(text) => handleSearch(text)}
-          value={search}
-        />
-      </View>
+      <NewExerciseModal
+        showModal={showAddModal}
+        setShowModal={setShowAddModal}
+        setExercises={setExercises}
+        setSelectedExercises={setSelectedExercises}
+      />
+      <SearchBar
+        search={search}
+        setSearch={setSearch}
+        exercises={exercises}
+        setFilteredExercises={setFilteredExercises}
+        handleAddModalOpen={handleAddModalOpen}
+      />
       <FlatList
         style={styles.exerciseContainer}
-        data={Object.keys(search === "" ? exercises : filteredExercises)}
+        data={Object.keys(
+          search.name === "" && search.category === ""
+            ? exercises
+            : filteredExercises
+        )}
         renderItem={({ item }) => (
           <AddExerciseModalLetterGroup
-            exerciseArr={(search === "" ? exercises : filteredExercises)[item]}
+            exerciseArr={
+              (search.name === "" && search.category === ""
+                ? exercises
+                : filteredExercises)[item]
+            }
             letter={item}
             setSelectedExercises={setSelectedExercises}
             isReplacing={isReplacing}
@@ -176,25 +186,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingHorizontal: 10,
-  },
-
-  input: {
-    backgroundColor: ColorPalette.dark.gray900,
-    borderRadius: 5,
-    padding: 10,
-    width: "90%",
-    color: "#FFFFFF",
-    fontSize: 18,
-  },
-
-  searchContainer: {
-    marginVertical: 25,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: ColorPalette.dark.gray900,
-    borderRadius: 5,
     paddingHorizontal: 10,
   },
 

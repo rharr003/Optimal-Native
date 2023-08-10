@@ -22,7 +22,7 @@ export default function WorkoutHeaderTimer({
   function finishRestTimer() {
     dispatch(stopRestTimer());
   }
-
+  // should refactor this to not re-render every time we increase the workout timer
   useEffect(() => {
     let interval = null;
     if (isActive) {

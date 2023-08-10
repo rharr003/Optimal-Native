@@ -24,11 +24,11 @@ export default function WorkoutActive({ navigation }) {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: ColorPalette.dark.gray600,
+          backgroundColor: ColorPalette.dark.gray700,
         },
         headerTintColor: ColorPalette.dark.gray100,
         contentStyle: {
-          backgroundColor: ColorPalette.dark.gray700,
+          backgroundColor: ColorPalette.dark.gray800,
         },
       }}
     >

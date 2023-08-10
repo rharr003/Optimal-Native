@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     width: "80%",
     height: "40%",
-    backgroundColor: ColorPalette.dark.gray600,
+    backgroundColor: ColorPalette.dark.gray700,
     position: "absolute",
     borderRadius: 20,
     alignItems: "center",

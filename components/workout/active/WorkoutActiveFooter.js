@@ -21,12 +21,14 @@ export default function WorkoutActiveFooter({ style, toggleExerciseModal }) {
       <CustomButton
         title="Add Exercise"
         color={ColorPalette.dark.secondary200}
+        iconName={"add-outline"}
         onPress={toggleExerciseModal}
         style={{ width: "40%" }}
       />
       <CustomButton
         title="Cancel Workout"
         color={ColorPalette.dark.error}
+        iconName={"trash-outline"}
         onPress={cancelWorkout}
         style={{ width: "40%" }}
       />

@@ -1,4 +1,4 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, Text, StyleSheet, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import { ColorPalette } from "../../../ui/ColorPalette";
@@ -10,8 +10,7 @@ function AddExerciseModalExerciseItem({
   isReplacing,
   idOfSelectedForReplacing,
 }) {
-  const [selected, setSelected] = useState(false);
-
+  const [selected, setSelected] = useState(exercise.defaultSelected || false);
   const shouldBeSelected = () => {
     if (isReplacing) {
       return exercise.id === idOfSelectedForReplacing;
@@ -21,7 +20,6 @@ function AddExerciseModalExerciseItem({
   };
 
   const toggleSelected = () => {
-    // handleSelect(exercise.id, muscleGroup);
     setSelectedExercises((prevSelectedExercises) => {
       if (isReplacing) {
         if (selected) return [];
@@ -50,7 +48,25 @@ function AddExerciseModalExerciseItem({
       ]}
       onPress={toggleSelected}
     >
-      <Text style={styles.text}>{exercise.name}</Text>
+      <View
+        style={{
+          alignItems: "left",
+          justifyContent: "center",
+          maxWidth: "80%",
+        }}
+      >
+        <Text style={styles.text}>
+          {exercise.name + " "}
+          <Text>
+            {exercise.equipment !== "body" && exercise.equipment !== "static"
+              ? `(${
+                  exercise.equipment[0].toUpperCase() +
+                  exercise.equipment.slice(1)
+                })`
+              : ""}
+          </Text>
+        </Text>
+      </View>
       {shouldBeSelected() ? (
         <Ionicons name="checkmark" size={20} color="#fff" />
       ) : null}
@@ -60,18 +76,18 @@ function AddExerciseModalExerciseItem({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: ColorPalette.dark.gray900,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    height: 70,
   },
   text: {
     color: "#fff",
     fontSize: 20,
-    textAlign: "center",
   },
   pressed: {
     opacity: 0.75,

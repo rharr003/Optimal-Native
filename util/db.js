@@ -193,19 +193,13 @@ export const wipeDatabase = async () => {
   console.log("Database wiped");
 };
 
-export const insertExercise = (
-  name,
-  description,
-  imageUri,
-  muscleGroup,
-  equipment
-) => {
+export const insertExercise = (name, equipment, muscleGroup) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO exercises (name, description, imageUri, muscleGroup, equipment) VALUES (?, ?, ?, ?, ?);`,
-        [name, description, imageUri, muscleGroup, equipment],
-        (_, result) => resolve(result),
+        `INSERT INTO exercises (name,  equipment, muscleGroup) VALUES (?, ?, ? ) RETURNING *;`,
+        [name, equipment, muscleGroup],
+        (_, result) => resolve(result.rows._array[0]),
         (_, err) => reject(err)
       );
     });
@@ -234,6 +228,7 @@ function buildExerciseObj(arr) {
         id: curr.id,
         name: curr.name,
         equipment: curr.equipment,
+        muscleGroup: curr.muscleGroup,
         restTime: curr.restTime,
       });
       return acc;
@@ -243,6 +238,7 @@ function buildExerciseObj(arr) {
           id: curr.id,
           name: curr.name,
           equipment: curr.equipment,
+          muscleGroup: curr.muscleGroup,
           restTime: curr.restTime,
         },
       ];

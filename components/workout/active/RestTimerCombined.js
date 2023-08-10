@@ -26,9 +26,6 @@ export default function RestTimerCombined({
   );
   const currentRestTime = useSelector((state) => state.restTimer.restTimer);
   const [key, setKey] = useState(0);
-  const restTimerActive = useSelector(
-    (state) => state.restTimer.restTimerActive
-  );
   const currentRestTimeRef = useRef(currentRestTime);
   const [hasReset, setHasReset] = useState(false);
   const dispatch = useDispatch();
@@ -54,8 +51,6 @@ export default function RestTimerCombined({
       persistRestTimer(initialRestTime, currentRestTimeRef.current);
     }
   }
-  console.log("rest time according to ref", currentRestTimeRef.current);
-  console.log("rest time according to store", currentRestTime);
   useEffect(() => {
     const subscription = AppState.addEventListener(
       "change",
@@ -69,6 +64,7 @@ export default function RestTimerCombined({
   useEffect(() => {
     // resets the countdown timer when component mounts to avoid stale state showing the wrong remaining time when navigating back to the workout screen
     setKey((prevKey) => prevKey + 1);
+    setHasReset(true);
     // cancels all notifications when component mounts
     Notifications.cancelAllScheduledNotificationsAsync();
     currentRestTimeRef.current = currentRestTime;
