@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from "react-native";
 import { useState } from "react";
 import AddWidgetModalItem from "./AddWidgetModalItem";
 import CustomButton from "../ui/CustomButton";
-import { updateWidget } from "../../util/db";
+import { updateWidget } from "../../util/sqlite/db";
 import { useNavigation } from "@react-navigation/native";
 
 export default function AddWidgetModal({ widgets, setWidgets }) {

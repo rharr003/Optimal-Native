@@ -8,6 +8,7 @@ export default function CustomButton({
   iconName,
   style = null,
   textColor = "#000000",
+  size = 24,
 }) {
   return (
     <Pressable
@@ -19,7 +20,7 @@ export default function CustomButton({
       ]}
       onPress={onPress}
     >
-      <Ionicons name={iconName} size={24} color={textColor} />
+      <Ionicons name={iconName} size={size} color={textColor} />
       {title !== "" ? (
         <Text style={[styles.text, { color: textColor }]}>{title}</Text>
       ) : null}

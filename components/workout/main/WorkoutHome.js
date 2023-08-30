@@ -1,38 +1,63 @@
 import { View, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { ColorPalette } from "../../ui/ColorPalette";
 import CustomButton from "../../ui/CustomButton";
-import { startWorkout } from "../../../util/workout";
+import { startWorkout, incrementTimer } from "../../../util/redux/workout";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import WorkoutHomeActiveWorkoutLabel from "./WorkoutHomeActiveWorkoutLabel";
 import { useIsFocused } from "@react-navigation/native";
-export default function WorkoutHome() {
-  const navigation = useNavigation();
+import TemplateContainer from "./TemplateContainer";
+import { useRef, useEffect } from "react";
+export default function WorkoutHome({ navigation }) {
   const dispatch = useDispatch();
   const workoutIsActive = useSelector((state) => state.workout.isActive);
   const isFocused = useIsFocused();
+  const interval = useRef(null);
+
+  useEffect(() => {
+    if (workoutIsActive && !interval.current) {
+      interval.current = setInterval(() => {
+        dispatch(incrementTimer({ amount: 1 }));
+      }, 1000);
+    }
+  }, [workoutIsActive]);
 
   const handleStartWorkout = () => {
     dispatch(startWorkout());
-    navigation.navigate("active");
+    if (!interval.current) {
+      interval.current = setInterval(() => {
+        dispatch(incrementTimer({ amount: 1 }));
+      }, 1000);
+    }
+    navigation.navigate("active", { interval: interval });
   };
 
   function handleContinueWorkout() {
-    navigation.navigate("active");
+    navigation.navigate("active", { interval: interval });
   }
 
   return (
     <View style={styles.container}>
-      {workoutIsActive && isFocused ? <WorkoutHomeActiveWorkoutLabel /> : null}
+      {workoutIsActive && isFocused ? (
+        <WorkoutHomeActiveWorkoutLabel position={"home"} />
+      ) : null}
       <CustomButton
         onPress={workoutIsActive ? handleContinueWorkout : handleStartWorkout}
-        title={workoutIsActive ? "Continue Workout" : "Start Workout"}
+        title={workoutIsActive ? "Continue Workout" : "Start Empty Workout"}
         iconName={workoutIsActive ? "enter-outline" : "flash-outline"}
         color={ColorPalette.dark.secondary200}
         showTimer={true}
         style={{ width: "100%" }}
       />
+      <CustomButton
+        title="View Past Workouts"
+        iconName="calendar-outline"
+        color={ColorPalette.dark.gray500}
+        textColor="#FFFFFF"
+        onPress={() => navigation.navigate("past")}
+        style={{ width: "100%" }}
+      />
+      <TemplateContainer />
     </View>
   );
 }

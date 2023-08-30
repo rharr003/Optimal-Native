@@ -5,7 +5,7 @@ import { ColorPalette } from "../../../ui/ColorPalette";
 import SelectDropdown from "react-native-select-dropdown";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
-import { insertExercise } from "../../../../util/db";
+import { insertExercise } from "../../../../util/sqlite/db";
 
 const equipmentOptions = [
   "Barbell",

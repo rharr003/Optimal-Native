@@ -3,15 +3,15 @@ import DraggableFlatList, {
   OpacityDecorator,
 } from "react-native-draggable-flatlist";
 import Exercise from "./Exercise";
-import { TouchableOpacity, Keyboard } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateExerciseOrder } from "../../../../util/workout";
+import { updateExerciseOrder } from "../../../../util/redux/workout";
 import ExerciseCollapsed from "./ExerciseCollapsed";
 import WorkoutActiveFooter from "../WorkoutActiveFooter";
 import * as Haptics from "expo-haptics";
 
-export default function ExerciseList({ toggleExerciseModal }) {
+export default function ExerciseList({ isFinishing, interval }) {
   const [dragIsActive, setDragIsActive] = useState(false);
   const exercises = useSelector((state) => state.workout.workout.exercises);
   const dispatch = useDispatch();
@@ -26,6 +26,10 @@ export default function ExerciseList({ toggleExerciseModal }) {
         drag();
       }, 200);
     }
+  }
+
+  function Footer() {
+    return <WorkoutActiveFooter interval={interval} />;
   }
 
   // i had to customize the npm package to get this to work sometimes items would get stuck on top of each other if the drag was released too quickly I forced the drag end fucntion in the package to run everytime regardless of if it thought the user had actually dragged an item.
@@ -53,9 +57,7 @@ export default function ExerciseList({ toggleExerciseModal }) {
         data={exercises}
         autoscrollSpeed={200}
         autoscrollThreshold={25}
-        ListFooterComponent={() => (
-          <WorkoutActiveFooter toggleExerciseModal={toggleExerciseModal} />
-        )}
+        ListFooterComponent={Footer}
         renderItem={({ item, getIndex, drag, isActive }) => (
           <OpacityDecorator>
             <TouchableOpacity
@@ -69,6 +71,7 @@ export default function ExerciseList({ toggleExerciseModal }) {
               exercise={item}
               index={getIndex()}
               dragIsActive={dragIsActive}
+              isFinishing={isFinishing}
             />
           </OpacityDecorator>
         )}

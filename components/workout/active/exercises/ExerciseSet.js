@@ -4,7 +4,10 @@ import { ColorPalette } from "../../../ui/ColorPalette";
 import * as Haptics from "expo-haptics";
 import * as Notifications from "expo-notifications";
 import { useDispatch } from "react-redux";
-import { stopRestTimer, startRestTimer } from "../../../../util/restTimer";
+import {
+  stopRestTimer,
+  startRestTimer,
+} from "../../../../util/redux/restTimer";
 import React from "react";
 
 function ExerciseSet({
@@ -32,6 +35,7 @@ function ExerciseSet({
   }
 
   function handleComplete() {
+    if (set.weight === "" || set.reps === "") return;
     if (!set.completed) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       dispatch(stopRestTimer());
@@ -58,9 +62,6 @@ function ExerciseSet({
     });
   }
 
-  // function handleComplete() {
-  //   completeSet(setNum - 1);
-  // }
   return (
     <>
       <View
@@ -76,7 +77,7 @@ function ExerciseSet({
             keyboardType="numeric"
             value={set.weight}
             onChangeText={(text) => handleChangeText(text, "weight")}
-            placeholder={set.prevWeight ? set.prevWeight : ""}
+            placeholder={set.prevWeight ? set.prevWeight.toString() : ""}
           />
         </View>
         <View style={styles.tableCellSmall}>
@@ -85,13 +86,16 @@ function ExerciseSet({
             keyboardType="numeric"
             value={set.reps}
             onChangeText={(text) => handleChangeText(text, "reps")}
-            placeholder={set.prevReps ? set.prevReps : ""}
+            placeholder={set.prevReps ? set.prevReps.toString() : ""}
           />
         </View>
         <Pressable
           style={[
             styles.tableCellExtraSmall,
             styles.checkBox,
+            set.weight === "" || set.reps === ""
+              ? styles.checkBoxDisabled
+              : null,
             set.completed ? styles.checkBoxComplete : null,
           ]}
           onPress={handleComplete}
@@ -139,6 +143,10 @@ const styles = StyleSheet.create({
 
   checkBoxComplete: {
     backgroundColor: ColorPalette.dark.secondary200,
+  },
+
+  checkBoxDisabled: {
+    opacity: 0.25,
   },
 
   tableCellRegular: {

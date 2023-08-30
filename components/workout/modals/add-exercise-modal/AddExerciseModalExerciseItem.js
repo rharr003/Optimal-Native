@@ -20,6 +20,7 @@ function AddExerciseModalExerciseItem({
   };
 
   const toggleSelected = () => {
+    setSelected((prevSelected) => !prevSelected);
     setSelectedExercises((prevSelectedExercises) => {
       if (isReplacing) {
         if (selected) return [];
@@ -35,8 +36,6 @@ function AddExerciseModalExerciseItem({
         ];
       }
     });
-
-    setSelected((prevSelected) => !prevSelected);
   };
 
   return (

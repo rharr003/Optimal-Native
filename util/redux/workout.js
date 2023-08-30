@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+let interval = null;
+
 const workoutSlice = createSlice({
   name: "workout",
   initialState: {
@@ -7,17 +9,26 @@ const workoutSlice = createSlice({
     timer: 0,
     workout: {
       name: "My Workout",
+      isTemplate: false,
+      prevWorkoutId: null,
       exercises: [],
       duration: 0,
     },
+    prevWorkout: null,
   },
   reducers: {
     startWorkout(state, action) {
       state.isActive = true;
+
+      // interval = setInterval(() => {
+      //   state.timer = state.timer + 1;
+      // }, 1000);
     },
 
     setWorkout(state, action) {
       state.workout = action.payload;
+      state.prevWorkout = action.payload;
+      state.isActive = true;
     },
 
     stopWorkout(state) {
@@ -31,9 +42,14 @@ const workoutSlice = createSlice({
         exercises: [],
         duration: 0,
       };
+      // clearInterval(interval);
     },
     updateWorkoutDuration(state, action) {
-      state.workout.duration = state.workout.duration + 1;
+      state.workout.duration = action.payload.duration;
+    },
+
+    updateWorkoutName(state, action) {
+      state.workout.name = action.payload.name;
     },
 
     bulkAddExercises(state, action) {
@@ -44,11 +60,6 @@ const workoutSlice = createSlice({
       state.workout.exercises.splice(index, 1);
     },
     updateExerciseOrder(state, action) {
-      console.log(
-        "action payload vals:",
-        action.payload[0].sets.length,
-        action.payload[1].sets.length
-      );
       state.workout.exercises = action.payload;
     },
 
@@ -131,6 +142,8 @@ const workoutSlice = createSlice({
 export const startWorkout = workoutSlice.actions.startWorkout;
 export const setWorkout = workoutSlice.actions.setWorkout;
 export const stopWorkout = workoutSlice.actions.stopWorkout;
+export const updateWorkoutDuration = workoutSlice.actions.updateWorkoutDuration;
+export const updateWorkoutName = workoutSlice.actions.updateWorkoutName;
 export const bulkAddExercises = workoutSlice.actions.bulkAddExercises;
 export const removeExercise = workoutSlice.actions.removeExercise;
 export const addSet = workoutSlice.actions.addSet;
@@ -138,7 +151,6 @@ export const completeSet = workoutSlice.actions.completeSet;
 export const removeSet = workoutSlice.actions.removeSet;
 export const bulkUpdateSets = workoutSlice.actions.bulkUpdateSets;
 export const updateSet = workoutSlice.actions.updateSet;
-export const updateWorkoutDuration = workoutSlice.actions.updateWorkoutDuration;
 export const updateExerciseOrder = workoutSlice.actions.updateExerciseOrder;
 export const incrementTimer = workoutSlice.actions.incrementTimer;
 export const replaceExercise = workoutSlice.actions.replaceExercise;

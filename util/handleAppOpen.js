@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import store from "./store";
+import store from "./redux/store";
 import {
   startWorkout,
   setWorkout,
   incrementTimer,
   stopWorkout,
-} from "./workout";
-import { setSavedRestTimer } from "./restTimer";
+} from "./redux/workout";
+import { setSavedRestTimer } from "./redux/restTimer";
 
 export default async function handleAppOpen() {
   console.log("handleAppOpen");

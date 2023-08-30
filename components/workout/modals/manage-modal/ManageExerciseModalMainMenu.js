@@ -1,21 +1,19 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../ui/ColorPalette";
 import ManageModalItem from "./ManageModalItem";
-import { removeExercise } from "../../../../util/workout";
-import { updateExerciseRestTime } from "../../../../util/db";
-import { updateExerciseRestTime as updateRestTimeState } from "../../../../util/workout";
+import { removeExercise } from "../../../../util/redux/workout";
+import { updateExerciseRestTime } from "../../../../util/sqlite/db";
+import { updateExerciseRestTime as updateRestTimeState } from "../../../../util/redux/workout";
 import { formatTime } from "../../../../util/formatTime";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import RestTimePicker from "./RestTimePicker";
 import { useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
-export default function ManageExerciseModalMainMenu({
-  index,
-  handleClose,
-  toggleExerciseModal,
-}) {
+export default function ManageExerciseModalMainMenu({ index, handleClose }) {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const exercise = useSelector(
     (state) => state.workout.workout.exercises[index]
@@ -27,6 +25,10 @@ export default function ManageExerciseModalMainMenu({
     await updateExerciseRestTime(exercise.id, value);
     dispatch(updateRestTimeState({ id: exercise.id, restTime: value }));
     setShowPicker(false);
+  }
+
+  function toggleExerciseModal() {
+    navigation.navigate("addExercise", { isReplacing: true, index });
   }
 
   return (

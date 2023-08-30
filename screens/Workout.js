@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutHome from "../components/workout/main/WorkoutHome";
 import { ColorPalette } from "../components/ui/ColorPalette";
 import WorkoutActive from "../components/workout/active/WorkoutActiveStack";
+import WorkoutList from "../components/workout/history/WorkoutList";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,21 @@ export default function Workout() {
             presentation: "modal",
             headerShown: false,
             gestureDuration: 5,
+          }}
+        />
+
+        <Stack.Screen
+          name="past"
+          component={WorkoutList}
+          options={{
+            presentation: "modal",
+            headerStyle: {
+              backgroundColor: ColorPalette.dark.gray700,
+            },
+            contentStyle: {
+              backgroundColor: ColorPalette.dark.gray800,
+            },
+            title: "Past Workouts",
           }}
         />
       </Stack.Navigator>

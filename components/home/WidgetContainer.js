@@ -13,6 +13,7 @@ export default function WidgetContainer({ widgets }) {
   function openAddWidgetModal() {
     navigation.navigate("AddWidgetModal");
   }
+
   return (
     <>
       <ScrollView>
@@ -38,7 +39,7 @@ export default function WidgetContainer({ widgets }) {
           onPress={openAddWidgetModal}
           title="Add Widget"
           iconName="add-circle-outline"
-          color={ColorPalette.dark.purple500}
+          textColor={ColorPalette.dark.secondary200}
         />
       </ScrollView>
     </>

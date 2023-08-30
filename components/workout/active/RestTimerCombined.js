@@ -11,7 +11,7 @@ import {
   decrementRestTimer,
   incrementRestTimer,
   updateAndMinimizeRestTimer,
-} from "../../../util/restTimer";
+} from "../../../util/redux/restTimer";
 
 export default function RestTimerCombined({
   finishRestTimer,

@@ -3,21 +3,39 @@ import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import WorkoutExerciseList from "./exercises/ExerciseList";
-import React from "react";
+import React, { useState } from "react";
 import * as Notifications from "expo-notifications";
 import { useDispatch, useSelector } from "react-redux";
-import { setTimeClosed, decrementRestTimer } from "../../../util/restTimer";
+import {
+  setTimeClosed,
+  decrementRestTimer,
+} from "../../../util/redux/restTimer";
+import WorkoutHeaderDoneButton from "./WorkoutHeaderDoneButton";
+import { useNavigation } from "@react-navigation/native";
+import CenteredModal from "../../ui/CenteredModal";
+import EndWorkoutMainMenu from "../modals/end-workout-modal/EndWorkoutMainMenu";
 
-export default function WorkoutActiveMain({ onFocus, toggleExerciseModal }) {
+export default function WorkoutActiveMain({ interval }) {
   const isFocused = useIsFocused();
   const appState = AppState.currentState;
   const dispatch = useDispatch();
+  const [showFinishModal, setShowFinishModal] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
   const timeClosed = useSelector((state) => state.restTimer.timeClosed);
+  const navigation = useNavigation();
 
-  // re-enables the swipe to close gesture when the component is focused
+  function handleCloseModal() {
+    setIsFinishing(false);
+    setShowFinishModal(false);
+  }
+
+  function handleOpenModal() {
+    setIsFinishing(true);
+    setShowFinishModal(true);
+  }
+
   useEffect(() => {
     if (isFocused) {
-      onFocus();
       Notifications.cancelAllScheduledNotificationsAsync();
     }
   }, [isFocused]);
@@ -28,6 +46,12 @@ export default function WorkoutActiveMain({ onFocus, toggleExerciseModal }) {
         Notifications.cancelAllScheduledNotificationsAsync();
       }
     });
+    navigation.setOptions({
+      headerRight: () => (
+        <WorkoutHeaderDoneButton handleOpenModal={handleOpenModal} />
+      ),
+    });
+
     return () => {
       subscription.remove();
     };
@@ -48,7 +72,14 @@ export default function WorkoutActiveMain({ onFocus, toggleExerciseModal }) {
 
   return (
     <View style={styles.centeredView}>
-      <WorkoutExerciseList toggleExerciseModal={toggleExerciseModal} />
+      <CenteredModal
+        showModal={showFinishModal}
+        handleClose={handleCloseModal}
+        style={{ height: "30%" }}
+      >
+        <EndWorkoutMainMenu handleClose={handleCloseModal} />
+      </CenteredModal>
+      <WorkoutExerciseList isFinishing={isFinishing} interval={interval} />
       <KeyboardSpacer />
     </View>
   );

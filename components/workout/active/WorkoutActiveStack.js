@@ -3,23 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutActiveMain from "./WorkoutActiveMain";
 import WorkoutHeaderTimer from "./WorkoutHeaderTimers";
 import AddExerciseModal from "../modals/add-exercise-modal/AddExerciseModal";
+import WorkoutHeaderTitle from "./WorkoutHeaderTitle";
+import { useRoute } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 
-export default function WorkoutActive({ navigation }) {
-  // we define this here because if you set the navigation options in the component it is reffering to a different navigation object and will not disable the swipe to close gesture on the modal
-  function toggleExerciseModal(e, data = { isReplacing: false }) {
-    navigation.navigate("addExercise", data);
-    navigation.setOptions({
-      gestureEnabled: false,
-    });
-  }
-
-  function enableGesture() {
-    navigation.setOptions({
-      gestureEnabled: true,
-    });
-  }
+export default function WorkoutActive({ navigation, route }) {
+  const { interval } = route.params;
   return (
     <Stack.Navigator
       screenOptions={{
@@ -36,15 +26,11 @@ export default function WorkoutActive({ navigation }) {
         name="main"
         options={{
           headerLeft: () => <WorkoutHeaderTimer />,
+          headerTitle: () => <WorkoutHeaderTitle />,
           title: "Workout",
         }}
       >
-        {() => (
-          <WorkoutActiveMain
-            onFocus={enableGesture}
-            toggleExerciseModal={toggleExerciseModal}
-          />
-        )}
+        {() => <WorkoutActiveMain interval={interval} />}
       </Stack.Screen>
       <Stack.Screen
         name="addExercise"

@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { incrementTimer } from "../../../util/workout";
+
 import { formatTime } from "../../../util/formatTime";
-import { stopRestTimer } from "../../../util/restTimer";
+import { stopRestTimer } from "../../../util/redux/restTimer";
 import RestTimerCombined from "./RestTimerCombined";
 
 export default function WorkoutHeaderTimer({
@@ -12,30 +12,17 @@ export default function WorkoutHeaderTimer({
 }) {
   const time = useSelector((state) => state.workout.timer);
   const dispatch = useDispatch();
-  const [isActive, setIsActive] = useState(true);
+
   const restTimerActive = useSelector(
     (state) => state.restTimer.restTimerActive
   );
   const restTimerMinimized = useSelector(
     (state) => state.restTimer.restTimerMinimized
   );
+
   function finishRestTimer() {
     dispatch(stopRestTimer());
   }
-  // should refactor this to not re-render every time we increase the workout timer
-  useEffect(() => {
-    let interval = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        dispatch(incrementTimer({ amount: 1 }));
-      }, 1000);
-    } else if (!isActive && time !== 0) {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isActive, time]);
 
   return (
     <>

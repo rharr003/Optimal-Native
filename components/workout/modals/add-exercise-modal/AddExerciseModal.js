@@ -1,12 +1,15 @@
 import { View, StyleSheet, FlatList, Keyboard } from "react-native";
 import { ColorPalette } from "../../../ui/ColorPalette";
 import CustomButton from "../../../ui/CustomButton";
-import { fetchExercises } from "../../../../util/db";
+import { fetchExercises } from "../../../../util/sqlite/db";
 import { useState, useEffect } from "react";
 import AddExerciseModalLetterGroup from "./AddExerciseModalLetterGroup";
 import { useDispatch } from "react-redux";
-import { replaceExercise, bulkAddExercises } from "../../../../util/workout";
-import { fetchRecentExercisePerformance } from "../../../../util/db";
+import {
+  replaceExercise,
+  bulkAddExercises,
+} from "../../../../util/redux/workout";
+import { fetchRecentExercisePerformance } from "../../../../util/sqlite/db";
 import NewExerciseModal from "./NewExerciseModal";
 import SearchBar from "./SearchBar";
 
@@ -18,6 +21,7 @@ export default function AddExerciseModal({ navigation, route }) {
   const [search, setSearch] = useState({ name: "", category: "" });
   const { isReplacing, index } = route.params;
   const dispatch = useDispatch();
+  console.log("AddExerciseModal");
 
   useEffect(() => {
     fetchExercises().then((result) => {
@@ -110,8 +114,8 @@ export default function AddExerciseModal({ navigation, route }) {
         sets:
           recentExercisePerformance[idx].length > 0
             ? recentExercisePerformance[idx].map((prevSet) => ({
-                prevWeight: prevSet.weight,
-                prevReps: prevSet.reps,
+                prevWeight: prevSet.weight.toString(),
+                prevReps: prevSet.reps.toString(),
                 unit: prevSet.unit,
                 reps: "",
                 weight: "",

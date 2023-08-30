@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import * as Haptics from "expo-haptics";
 
 export default function SwipeToDeleteView({
-  setNum,
+  index,
   children,
   removeSet,
   activeIdx,
@@ -26,13 +26,13 @@ export default function SwipeToDeleteView({
   const hasCrossed = useSharedValue(0);
 
   useEffect(() => {
-    if (idxRemoved.indexOf(setNum - 1) !== -1) {
+    if (idxRemoved.indexOf(index) !== -1) {
       setIdxRemoved([]);
     }
-  }, [setNum]);
+  }, [index]);
 
   function handleRemove() {
-    removeSet(setNum - 1);
+    removeSet(index);
   }
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -49,11 +49,11 @@ export default function SwipeToDeleteView({
     .onBegin(() => {
       // ensures that the gesture is only active on one set to avoid multiple simultaneous updates to the same state array causing issues
       if (!activeIdx.value) {
-        activeIdx.value = setNum - 1;
+        activeIdx.value = index;
       }
     })
     .onUpdate((event) => {
-      if (activeIdx.value === setNum - 1) {
+      if (activeIdx.value === index) {
         offset.value = {
           // ensures that the set can only be dragged to the left
           x: Math.min(event.translationX, 0),
@@ -80,7 +80,7 @@ export default function SwipeToDeleteView({
       // if the set is dragged past the point needed to delete it, animate it out of view and then remove it from the state array we check the offset value to prevent an issue where sets that were released in the safe zone and resetting would sometimes be removed if the user deleted another set in quick succession
       if (
         event.translationX < -200 &&
-        activeIdx.value === setNum - 1 &&
+        activeIdx.value === index &&
         offset.value.x < 200
       ) {
         opacity.value = withTiming(0);
@@ -97,7 +97,7 @@ export default function SwipeToDeleteView({
             }
           }),
         };
-      } else if (activeIdx.value === setNum - 1) {
+      } else if (activeIdx.value === index) {
         // if the set is released in the safe zone, animate it back to its original position
         offset.value = {
           x: withTiming(0),

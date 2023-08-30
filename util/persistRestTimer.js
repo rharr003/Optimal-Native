@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import store from "./store";
+import store from "./redux/store";
 
 export default function persistRestTimer(initialRestTime, currentRestTime) {
   const state = store.getState().workout;

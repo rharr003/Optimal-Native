@@ -2,7 +2,12 @@ import { Modal, StyleSheet, View, Pressable } from "react-native";
 import { ColorPalette } from "./ColorPalette";
 import { BlurView } from "expo-blur";
 
-export default function CenteredModal({ children, handleClose, showModal }) {
+export default function CenteredModal({
+  children,
+  handleClose,
+  showModal,
+  style,
+}) {
   return (
     <Modal
       visible={showModal}
@@ -25,7 +30,7 @@ export default function CenteredModal({ children, handleClose, showModal }) {
               flex: 1,
             }}
           >
-            <Pressable style={[styles.container]}>{children}</Pressable>
+            <Pressable style={[styles.container, style]}>{children}</Pressable>
           </View>
         </BlurView>
       </Pressable>

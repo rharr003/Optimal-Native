@@ -1,8 +1,8 @@
 import { View, StyleSheet, FlatList, AppState } from "react-native";
 import { ColorPalette } from "../../../ui/ColorPalette";
 import CustomButton from "../../../ui/CustomButton";
-import { bulkUpdateSets } from "../../../../util/workout";
-import { stopRestTimer } from "../../../../util/restTimer";
+import { bulkUpdateSets } from "../../../../util/redux/workout";
+import { stopRestTimer } from "../../../../util/redux/restTimer";
 import { useDispatch } from "react-redux";
 import ExerciseSetTableHeader from "./ExerciseSetTableHeader";
 import React, { useState, useEffect, useRef } from "react";
@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import SwipeToDeleteView from "../../../ui/SwipeToDeleteView";
 import ExerciseSet from "./ExerciseSet";
 
-function Exercise({ exercise, index, dragIsActive }) {
+function Exercise({ exercise, index, dragIsActive, isFinishing }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // use local state to prevent entire exercise list from re-rendering when a set is updated
@@ -24,7 +24,6 @@ function Exercise({ exercise, index, dragIsActive }) {
   const [idxRemoved, setIdxRemoved] = useState([]);
   const persistedSets = useRef(exercise.sets);
   const activeIdx = useSharedValue(null);
-
   // saves the sets to the redux store when the app goes into the background or inactive state
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (newAppState) => {
@@ -72,6 +71,17 @@ function Exercise({ exercise, index, dragIsActive }) {
     }
   }, [dragIsActive]);
 
+  useEffect(() => {
+    if (isFinishing) {
+      dispatch(
+        bulkUpdateSets({
+          reactId: exercise.reactId,
+          sets: persistedSets.current,
+        })
+      );
+    }
+  }, [isFinishing]);
+
   function addSet() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     const newSets = [...sets];
@@ -81,6 +91,7 @@ function Exercise({ exercise, index, dragIsActive }) {
       prevReps: null,
       prevWeight: null,
       completed: false,
+      unit: sets[0].unit,
     });
     setSets(newSets);
     persistedSets.current = newSets;
@@ -106,13 +117,6 @@ function Exercise({ exercise, index, dragIsActive }) {
     setShowManageExerciseModal(false);
   }
 
-  function toggleExerciseModal() {
-    navigation.navigate("addExercise", {
-      isReplacing: true,
-      index: index,
-    });
-  }
-
   function finishRestTimer() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     setShowRestTimerModal(false);
@@ -127,7 +131,6 @@ function Exercise({ exercise, index, dragIsActive }) {
         showRestTimerModal={showRestTimerModal}
         setShowRestTimerModal={setShowRestTimerModal}
         handleManageExerciseModalClose={handleManageExerciseModalClose}
-        toggleExerciseModal={toggleExerciseModal}
         finishRestTimer={finishRestTimer}
       />
       <ExerciseSetTableHeader
@@ -138,7 +141,7 @@ function Exercise({ exercise, index, dragIsActive }) {
         data={sets}
         renderItem={({ item, index }) => (
           <SwipeToDeleteView
-            setNum={index + 1}
+            index={index}
             removeSet={removeSet}
             activeIdx={activeIdx}
             idxRemoved={idxRemoved}

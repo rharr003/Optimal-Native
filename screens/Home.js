@@ -1,5 +1,5 @@
 import { View, StyleSheet, SafeAreaView } from "react-native";
-import { fetchWidgets } from "../util/db";
+import { fetchWidgets } from "../util/sqlite/db";
 import { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WidgetContainer from "../components/home/WidgetContainer";
@@ -43,7 +43,10 @@ export default function Home() {
         </Stack.Screen>
         <Stack.Screen
           name="AddWidgetModal"
-          options={{ presentation: "modal", headerTitle: "Add Widget" }}
+          options={{
+            presentation: "modal",
+            headerTitle: "Add Widget",
+          }}
         >
           {() => <AddWidgetModal widgets={widgets} setWidgets={setWidgets} />}
         </Stack.Screen>
