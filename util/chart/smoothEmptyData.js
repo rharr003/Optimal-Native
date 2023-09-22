@@ -54,6 +54,5 @@ export function smoothEmptyData(data) {
       label: d.label,
     };
   });
-
   return [smoothedData, indexesToHideOnChart];
 }

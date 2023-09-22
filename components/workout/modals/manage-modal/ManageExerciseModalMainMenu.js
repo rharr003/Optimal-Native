@@ -12,12 +12,18 @@ import { useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function ManageExerciseModalMainMenu({ index, handleClose }) {
+export default function ManageExerciseModalMainMenu({
+  index,
+  handleClose,
+  toggleUnit,
+  unit,
+}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const exercise = useSelector(
     (state) => state.workout.workout.exercises[index]
   );
+
   const [showPicker, setShowPicker] = useState(false);
 
   async function closePicker(value) {
@@ -28,7 +34,13 @@ export default function ManageExerciseModalMainMenu({ index, handleClose }) {
   }
 
   function toggleExerciseModal() {
-    navigation.navigate("addExercise", { isReplacing: true, index });
+    navigation.navigate("addExercise", {
+      isReplacing: true,
+      index,
+      id: exercise.id,
+      letterGroup: exercise.name[0].toUpperCase(),
+    });
+    handleClose();
   }
 
   return (
@@ -52,22 +64,18 @@ export default function ManageExerciseModalMainMenu({ index, handleClose }) {
         title="Replace Exercise"
         icon={"swap-horizontal-outline"}
         iconColor={ColorPalette.dark.secondary200}
-        onPress={(e) => {
-          toggleExerciseModal(e, {
-            isReplacing: true,
-            index,
-            exercise,
-          });
-          handleClose();
-        }}
+        onPress={toggleExerciseModal}
       />
 
       <ManageModalItem
         title="Change Unit"
         icon={"barbell-outline"}
         iconColor={ColorPalette.dark.secondary200}
-        onPress={() => {}}
-        rightText={exercise.unit}
+        onPress={() => {
+          toggleUnit(unit);
+          handleClose();
+        }}
+        rightText={unit}
       />
 
       <ManageModalItem

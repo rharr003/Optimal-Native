@@ -16,9 +16,10 @@ function ExerciseSet({
   setSets,
   restTime,
   setShowRestTimerModal,
+  equipment,
 }) {
   const dispatch = useDispatch();
-
+  const useAltLayout = equipment === "static" || equipment === "body";
   function handleChangeText(text, type) {
     setSets((prevSets) => {
       const newSet = prevSets.map((set, setIndex) => {
@@ -35,7 +36,9 @@ function ExerciseSet({
   }
 
   function handleComplete() {
-    if (set.weight === "" || set.reps === "") return;
+    if (!setCanBeCompleted()) {
+      return;
+    }
     if (!set.completed) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       dispatch(stopRestTimer());
@@ -62,6 +65,26 @@ function ExerciseSet({
     });
   }
 
+  function createPrevPerformance() {
+    if (equipment === "static") {
+      return set.prevReps + " sec";
+    }
+
+    if (equipment === "body") {
+      return set.prevReps + " reps";
+    }
+
+    return `${set.prevWeight} ${set.prevUnit} (x${set.prevReps})`;
+  }
+
+  function setCanBeCompleted() {
+    if (useAltLayout) {
+      return set.reps !== "";
+    }
+
+    return set.weight !== "" && set.reps !== "";
+  }
+
   return (
     <>
       <View
@@ -69,18 +92,23 @@ function ExerciseSet({
       >
         <Text style={[styles.tableCellExtraSmall, styles.text]}>{setNum}</Text>
         <Text style={[styles.tableCellWide, styles.text]}>
-          {set.prevWeight ? `${set.prevWeight} x ${set.prevReps}` : "N/A"}
+          {set.prevWeight ? createPrevPerformance() : "N/A"}
         </Text>
-        <View style={styles.tableCellRegular}>
-          <TextInput
-            style={[styles.input]}
-            keyboardType="numeric"
-            value={set.weight}
-            onChangeText={(text) => handleChangeText(text, "weight")}
-            placeholder={set.prevWeight ? set.prevWeight.toString() : ""}
-          />
-        </View>
-        <View style={styles.tableCellSmall}>
+        {!useAltLayout && (
+          <View style={styles.tableCellRegular}>
+            <TextInput
+              style={[styles.input]}
+              keyboardType="numeric"
+              value={set.weight}
+              onChangeText={(text) => handleChangeText(text, "weight")}
+              placeholder={set.prevWeight ? set.prevWeight.toString() : ""}
+            />
+          </View>
+        )}
+
+        <View
+          style={useAltLayout ? styles.tableCellRegular : styles.tableCellSmall}
+        >
           <TextInput
             style={[styles.input, { width: "80%" }]}
             keyboardType="numeric"
@@ -93,9 +121,7 @@ function ExerciseSet({
           style={[
             styles.tableCellExtraSmall,
             styles.checkBox,
-            set.weight === "" || set.reps === ""
-              ? styles.checkBoxDisabled
-              : null,
+            !setCanBeCompleted() ? styles.checkBoxDisabled : null,
             set.completed ? styles.checkBoxComplete : null,
           ]}
           onPress={handleComplete}

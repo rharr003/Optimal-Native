@@ -5,6 +5,7 @@ import {
   setWorkout,
   incrementTimer,
   stopWorkout,
+  addInterval,
 } from "./redux/workout";
 import { setSavedRestTimer } from "./redux/restTimer";
 
@@ -22,6 +23,10 @@ export default async function handleAppOpen() {
       store.dispatch(
         incrementTimer({ amount: prevState.currTimer + timePassedInSeconds })
       );
+      const interval = setInterval(() => {
+        store.dispatch(incrementTimer({ amount: 1 }));
+      }, 1000);
+      store.dispatch(addInterval(interval));
       store.dispatch(startWorkout());
     }
   });

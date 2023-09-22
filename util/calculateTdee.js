@@ -3,7 +3,6 @@ import { fetchUserData, fetchLastMetricValue } from "./sqlite/db";
 export default async function calculateTdee() {
   const data = await fetchUserData();
   if (!data) return "Tap to set up profile for full Insights";
-  console.log(data);
   const currWeight = await fetchLastMetricValue(1);
 
   if (currWeight && data.activity_level !== "placeholder") {

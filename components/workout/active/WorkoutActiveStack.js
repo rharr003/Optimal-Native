@@ -2,7 +2,7 @@ import { ColorPalette } from "../../ui/ColorPalette";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutActiveMain from "./WorkoutActiveMain";
 import WorkoutHeaderTimer from "./WorkoutHeaderTimers";
-import AddExerciseModal from "../modals/add-exercise-modal/AddExerciseModal";
+import AddExercise from "../add-exercise/AddExercise";
 import WorkoutHeaderTitle from "./WorkoutHeaderTitle";
 import { useRoute } from "@react-navigation/native";
 
@@ -34,7 +34,7 @@ export default function WorkoutActive({ navigation, route }) {
       </Stack.Screen>
       <Stack.Screen
         name="addExercise"
-        component={AddExerciseModal}
+        component={AddExercise}
         options={{
           title: "Add Exercise",
         }}

@@ -1,19 +1,20 @@
-import CenteredModal from "../../../ui/CenteredModal";
+import CenteredModal from "../../ui/CenteredModal";
 import { View, StyleSheet, Text, TextInput, Keyboard } from "react-native";
-import CustomButton from "../../../ui/CustomButton";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import CustomButton from "../../ui/CustomButton";
+import { ColorPalette } from "../../ui/ColorPalette";
 import SelectDropdown from "react-native-select-dropdown";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
-import { insertExercise } from "../../../../util/sqlite/db";
+import { insertExercise } from "../../../util/sqlite/db";
 
 const equipmentOptions = [
   "Barbell",
   "Dumbbell",
   "Machine",
   "Cable",
-  "Bodyweight",
+  "Body",
   "Static",
+  "Other",
 ];
 
 const bodyPartOptions = [
@@ -28,50 +29,24 @@ const bodyPartOptions = [
 export default NewExerciseModal = ({
   showModal,
   setShowModal,
+  onAdd,
   setExercises,
-  setSelectedExercises,
 }) => {
   const [name, setName] = useState("");
   const [equipment, setEquipment] = useState("");
   const [bodyPart, setBodyPart] = useState("");
   const [error, setError] = useState("");
-
   async function handleAddExercise() {
-    if (name === "" || equipment === "" || bodyPart === "") return;
     try {
-      const letter = name[0].toUpperCase();
-      const exercise = await insertExercise(name.trim(), equipment, bodyPart);
-      setExercises((prevExercises) => {
-        let newExercises = [];
-        if (prevExercises.New) {
-          newExercises = [
-            ...prevExercises.New,
-            { ...exercise, defaultSelected: true },
-          ];
-          // need to delete the New property from prevExercises so that the current value for New is not overwritten
-          delete prevExercises.New;
-        } else {
-          newExercises = [{ ...exercise, defaultSelected: true }];
-        }
-        return {
-          New: newExercises.sort((a, b) => a.name.localeCompare(b.name)),
-          ...prevExercises,
-        };
-      });
-
-      setSelectedExercises((prevSelectedExercises) => {
-        return [
-          ...prevSelectedExercises,
-          { ...exercise, reactId: exercise.id + Date.now() },
-        ];
-      });
+      await onAdd(name, equipment, bodyPart, setExercises);
       setName("");
       setEquipment("");
       setBodyPart("");
       setError("");
       setShowModal(false);
     } catch (err) {
-      setError(`Exercise "${name} - (${equipment})" already exists`);
+      console.log(err);
+      setError(`"${name} (${equipment})" already exists`);
     }
   }
 
@@ -198,6 +173,7 @@ const styles = StyleSheet.create({
   dropDownStyle: {
     backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 15,
+    height: 200,
   },
 
   dropDownButtonTextStyle: {

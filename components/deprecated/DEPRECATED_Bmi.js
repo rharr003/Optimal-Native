@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../ui/ColorPalette";
 
 export default function Bmi() {
   return (

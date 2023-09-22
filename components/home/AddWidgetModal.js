@@ -1,21 +1,10 @@
-import { View, Text, ScrollView } from "react-native";
-import { useState } from "react";
+import { ScrollView } from "react-native";
 import AddWidgetModalItem from "./AddWidgetModalItem";
-import CustomButton from "../ui/CustomButton";
+
 import { updateWidget } from "../../util/sqlite/db";
-import { useNavigation } from "@react-navigation/native";
 
 export default function AddWidgetModal({ widgets, setWidgets }) {
-  const [widgetList, setWidgetList] = useState(widgets);
-  const navigation = useNavigation();
   async function handleAddWidget(id, shouldDisplay) {
-    // setWidgetList((prev) => ({
-    //   ...prev,
-    //   [idAsString]: {
-    //     ...prev[idAsString],
-    //     shouldDisplay: !prev[idAsString].shouldDisplay,
-    //   },
-    // }));
     await updateWidget(id, !shouldDisplay);
     setWidgets((prev) =>
       prev.map((widget) => {
@@ -28,7 +17,6 @@ export default function AddWidgetModal({ widgets, setWidgets }) {
         return widget;
       })
     );
-    navigation.goBack();
   }
   return (
     <ScrollView>

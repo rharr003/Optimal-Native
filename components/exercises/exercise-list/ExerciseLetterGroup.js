@@ -1,26 +1,24 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../../ui/ColorPalette";
-import AddExerciseModalExerciseItem from "./AddExerciseModalExerciseItem";
+import { ColorPalette } from "../../ui/ColorPalette";
+import AddExerciseExerciseItem from "./ExerciseItem";
 import React from "react";
 
-function AddExerciseModalLetterGroup({
+function AddExerciseLetterGroup({
   exerciseArr,
   letter,
-  setSelectedExercises,
-  selectedExercises,
-  isReplacing,
+  onPress,
+  uniqueSelected,
 }) {
   return (
     <View>
       <Text style={styles.title}>{letter}</Text>
       {exerciseArr.map((exercise) => {
         return (
-          <AddExerciseModalExerciseItem
+          <AddExerciseExerciseItem
             key={exercise.id}
             exercise={exercise}
-            setSelectedExercises={setSelectedExercises}
-            isReplacing={isReplacing}
-            idOfSelectedForReplacing={selectedExercises[0]?.id}
+            onPress={onPress}
+            uniqueSelected={uniqueSelected}
           />
         );
       })}
@@ -62,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(AddExerciseModalLetterGroup);
+export default React.memo(AddExerciseLetterGroup);

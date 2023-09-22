@@ -27,6 +27,7 @@
     "react": "18.2.0",
     "react-native": "0.72.4",
     "react-native-background-timer": "^2.4.1",
+    "react-native-button-toggle-group": "^1.1.2",
     "react-native-chart-kit": "^6.12.0",
     "react-native-countdown-circle-timer": "^3.2.1",
     "react-native-date-picker": "^4.2.14",

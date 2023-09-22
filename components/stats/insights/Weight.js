@@ -1,10 +1,14 @@
 import { View, Text, StyleSheet } from "react-native";
 import { ColorPalette } from "../../ui/ColorPalette";
-import { fetchRecentWeightDataWeeklyAvg } from "../../../util/sqlite/db";
+import {
+  fetchRecentWeightDataWeeklyAvg,
+  fetchRecentWeightDataDailyAvg,
+  fetchRecentWeightDataMonthlyAvg,
+} from "../../../util/sqlite/db";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import Chart from "../detail/Chart";
-import WeightFooter from "./WeightFooter";
+import WeightHeader from "./WeightHeader";
 
 export default function Weight() {
   const [currFormat, setCurrFormat] = useState("weekly");
@@ -15,10 +19,17 @@ export default function Weight() {
   useEffect(() => {
     async function fetch() {
       if (isFocused) {
-        const [data, indexesToHide] = await fetchRecentWeightDataWeeklyAvg();
+        let data;
+        let indexesToHide;
+        if (currFormat === "weekly") {
+          [data, indexesToHide] = await fetchRecentWeightDataWeeklyAvg();
+        } else if (currFormat === "monthly") {
+          [data, indexesToHide] = await fetchRecentWeightDataMonthlyAvg();
+        } else if (currFormat === "daily") {
+          [data, indexesToHide] = await fetchRecentWeightDataDailyAvg();
+        }
         setMetricMeasurements(data);
         setIndexesToHideState(indexesToHide);
-        setCurrFormat("weekly");
       }
     }
     fetch();
@@ -27,7 +38,7 @@ export default function Weight() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Weight Report</Text>
-      <WeightFooter />
+      <WeightHeader />
       <Chart
         metricData={metricMeasurements}
         hiddenIndexes={indexesToHideState}

@@ -440,7 +440,7 @@ export const fetchExercise = (id) => {
       tx.executeSql(
         `SELECT * FROM exercises WHERE id = ?;`,
         [id],
-        (_, result) => resolve(result),
+        (_, result) => resolve(result.rows._array[0]),
         (_, err) => reject(err)
       );
     });
@@ -480,7 +480,7 @@ export const fetchWorkouts = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT workouts.id, workouts.name AS workout_name, exercises.name, date, duration, exercises.id as exercise_id FROM workouts JOIN workout_exercises ON workouts.id = workout_exercises.workout_id JOIN exercises ON workout_exercises.exercise_id = exercises.id ORDER BY DATE DESC;`,
+        `SELECT workouts.id, workouts.name AS workout_name, exercises.name, date, duration, exercises.id as exercise_id FROM workouts JOIN workout_exercises ON workouts.id = workout_exercises.workout_id JOIN exercises ON workout_exercises.exercise_id = exercises.id ORDER BY workouts.id DESC;`,
         [],
         (_, result) => {
           const workouts = result.rows._array.reduce((acc, curr) => {
@@ -528,7 +528,7 @@ export const fetchWorkouts = () => {
               duration: workouts[key].duration,
               exercises: workouts[key].exercises,
             }))
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
+            .sort((a, b) => b.id - a.id);
           resolve(formattedResult);
         },
         (_, err) => reject(err)
@@ -545,6 +545,142 @@ export const fetchWorkout = (id) => {
         `SELECT * FROM workouts WHERE id = ?;`,
         [id],
         (_, result) => resolve(result),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const fetchNumWorkoutsAllTime = () => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT COUNT(*) FROM workouts;`,
+        [],
+        (_, result) => resolve(result.rows._array[0]["COUNT(*)"]),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const fetchTotalTimeAllTime = () => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT SUM(duration) FROM workouts;`,
+        [],
+
+        (_, result) => {
+          if (result.rows._array[0]["SUM(duration)"] === null) {
+            return resolve(0);
+          }
+          resolve(result.rows._array[0]["SUM(duration)"]);
+        },
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+import { formatWeeklyNumWorkouts } from "../chart/weeklyNumWorkouts";
+
+export const fetchNumWorkoutsLastSixWeeks = () => {
+  const now = new Date().toISOString().split("T")[0];
+  const sixWeeksAgo = new Date(new Date().setDate(new Date().getDate() - 42));
+  const dayOfWeekSixWeeksAgo = sixWeeksAgo.getDay();
+  const sixWeeksAgoAdjusted =
+    sixWeeksAgo.getDate() -
+    dayOfWeekSixWeeksAgo +
+    (dayOfWeekSixWeeksAgo === 0 ? -6 : 1);
+
+  const sixWeeksAgoAdjustedDate = new Date(
+    sixWeeksAgo.setDate(sixWeeksAgoAdjusted)
+  )
+    .toISOString()
+    .split("T")[0];
+
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT date FROM workouts WHERE date BETWEEN ? AND ?;`,
+        [sixWeeksAgoAdjustedDate, now],
+        (_, result) => {
+          const data = formatWeeklyNumWorkouts(
+            result.rows._array,
+            new Date(sixWeeksAgoAdjustedDate),
+            new Date(now)
+          );
+          resolve(data);
+        },
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+import { abbreviateNum } from "./abbreviateNum";
+
+export const getTotalVolumeAllTime = () => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT weight, reps, unit FROM workout_exercises;`,
+        [],
+        (_, result) => {
+          if (result.rows._array.length === 0) {
+            return resolve(0);
+          }
+          const totalVolume = result.rows._array.reduce((acc, curr) => {
+            if (curr.unit === "lbs") {
+              acc += curr.weight * curr.reps;
+            } else {
+              acc += (curr.weight * curr.reps) / 2.20462;
+            }
+            return acc;
+          }, 0);
+          resolve(abbreviateNum(totalVolume.toFixed(0)));
+        },
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+import { formatWeeklyVolume } from "../chart/weeklyVolume";
+
+export const getWeeklyVolumePastSixWeeks = () => {
+  const now = new Date().toISOString().split("T")[0];
+  const sixWeeksAgo = new Date(new Date().setDate(new Date().getDate() - 42));
+  const dayOfWeekSixWeeksAgo = sixWeeksAgo.getDay();
+  const sixWeeksAgoAdjusted =
+    sixWeeksAgo.getDate() -
+    dayOfWeekSixWeeksAgo +
+    (dayOfWeekSixWeeksAgo === 0 ? -6 : 1);
+
+  const sixWeeksAgoAdjustedDate = new Date(
+    sixWeeksAgo.setDate(sixWeeksAgoAdjusted)
+  )
+    .toISOString()
+    .split("T")[0];
+
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT weight, reps, unit, date FROM workout_exercises JOIN workouts ON workout_exercises.workout_id = workouts.id WHERE date BETWEEN ? AND ? ORDER BY DATE DESC;`,
+        [sixWeeksAgoAdjustedDate, now],
+        (_, result) => {
+          const start = new Date(sixWeeksAgoAdjustedDate);
+          const end = new Date(now);
+
+          const data = formatWeeklyVolume(result.rows._array, start, end);
+          resolve(data);
+        },
         (_, err) => reject(err)
       );
     });
@@ -579,6 +715,110 @@ export const fetchWorkoutExercises = (workout_id) => {
         `SELECT * FROM workout_exercises WHERE workout_id = ?;`,
         [workout_id],
         (_, result) => resolve(result),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const getBestSetsConsecutiveReps = (exercise_id) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT workout_exercises.id, reps, unit, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? ORDER BY reps DESC LIMIT 15 ;`,
+        [exercise_id],
+        (_, result) => resolve(result.rows._array),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const getBestSetsConsecutiveRepsLast6Months = (exercise_id) => {
+  const now = new Date().toISOString().split("T")[0];
+  const sixMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 6))
+    .toISOString()
+    .split("T")[0];
+
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT MAX(reps) AS value, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? AND date BETWEEN ? AND ? GROUP BY date ORDER BY workouts.id;`,
+        [exercise_id, sixMonthsAgo, now],
+        (_, result) => resolve(result.rows._array),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const getBestSets1RM = (exercise_id) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT (weight * IIF(unit == "lbs", 1, 2.20462) * (1 + (0.0333 * reps))) AS predicted_max, workout_exercises.id, weight, reps, unit, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? ORDER BY weight DESC LIMIT 15;`,
+        [exercise_id],
+        (_, result) => {
+          if (!result.rows._array[0]?.id) {
+            return resolve([]);
+          }
+          resolve(result.rows._array);
+        },
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const getBestSets1RMLast6Months = (exercise_id) => {
+  const now = new Date().toISOString().split("T")[0];
+  const sixMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 6))
+    .toISOString()
+    .split("T")[0];
+
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT MAX(weight * IIF(unit == "lbs", 1, 2.20462) * (1 + (0.0333 * reps))) AS value, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? AND date BETWEEN ? AND ? GROUP BY date ORDER BY workouts.id;`,
+        [exercise_id, sixMonthsAgo, now],
+        (_, result) => resolve(result.rows._array),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const getBestSetsHoldTime = (exercise_id) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT workout_exercises.id, reps, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? ORDER BY reps DESC LIMIT 15;`,
+        [exercise_id],
+        (_, result) => resolve(result.rows._array),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const getBestSetsHoldTimeLast6Months = (exercise_id) => {
+  const now = new Date().toISOString().split("T")[0];
+  const sixMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 6))
+    .toISOString()
+    .split("T")[0];
+
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT MAX(reps) AS value, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? AND date BETWEEN ? AND ? GROUP BY date ORDER BY workouts.id;`,
+        [exercise_id, sixMonthsAgo, now],
+        (_, result) => resolve(result.rows._array),
         (_, err) => reject(err)
       );
     });
@@ -691,9 +931,8 @@ export const fetchRecentWeightDataDailyAvg = () => {
             return resolve([[], []]);
           }
 
-          const endDate = result.rows._array[0].date;
-          const startDate =
-            result.rows._array[result.rows._array.length - 1].date;
+          const endDate = now;
+          const startDate = sixDaysAgo;
           const [formattedResult, indexesToHide] = formatDailyAvg(
             result.rows._array,
             startDate,
@@ -885,6 +1124,7 @@ export const fetchTemplateExercisesFormatted = (id, exerciseNames) => {
                 prevReps: row.reps,
                 weight: "",
                 reps: "",
+                prevUnit: row.unit,
                 unit: row.unit,
                 completed: false,
               })),
@@ -986,30 +1226,21 @@ export const getAllTableName = () => {
 async function seedWidgets() {
   const widgets = [
     {
-      name: "TotalNumWorkouts",
-      displayName: "Number of Workouts (all-time)",
-      description: "Displays the total number of workouts completed",
-    },
-    {
-      name: "TotalTime",
-      displayName: "Time spent working out (all-time)",
-      description: "Displays the total time spent working out",
-    },
-    {
-      name: "TotalVolume",
-      displayName: "Total Volume (all-time)",
-      description: "Displays the total volume(weight) lifted",
+      name: "AllTimeStats",
+      displayName: "All Time Statistics",
+      description: "Displays key lifetime statistics",
     },
     {
       name: "WeeklyNumWorkouts",
-      displayName: "Number of Workouts (weekly)",
+      displayName: "Weekly Number of Workouts",
       description:
         "Displays the number of workouts completed organized by week",
     },
     {
       name: "WeeklyVolume",
-      displayName: "Total Volume (weekly)",
-      description: "Displays the total volume(weight) lifted organized by week",
+      displayName: "Weekly Volume",
+      description:
+        "Displays the total volume (weight) lifted organized by week",
     },
   ];
 
@@ -1050,96 +1281,6 @@ async function seedExercises() {
   }
   await Promise.all(promiseArray);
   console.log("Exercises seeded");
-}
-
-async function seedUserWeight() {
-  const promiseArray = [];
-  const weights = [
-    {
-      value: "150",
-      date: "2023-07-01",
-    },
-    {
-      value: "155",
-      date: "2023-07-02",
-    },
-    {
-      value: "160",
-      date: "2023-07-03",
-    },
-    {
-      value: "165",
-      date: "2023-07-04",
-    },
-    {
-      value: "170",
-      date: "2023-07-05",
-    },
-    {
-      value: "175",
-      date: "2023-07-09",
-    },
-    {
-      value: "180",
-      date: "2023-07-10",
-    },
-    {
-      value: "175",
-      date: "2023-07-11",
-    },
-    {
-      value: "170",
-      date: "2023-07-12",
-    },
-    {
-      value: "180",
-      date: "2023-07-21",
-    },
-
-    {
-      value: "175",
-      date: "2023-07-22",
-    },
-    {
-      value: "185",
-      date: "2023-07-23",
-    },
-    {
-      value: "180",
-      date: "2023-07-24",
-    },
-  ];
-
-  for (let i = 0; i < weights.length; i++) {
-    const weight = weights[i];
-    const promise = new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          `INSERT INTO user_metrics (metric_id, value, date) VALUES (?, ?, ?);`,
-          [1, weight.value, weight.date],
-          (_, result) => resolve(result),
-          (_, err) => reject(err)
-        );
-      });
-    });
-    promiseArray.push(promise);
-  }
-
-  await Promise.all(promiseArray);
-}
-
-async function createUser() {
-  const promise = new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `INSERT INTO user_info (name, birth_date, calorie_intake, activity_level, height, biological_sex) VALUES (?, ?, ?, ?, ?, ?);`,
-        ["User", "1990-01-01", 0, "Sedentary", 60, "Male"],
-        (_, result) => resolve(result),
-        (_, err) => reject(err)
-      );
-    });
-  });
-  return promise;
 }
 
 async function seedMetrics() {

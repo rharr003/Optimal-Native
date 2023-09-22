@@ -2,7 +2,13 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ColorPalette } from "../../../ui/ColorPalette";
 
-export default function ExerciseSetTableHeader({ handleModalToggle }) {
+export default function ExerciseSetTableHeader({
+  handleModalToggle,
+  unit,
+  equipment,
+}) {
+  // adjust the layout of the table header to make sense for the type of exercise
+  const useAltLayout = equipment === "static" || equipment === "body";
   return (
     <View style={styles.tableRow}>
       <Text style={[styles.tableCellExtraSmall, styles.tableHeaderText]}>
@@ -11,10 +17,22 @@ export default function ExerciseSetTableHeader({ handleModalToggle }) {
       <Text style={[styles.tableCellWide, styles.tableHeaderText]}>
         Previous
       </Text>
-      <Text style={[styles.tableCellRegular, styles.tableHeaderText]}>
-        Weight
+      {/* adjust the cells shown to make sense for the type of exercise */}
+      {!useAltLayout && (
+        <Text style={[styles.tableCellRegular, styles.tableHeaderText]}>
+          Weight ({unit})
+        </Text>
+      )}
+
+      <Text
+        style={[
+          useAltLayout ? styles.tableCellRegular : styles.tableCellSmall,
+          styles.tableHeaderText,
+        ]}
+      >
+        {/* adjust the cell name to make sense for the type of exercise */}
+        {equipment === "static" ? "Time (sec)" : "Reps"}
       </Text>
-      <Text style={[styles.tableCellSmall, styles.tableHeaderText]}>Reps</Text>
       <Pressable
         style={[styles.tableCellExtraSmall]}
         onPress={handleModalToggle}

@@ -3,7 +3,12 @@ import { ColorPalette } from "../../../ui/ColorPalette";
 import CustomButton from "../../../ui/CustomButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { setWorkout } from "../../../../util/redux/workout";
+import {
+  setWorkout,
+  incrementTimer,
+  addInterval,
+  clearAllIntervals,
+} from "../../../../util/redux/workout";
 import * as Haptics from "expo-haptics";
 
 export default function StartTemplateWorkoutModal({ workout, handleClose }) {
@@ -18,21 +23,24 @@ export default function StartTemplateWorkoutModal({ workout, handleClose }) {
       return;
     }
     dispatch(setWorkout(workout));
+
+    dispatch(clearAllIntervals());
+
+    const interval = setInterval(() => {
+      dispatch(incrementTimer({ amount: 1 }));
+    }, 1000);
+
+    dispatch(addInterval(interval));
+
     handleClose();
-    navigation.navigate("active");
+
+    navigation.navigate("active", { interval: interval });
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.titleView}>
         <Text style={styles.title}>{workout.name}</Text>
-        {/* <CustomButton
-          title="Edit"
-          iconName="create-outline"
-          color={"transparent"}
-          style={{ margin: 0, padding: 0 }}
-          textColor={ColorPalette.dark.secondary200}
-        /> */}
       </View>
       <View>
         {workout.exercises.slice(0, 6).map((exercise, index) => (

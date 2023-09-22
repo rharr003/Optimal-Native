@@ -14,26 +14,21 @@ export default function NewWorkoutButtons({ workout }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  async function handleFinishWorkout(asTemplate = false) {
-    dispatch(stopWorkout());
-    dispatch(stopRestTimer());
+  async function saveWorkout() {
     const workoutId = await insertWorkout(
       workout.name,
       workout.duration,
-      new Date().toISOString()
+      new Date().toISOString().split("T")[0]
     );
-    if (asTemplate) {
-      await insertTemplate(workout.name, workoutId);
-    }
     const promiseArray = [];
     workout.exercises.forEach((exercise) => {
       exercise.sets.forEach((set) => {
-        if (set.completed && set.weight && set.reps) {
+        if (set.completed) {
           promiseArray.push(
             insertWorkoutExercise(
               workoutId,
               exercise.id,
-              set.weight,
+              set.weight === "" ? 0 : set.weight,
               set.reps,
               set.unit
             )
@@ -43,13 +38,28 @@ export default function NewWorkoutButtons({ workout }) {
     });
     await Promise.all(promiseArray);
 
+    return workoutId;
+  }
+
+  async function finishWorkoutAsTemplate() {
+    dispatch(stopWorkout());
+    dispatch(stopRestTimer());
+    const workoutId = await saveWorkout();
+    await insertTemplate(workout.name, workoutId);
+    navigation.goBack();
+  }
+
+  async function finishWorkout() {
+    dispatch(stopWorkout());
+    dispatch(stopRestTimer());
+    await saveWorkout();
     navigation.goBack();
   }
   return (
     <>
       <CustomButton
         title="Finish and save as template"
-        onPress={() => handleFinishWorkout(true)}
+        onPress={finishWorkoutAsTemplate}
         iconName={"save-outline"}
         style={{
           marginBottom: 10,
@@ -62,7 +72,7 @@ export default function NewWorkoutButtons({ workout }) {
       />
       <CustomButton
         title="Finish workout"
-        onPress={handleFinishWorkout}
+        onPress={finishWorkout}
         iconName={"checkmark-outline"}
         style={{
           marginBottom: 10,

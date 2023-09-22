@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { fetchMetrics } from "../../util/sqlite/db";
-import WeightFooter from "../stats/insights/WeightFooter";
+import WeightHeader from "../stats/insights/WeightHeader";
 import { useState, useEffect } from "react";
 
 export default function StatMenu() {
@@ -17,7 +17,7 @@ export default function StatMenu() {
   return (
     <View style={styles.container}>
       {metrics.map((metric) => (
-        <WeightFooter key={metric.id} metric={metric} />
+        <WeightHeader key={metric.id} metric={metric} />
       ))}
     </View>
   );

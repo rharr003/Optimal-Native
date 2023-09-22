@@ -6,7 +6,6 @@ import { StyleSheet } from "react-native";
 export default function TemplateModals({
   showModal,
   handleClose,
-
   setTemplates,
   templateToEdit,
   loadedWorkout,

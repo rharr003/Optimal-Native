@@ -10,6 +10,8 @@ export default function WorkoutModals({
   showManageExerciseModal,
   exerciseToEditIdx,
   toggleExerciseModal,
+  toggleUnit,
+  unit,
 }) {
   function minimizeRestTimer() {
     setShowRestTimerModal(false);
@@ -35,6 +37,8 @@ export default function WorkoutModals({
           index={exerciseToEditIdx}
           handleClose={handleManageExerciseModalClose}
           toggleExerciseModal={toggleExerciseModal}
+          toggleUnit={toggleUnit}
+          unit={unit}
         />
       </CenteredModal>
     </>

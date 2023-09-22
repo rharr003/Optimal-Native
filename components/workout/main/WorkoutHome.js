@@ -1,7 +1,11 @@
 import { View, StyleSheet } from "react-native";
 import { ColorPalette } from "../../ui/ColorPalette";
 import CustomButton from "../../ui/CustomButton";
-import { startWorkout, incrementTimer } from "../../../util/redux/workout";
+import {
+  startWorkout,
+  incrementTimer,
+  addInterval,
+} from "../../../util/redux/workout";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import WorkoutHomeActiveWorkoutLabel from "./WorkoutHomeActiveWorkoutLabel";
@@ -16,19 +20,24 @@ export default function WorkoutHome({ navigation }) {
 
   useEffect(() => {
     if (workoutIsActive && !interval.current) {
+      console.log("workout home setting interval");
+
       interval.current = setInterval(() => {
         dispatch(incrementTimer({ amount: 1 }));
       }, 1000);
+
+      dispatch(addInterval(interval.current));
     }
   }, [workoutIsActive]);
 
   const handleStartWorkout = () => {
     dispatch(startWorkout());
-    if (!interval.current) {
-      interval.current = setInterval(() => {
-        dispatch(incrementTimer({ amount: 1 }));
-      }, 1000);
-    }
+
+    interval.current = setInterval(() => {
+      dispatch(incrementTimer({ amount: 1 }));
+    }, 1000);
+    dispatch(addInterval(interval.current));
+
     navigation.navigate("active", { interval: interval });
   };
 

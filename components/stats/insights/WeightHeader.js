@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { fetchRecentWeightDataWeeklyAvg } from "../../../util/sqlite/db";
 import { useIsFocused } from "@react-navigation/native";
 
-export default function WeightFooter() {
+export default function WeightHeader() {
   const [lastValue, setLastValue] = useState("No Data");
   const navigation = useNavigation();
   const isFocused = useIsFocused();

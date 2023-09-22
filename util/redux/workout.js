@@ -7,6 +7,7 @@ const workoutSlice = createSlice({
   initialState: {
     isActive: false,
     timer: 0,
+    timerIntervals: [],
     workout: {
       name: "My Workout",
       isTemplate: false,
@@ -19,10 +20,24 @@ const workoutSlice = createSlice({
   reducers: {
     startWorkout(state, action) {
       state.isActive = true;
+      state.timer = 0;
+    },
 
-      // interval = setInterval(() => {
-      //   state.timer = state.timer + 1;
-      // }, 1000);
+    addInterval(state, action) {
+      if (state.timerIntervals.length > 0) {
+        state.timerIntervals.forEach((interval) => {
+          clearInterval(interval);
+        });
+        state.timerIntervals = [];
+      }
+      state.timerIntervals.push(action.payload);
+    },
+
+    clearAllIntervals(state) {
+      state.timerIntervals.forEach((interval) => {
+        clearInterval(interval);
+      });
+      state.timerIntervals = [];
     },
 
     setWorkout(state, action) {
@@ -36,13 +51,16 @@ const workoutSlice = createSlice({
       state.restTimerActive = false;
       state.restTimer = 0;
       state.initialRestTime = 0;
+      state.timerIntervals.forEach((interval) => {
+        clearInterval(interval);
+      });
+      state.timerIntervals = [];
       state.timer = 0;
       state.workout = {
         name: "My Workout",
         exercises: [],
         duration: 0,
       };
-      // clearInterval(interval);
     },
     updateWorkoutDuration(state, action) {
       state.workout.duration = action.payload.duration;
@@ -142,6 +160,8 @@ const workoutSlice = createSlice({
 export const startWorkout = workoutSlice.actions.startWorkout;
 export const setWorkout = workoutSlice.actions.setWorkout;
 export const stopWorkout = workoutSlice.actions.stopWorkout;
+export const addInterval = workoutSlice.actions.addInterval;
+export const clearAllIntervals = workoutSlice.actions.clearAllIntervals;
 export const updateWorkoutDuration = workoutSlice.actions.updateWorkoutDuration;
 export const updateWorkoutName = workoutSlice.actions.updateWorkoutName;
 export const bulkAddExercises = workoutSlice.actions.bulkAddExercises;

@@ -1,51 +1,32 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import { ColorPalette } from "../../ui/ColorPalette";
 import React from "react";
+import { useEffect } from "react";
 
-function AddExerciseModalExerciseItem({
-  exercise,
-  setSelectedExercises,
-  isReplacing,
-  idOfSelectedForReplacing,
-}) {
+function AddExerciseExerciseItem({ exercise, onPress, uniqueSelected }) {
   const [selected, setSelected] = useState(exercise.defaultSelected || false);
-  const shouldBeSelected = () => {
-    if (isReplacing) {
-      return exercise.id === idOfSelectedForReplacing;
-    } else {
-      return selected;
-    }
-  };
+  function handlePress() {
+    onPress(exercise, setSelected);
+  }
 
-  const toggleSelected = () => {
-    setSelected((prevSelected) => !prevSelected);
-    setSelectedExercises((prevSelectedExercises) => {
-      if (isReplacing) {
-        if (selected) return [];
-        return [{ ...exercise, reactId: exercise.id + Date.now() }];
-      } else if (selected) {
-        return prevSelectedExercises.filter((prevSelectedExercise) => {
-          return prevSelectedExercise.id !== exercise.id;
-        });
-      } else {
-        return [
-          ...prevSelectedExercises,
-          { ...exercise, reactId: exercise.id + Date.now() },
-        ];
+  useEffect(() => {
+    if (uniqueSelected) {
+      if (uniqueSelected !== exercise.id) {
+        setSelected(false);
       }
-    });
-  };
+    }
+  }, [uniqueSelected]);
 
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
         pressed && styles.pressed,
-        shouldBeSelected() && styles.selected,
+        selected && styles.selected,
       ]}
-      onPress={toggleSelected}
+      onPress={handlePress}
     >
       <View
         style={{
@@ -66,9 +47,7 @@ function AddExerciseModalExerciseItem({
           </Text>
         </Text>
       </View>
-      {shouldBeSelected() ? (
-        <Ionicons name="checkmark" size={20} color="#fff" />
-      ) : null}
+      {selected ? <Ionicons name="checkmark" size={20} color="#fff" /> : null}
     </Pressable>
   );
 }
@@ -98,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(AddExerciseModalExerciseItem);
+export default React.memo(AddExerciseExerciseItem);

@@ -15,7 +15,6 @@ import ExerciseSet from "./ExerciseSet";
 
 function Exercise({ exercise, index, dragIsActive, isFinishing }) {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   // use local state to prevent entire exercise list from re-rendering when a set is updated
   const [sets, setSets] = useState(exercise.sets);
   const [appState, setAppState] = useState(AppState.currentState);
@@ -24,7 +23,9 @@ function Exercise({ exercise, index, dragIsActive, isFinishing }) {
   const [idxRemoved, setIdxRemoved] = useState([]);
   const persistedSets = useRef(exercise.sets);
   const activeIdx = useSharedValue(null);
+  const [unit, setUnit] = useState(exercise.sets[0].unit);
   // saves the sets to the redux store when the app goes into the background or inactive state
+
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (newAppState) => {
       if (newAppState.match(/inactive|background/)) {
@@ -123,6 +124,20 @@ function Exercise({ exercise, index, dragIsActive, isFinishing }) {
     dispatch(stopRestTimer());
   }
 
+  function toggleUnit(unit) {
+    const newUnit = unit === "lbs" ? "kg" : "lbs";
+    setSets((prevSets) => {
+      const newSets = prevSets.map((set) => {
+        return {
+          ...set,
+          unit: newUnit,
+        };
+      });
+      return newSets;
+    });
+    setUnit(newUnit);
+  }
+
   return (
     <View style={[styles.exercise]}>
       <WorkoutModals
@@ -132,9 +147,13 @@ function Exercise({ exercise, index, dragIsActive, isFinishing }) {
         setShowRestTimerModal={setShowRestTimerModal}
         handleManageExerciseModalClose={handleManageExerciseModalClose}
         finishRestTimer={finishRestTimer}
+        toggleUnit={toggleUnit}
+        unit={unit}
       />
       <ExerciseSetTableHeader
         handleModalToggle={handleManageExerciseModalOpen}
+        unit={unit}
+        equipment={exercise.equipment}
       />
 
       <FlatList
@@ -153,6 +172,7 @@ function Exercise({ exercise, index, dragIsActive, isFinishing }) {
               setSets={setSets}
               restTime={exercise.restTime}
               setShowRestTimerModal={setShowRestTimerModal}
+              equipment={exercise.equipment}
             />
           </SwipeToDeleteView>
         )}

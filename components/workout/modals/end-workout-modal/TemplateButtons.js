@@ -16,7 +16,6 @@ export default function TemplateButtons({ workout }) {
   const dispatch = useDispatch();
   const prevWorkout = useSelector((state) => state.workout.prevWorkout);
   const [workoutIsSame, setWorkoutIsSame] = useState(true);
-  console.log(workout.exercises[0].sets);
   useEffect(() => {
     setWorkoutIsSame(checkWorkoutDidNotChange());
   }, [workout]);
@@ -57,7 +56,7 @@ export default function TemplateButtons({ workout }) {
     const workoutId = await insertWorkout(
       workout.name,
       workout.duration,
-      new Date().toISOString()
+      new Date().toISOString().split("T")[0]
     );
     if (shouldUpdateTemplate) {
       await updateTemplate(workoutId, workout.name, workout.prevWorkoutId);
@@ -65,12 +64,12 @@ export default function TemplateButtons({ workout }) {
     const promiseArray = [];
     workout.exercises.forEach((exercise) => {
       exercise.sets.forEach((set) => {
-        if (set.completed && set.weight && set.reps) {
+        if (set.completed) {
           promiseArray.push(
             insertWorkoutExercise(
               workoutId,
               exercise.id,
-              set.weight,
+              set.weight === "" ? 0 : set.weight,
               set.reps,
               set.unit
             )

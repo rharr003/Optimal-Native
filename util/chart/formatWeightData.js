@@ -1,6 +1,8 @@
 import { smoothEmptyData } from "./smoothEmptyData";
 import { ColorPalette } from "../../components/ui/ColorPalette";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { buildWeekArray } from "./buildWeekArray";
+import { buildDayArray } from "./buildDayArray";
+import { buildMonthArray } from "./buildMonthArray";
 
 export function formatDailyAvg(data, start, end) {
   let days = buildDayArray(start, end);
@@ -84,116 +86,6 @@ export function formatMonthlyAvg(data, start, end) {
   const [normalizedMonths, indexesToHide] = smoothEmptyData(months);
 
   return [normalizedMonths, indexesToHide];
-}
-
-export function buildDayArray(start, end) {
-  const days = [];
-  let currDay = parseDate(start);
-  const lastDay = parseDate(end);
-
-  while (currDay <= lastDay) {
-    const day = {
-      label: currDay.toLocaleString("default", {
-        month: "short",
-        day: "numeric",
-      }),
-      date: currDay,
-      total: 0,
-      numDatapoints: 0,
-      average: 0,
-    };
-
-    days.push(day);
-
-    currDay = new Date(
-      currDay.getFullYear(),
-      currDay.getMonth(),
-      currDay.getDate() + 1
-    );
-  }
-  return days;
-}
-
-export function buildMonthArray(start, end) {
-  const months = [];
-  let currStartDate = new Date(start.getFullYear(), start.getMonth(), 1);
-  const lastDay = new Date(end.getFullYear(), end.getMonth() + 1, 0);
-
-  while (currStartDate <= lastDay) {
-    const month = {
-      label: currStartDate.toLocaleString("default", {
-        month: "short",
-        year: "numeric",
-      }),
-      startDate: currStartDate,
-      endDate: new Date(
-        currStartDate.getFullYear(),
-        currStartDate.getMonth() + 1,
-        0
-      ),
-
-      total: 0,
-      numDatapoints: 0,
-      average: 0,
-    };
-
-    months.push(month);
-    currStartDate = new Date(
-      currStartDate.getFullYear(),
-      currStartDate.getMonth() + 1,
-      1
-    );
-  }
-
-  return months;
-}
-
-export function getCurrWeekMonday(date) {
-  const day = date.getUTCDay();
-  if (day === 1) return date;
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-  const result = new Date(date);
-  result.setDate(diff);
-
-  return result;
-}
-
-export function getCurrWeekUpcomingSunday(date) {
-  const day = date.getUTCDay();
-  const diff = date.getDate() + (7 - day);
-
-  const result = new Date(date);
-
-  return new Date(result.setDate(diff));
-}
-
-export function buildWeekArray(start, end) {
-  const weeks = [];
-  let currStartDate = getCurrWeekMonday(start);
-  const lastDay = getCurrWeekUpcomingSunday(end);
-
-  while (currStartDate <= lastDay) {
-    const start = currStartDate;
-    const week = {
-      label: currStartDate.toLocaleString("default", {
-        month: "short",
-        day: "numeric",
-        timeZone: "UTC",
-      }),
-
-      startDate: start,
-      endDate: new Date(
-        new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7)
-      ),
-      total: 0,
-      numDatapoints: 0,
-      average: 0,
-    };
-
-    weeks.push(week);
-    currStartDate = new Date(currStartDate.getTime() + 7 * 24 * 60 * 60 * 1000);
-  }
-  return weeks;
 }
 
 export function parseDate(dateString) {

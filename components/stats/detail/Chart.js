@@ -50,7 +50,7 @@ export default function Chart({
       {!metricData.length && (
         <View style={styles.chartOverlay}>
           <Text style={[styles.chartOverlayText, styles.italic]}>
-            No Recent Data For Period Selected
+            No Data For Period Selected
           </Text>
         </View>
       )}
@@ -80,11 +80,6 @@ const styles = StyleSheet.create({
   chartOverlayText: {
     color: ColorPalette.dark.secondary200,
 
-    fontSize: 20,
-  },
-
-  text: {
-    color: "#fff",
     fontSize: 20,
   },
   italic: {

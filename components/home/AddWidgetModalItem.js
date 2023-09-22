@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
-    color: ColorPalette.dark.gray300,
+    color: "#fff",
   },
   descriptionText: {
     fontSize: 12,
-    color: ColorPalette.dark.gray500,
+    color: "#fff",
     fontStyle: "italic",
   },
 
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   },
 
   selected: {
-    backgroundColor: ColorPalette.dark.gray800,
+    opacity: 1,
+    backgroundColor: ColorPalette.dark.secondary700,
   },
 });

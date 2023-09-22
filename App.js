@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./screens/Home";
 import Workout from "./screens/Workout";
 import Stats from "./screens/Stats";
+import Exercises from "./screens/Exercises";
 import { ColorPalette } from "./components/ui/ColorPalette";
 import store from "./util/redux/store";
 import { Provider } from "react-redux";
@@ -108,8 +109,30 @@ export default function App() {
                 }}
               />
               <Tab.Screen
+                name="Tracking"
+                component={Stats}
+                options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons
+                      name="stats-chart-outline"
+                      color={color}
+                      size={size}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
                 name="Workout"
                 component={Workout}
+                options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="add-outline" color={color} size={36} />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Exercises"
+                component={Exercises}
                 options={{
                   tabBarIcon: ({ color, size }) => (
                     <Ionicons
@@ -118,19 +141,9 @@ export default function App() {
                       size={size}
                     />
                   ),
-                }}
-              />
-              <Tab.Screen
-                name="Stats"
-                component={Stats}
-                options={{
-                  tabBarIcon: ({ color, size }) => (
-                    <Ionicons
-                      name="trending-up-outline"
-                      color={color}
-                      size={size}
-                    />
-                  ),
+                  contentStyle: {
+                    backgroundColor: ColorPalette.dark.gray800,
+                  },
                 }}
               />
               <Tab.Screen

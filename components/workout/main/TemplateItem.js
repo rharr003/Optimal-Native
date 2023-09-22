@@ -10,7 +10,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { deleteTemplate } from "../../../util/sqlite/db";
 
-const { SlideInMenu, ContextMenu, Popover } = renderers;
+const { Popover } = renderers;
 
 export default function TemplateItem({
   template,

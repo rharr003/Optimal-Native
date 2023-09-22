@@ -2,7 +2,7 @@ import { ColorPalette } from "../../ui/ColorPalette";
 import CustomButton from "../../ui/CustomButton";
 import { View, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
-import { stopWorkout } from "../../../util/redux/workout";
+import { stopWorkout, clearAllIntervals } from "../../../util/redux/workout";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -12,6 +12,7 @@ export default function WorkoutActiveFooter({ style, interval }) {
   async function cancelWorkout() {
     dispatch(stopWorkout());
     clearInterval(interval.current);
+    dispatch(clearAllIntervals());
     // removes the saved workout from AsyncStorage
     await AsyncStorage.removeItem("prevState");
     interval.current = null;
