@@ -1,11 +1,11 @@
 import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ColorPalette } from "../ColorPalette";
-import StatsHome from "../components/stats/StatsHome";
-import StatDetail from "../components/stats/detail/StatDetail";
+import StatDetail from "../components/tracking/weight-detail/StatDetail";
+import TrackingMain from "../components/tracking/main/TrackingMain";
 
 const Stack = createNativeStackNavigator();
-export default function Stats() {
+export default function Tracking() {
   return (
     <View style={styles.container}>
       <Stack.Navigator
@@ -17,14 +17,14 @@ export default function Stats() {
         }}
       >
         <Stack.Screen
-          name="home"
-          component={StatsHome}
+          name="main"
+          component={TrackingMain}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="detail"
+          name="weight-detail"
           component={StatDetail}
           options={{
             presentation: "modal",

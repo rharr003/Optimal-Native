@@ -1,7 +1,7 @@
 export function smoothEmptyData(data) {
   const indexesToHideOnChart = [];
   let smoothedData = [];
-  let lastNonZeroIndex = 0;
+  let lastNonZeroIndex = -1;
   let lastValidValue = 0;
   let nextValidValue = 0;
   let numBetweenValid = 0;
@@ -11,26 +11,24 @@ export function smoothEmptyData(data) {
   //hide index on chart so the smoothed data point doesnt appear as a user input but the line is still continuous
 
   for (let i = 0; i < data.length; i++) {
-    if (data[i].numDatapoints === 0 && lastNonZeroIndex === 0) {
+    if (data[i].numDatapoints === 0 && lastNonZeroIndex === -1) {
       continue;
     } else if (data[i].numDatapoints === 0 && i === data.length - 1) {
-      continue;
+      break;
     } else if (data[i].numDatapoints === 0) {
       indexesToHideOnChart.push(smoothedData.length);
       let currIndex = i;
-      while (data[currIndex].numDatapoints === 0) {
+      while (data[currIndex]?.numDatapoints === 0) {
         currIndex++;
       }
       if (currIndex === data.length) {
         break;
       }
-
       nextValidValue = data[currIndex].average;
       numBetweenValid = currIndex - lastNonZeroIndex;
       const totalDiff = nextValidValue - lastValidValue;
       const increment = totalDiff / numBetweenValid;
       const currAvg = (lastValidValue + increment).toFixed(1);
-
       smoothedData.push({
         ...data[i],
         average: currAvg,

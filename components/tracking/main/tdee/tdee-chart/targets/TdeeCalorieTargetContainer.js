@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
-import { ColorPalette } from "../../../ColorPalette";
+import { ColorPalette } from "../../../../../../ColorPalette";
 import TdeeCalorieTarget from "./TdeeCalorieTarget";
 import { useSelector } from "react-redux";
 
-export default function TotalEnergyExpenditure() {
+export default function TdeeCalorieTargetContainer() {
   const tdee = useSelector((state) => state.userData.tdee);
   return (
     <View style={styles.container}>

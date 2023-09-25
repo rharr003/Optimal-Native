@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import InsightsMain from "./insights/InsightsMain";
+import InsightsMain from "../insights/InsightsMain";
 
 export default function StatsHome() {
   return (

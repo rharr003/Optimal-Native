@@ -1,11 +1,11 @@
-import CenteredModal from "../../shared/CenteredModal";
-import CustomButton from "../../shared/CustomButton";
-import { setCurrentIntake as dbSetIntake } from "../../../util/sqlite/db";
+import CenteredModal from "../../../shared/CenteredModal";
+import CustomButton from "../../../shared/CustomButton";
+import { setCurrentIntake as dbSetIntake } from "../../../../util/sqlite/db";
 import { StyleSheet, View, TextInput } from "react-native";
-import { ColorPalette } from "../../../ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrentIntake as setCurrentIntakeRedux } from "../../../util/redux/userData";
+import { setCurrentIntake as setCurrentIntakeRedux } from "../../../../util/redux/userData";
 
 export default function CalorieEntryModal({
   setCurrentIntake,

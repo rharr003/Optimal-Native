@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../../ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import {
   fetchRecentWeightDataWeeklyAvg,
   fetchRecentWeightDataDailyAvg,
   fetchRecentWeightDataMonthlyAvg,
-} from "../../../util/sqlite/db";
+} from "../../../../util/sqlite/db";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import Chart from "../detail/Chart";
+import Chart from "./Chart";
 import WeightHeader from "./WeightHeader";
 
 export default function Weight() {
@@ -32,7 +32,7 @@ export default function Weight() {
         setIndexesToHideState(indexesToHide);
       }
     }
-    fetch();
+    if (isFocused) fetch();
   }, [isFocused]);
 
   return (
