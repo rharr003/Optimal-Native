@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../../../ColorPalette";
 import TotalNumWorkouts from "./TotalNumWorkouts";
 import TotalTime from "./TotalTime";
 import TotalVolume from "./TotalVolume";

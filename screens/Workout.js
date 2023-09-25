@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutHome from "../components/workout/main/WorkoutHome";
-import { ColorPalette } from "../components/ui/ColorPalette";
+import { ColorPalette } from "../ColorPalette";
 import WorkoutActive from "../components/workout/active/WorkoutActiveStack";
 import WorkoutList from "../components/workout/history/WorkoutList";
 

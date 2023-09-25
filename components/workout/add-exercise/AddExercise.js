@@ -120,7 +120,7 @@ export default function AddExercise({ navigation, route }) {
     }
   }
 
-  async function onAdd(name, equipment, bodyPart, setExercises) {
+  async function onCompleteModal(name, equipment, bodyPart, setExercises) {
     if (name === "" || equipment === "" || bodyPart === "") return;
     const exercise = await insertExercise(name.trim(), equipment, bodyPart);
     setExercises((prevExercises) => {
@@ -190,7 +190,7 @@ export default function AddExercise({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ExerciseList
-        onAdd={onAdd}
+        onCompleteModal={onCompleteModal}
         onPress={onPress}
         exerciseToReplaceInfo={{ letterGroup, id }}
         uniqueSelected={isReplacing ? selectedExercises[0]?.id : null}

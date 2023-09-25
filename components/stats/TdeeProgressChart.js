@@ -1,5 +1,5 @@
 import { ProgressChart } from "react-native-chart-kit";
-import { ColorPalette } from "../ui/ColorPalette";
+import { ColorPalette } from "../../ColorPalette";
 import { useSelector } from "react-redux";
 import { useWindowDimensions } from "react-native";
 

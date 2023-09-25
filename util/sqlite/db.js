@@ -448,6 +448,34 @@ export const fetchExercise = (id) => {
   return promise;
 };
 
+export const updateExercise = (id, name, equipment, muscleGroup) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `UPDATE exercises SET name = ?, equipment = ?, muscleGroup = ? WHERE id = ? RETURNING *;`,
+        [name, equipment, muscleGroup, id],
+        (_, result) => resolve(result.rows._array[0]),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
+export const deleteExercise = (id) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `DELETE FROM exercises WHERE id = ?;`,
+        [id],
+        (_, result) => resolve(result),
+        (_, err) => reject(err)
+      );
+    });
+  });
+  return promise;
+};
+
 export const fetchRecentExercisePerformance = (id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -586,7 +614,7 @@ export const fetchTotalTimeAllTime = () => {
   return promise;
 };
 
-import { formatWeeklyNumWorkouts } from "../chart/weeklyNumWorkouts";
+import { formatWeeklyNumWorkouts } from "../chart/home/weeklyNumWorkouts";
 
 export const fetchNumWorkoutsLastSixWeeks = () => {
   const now = new Date().toISOString().split("T")[0];
@@ -652,7 +680,7 @@ export const getTotalVolumeAllTime = () => {
   return promise;
 };
 
-import { formatWeeklyVolume } from "../chart/weeklyVolume";
+import { formatWeeklyVolume } from "../chart/home/weeklyVolume";
 
 export const getWeeklyVolumePastSixWeeks = () => {
   const now = new Date().toISOString().split("T")[0];

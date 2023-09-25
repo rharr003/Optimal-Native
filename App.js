@@ -7,7 +7,7 @@ import Home from "./screens/Home";
 import Workout from "./screens/Workout";
 import Stats from "./screens/Stats";
 import Exercises from "./screens/Exercises";
-import { ColorPalette } from "./components/ui/ColorPalette";
+import { ColorPalette } from "./ColorPalette";
 import store from "./util/redux/store";
 import { Provider } from "react-redux";
 import handleAppClose from "./util/handleAppClose";

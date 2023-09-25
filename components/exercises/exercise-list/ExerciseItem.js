@@ -1,7 +1,7 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import React from "react";
 import { useEffect } from "react";
 

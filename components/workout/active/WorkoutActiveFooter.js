@@ -1,5 +1,5 @@
-import { ColorPalette } from "../../ui/ColorPalette";
-import CustomButton from "../../ui/CustomButton";
+import { ColorPalette } from "../../../ColorPalette";
+import CustomButton from "../../shared/CustomButton";
 import { View, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import { stopWorkout, clearAllIntervals } from "../../../util/redux/workout";

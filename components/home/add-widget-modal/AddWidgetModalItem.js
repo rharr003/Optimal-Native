@@ -1,18 +1,18 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
-import { ColorPalette } from "../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
+import { useDispatch } from "react-redux";
+import { toggleWidgetVisible } from "../../../util/redux/widgets";
+import { updateWidget } from "../../../util/sqlite/db";
 
-export default function AddWidgetModalItem({
-  widgetName,
-  onSelect,
-  shouldDisplay,
-  widgetDescription,
-}) {
-  const [selected, setSelected] = useState(shouldDisplay);
+export default function AddWidgetModalItem({ widget }) {
+  const [selected, setSelected] = useState(widget.shouldDisplay);
+  const dispatch = useDispatch();
 
-  function onPress() {
+  async function onPress() {
     setSelected(!selected);
-    onSelect();
+    await updateWidget(widget.id, !widget.shouldDisplay);
+    dispatch(toggleWidgetVisible({ id: widget.id }));
   }
 
   return (
@@ -24,8 +24,8 @@ export default function AddWidgetModalItem({
       ]}
       onPress={onPress}
     >
-      <Text style={styles.text}>{widgetName}</Text>
-      <Text style={styles.descriptionText}>{widgetDescription}</Text>
+      <Text style={styles.text}>{widget.displayName}</Text>
+      <Text style={styles.descriptionText}>{widget.description}</Text>
     </Pressable>
   );
 }

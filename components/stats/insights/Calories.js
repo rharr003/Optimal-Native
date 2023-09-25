@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { fetchCurrentIntake } from "../../../util/sqlite/db";
 import { useEffect, useState } from "react";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { BlurView } from "expo-blur";
 import CalorieEntryModal from "./CalorieEntryModal";
 import { useDispatch } from "react-redux";
 import { setCurrentIntake as setCurrentIntakeRedux } from "../../../util/redux/userData";
 import { useSelector } from "react-redux";
-import CustomButton from "../../ui/CustomButton";
+import CustomButton from "../../shared/CustomButton";
 
 export default function Calories({ refresh }) {
   const [currentIntake, setCurrentIntake] = useState(0);

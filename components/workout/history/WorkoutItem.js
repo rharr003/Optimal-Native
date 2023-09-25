@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { formatTime } from "../../../util/formatTime";
 
 export default function WorkoutItem({ workout }) {

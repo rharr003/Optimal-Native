@@ -1,6 +1,6 @@
 import { View, StyleSheet, FlatList, AppState } from "react-native";
-import { ColorPalette } from "../../../ui/ColorPalette";
-import CustomButton from "../../../ui/CustomButton";
+import { ColorPalette } from "../../../../ColorPalette";
+import CustomButton from "../../../shared/CustomButton";
 import { bulkUpdateSets } from "../../../../util/redux/workout";
 import { stopRestTimer } from "../../../../util/redux/restTimer";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,7 @@ import { useSharedValue } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import WorkoutModals from "../../modals/WorkoutModals";
 import { useNavigation } from "@react-navigation/native";
-import SwipeToDeleteView from "../../../ui/SwipeToDeleteView";
+import SwipeToDeleteView from "../../../shared/SwipeToDeleteView";
 import ExerciseSet from "./ExerciseSet";
 
 function Exercise({ exercise, index, dragIsActive, isFinishing }) {

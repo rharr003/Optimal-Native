@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import TdeeCalorieTarget from "./TdeeCalorieTarget";
 import { useSelector } from "react-redux";
 

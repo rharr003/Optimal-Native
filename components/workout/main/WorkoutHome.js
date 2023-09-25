@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
-import CustomButton from "../../ui/CustomButton";
+import { ColorPalette } from "../../../ColorPalette";
+import CustomButton from "../../shared/CustomButton";
 import {
   startWorkout,
   incrementTimer,

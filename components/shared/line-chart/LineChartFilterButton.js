@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SelectDropdown from "react-native-select-dropdown";
-import { ColorPalette } from "../../ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 
 export default function LineChartFilterButton({
   filterOptions,

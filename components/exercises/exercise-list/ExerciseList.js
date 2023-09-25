@@ -1,22 +1,22 @@
-import { View, Text, StyleSheet, FlatList, Keyboard } from "react-native";
+import { View, StyleSheet, FlatList, Keyboard } from "react-native";
 import SearchBar from "./SearchBar";
 import ExerciseLetterGroup from "./ExerciseLetterGroup";
 import { useState, useEffect } from "react";
-import { fetchExercises, insertExercise } from "../../../util/sqlite/db";
-import { useDispatch } from "react-redux";
-import { useRoute } from "@react-navigation/native";
-import NewExerciseModal from "./NewExerciseModal";
+import { fetchExercises } from "../../../util/sqlite/db";
+import AddOrEditExerciseModal from "../../shared/AddOrEditExerciseModal";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function ExerciseList({
   onPress,
   uniqueSelected,
-  onAdd,
+  onCompleteModal,
   exerciseToReplaceInfo,
 }) {
   const [exercises, setExercises] = useState({});
   const [filteredExercises, setFilteredExercises] = useState({});
   const [showAddModal, setShowAddModal] = useState(false);
   const [search, setSearch] = useState({ name: "", category: "" });
+  const isFocused = useIsFocused();
   useEffect(() => {
     async function fetch() {
       const exercises = await fetchExercises();
@@ -40,8 +40,10 @@ export default function ExerciseList({
       setExercises(exercises);
       //   onInit(setExercises);
     }
-    fetch();
-  }, []);
+    if (isFocused) {
+      fetch();
+    }
+  }, [isFocused]);
   function handleAddModalOpen() {
     // clear search so that when the modal is closed, the newly added exercise will show up first
     setSearch({ name: "", category: "" });
@@ -51,10 +53,10 @@ export default function ExerciseList({
 
   return (
     <View style={styles.container}>
-      <NewExerciseModal
+      <AddOrEditExerciseModal
         showModal={showAddModal}
         setShowModal={setShowAddModal}
-        onAdd={onAdd}
+        onComplete={onCompleteModal}
         setExercises={setExercises}
       />
       <SearchBar

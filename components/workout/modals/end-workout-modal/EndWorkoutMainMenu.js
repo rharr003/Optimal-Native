@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
-import CustomButton from "../../../ui/CustomButton";
+import CustomButton from "../../../shared/CustomButton";
 import { useSelector } from "react-redux";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import CancelButton from "./CancelButton";
 import NewWorkoutButtons from "./NewWorkoutButtons";
 import TemplateButtons from "./TemplateButtons";

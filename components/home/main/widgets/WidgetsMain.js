@@ -1,16 +1,18 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
-import CustomButton from "../ui/CustomButton";
+import { View, ScrollView, StyleSheet } from "react-native";
+import CustomButton from "../../../shared/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import TotalTime from "./widgets/TotalTime";
-import WeeklyNumWorkouts from "./widgets/WeeklyNumWorkouts";
-import WeeklyVolume from "./widgets/WeeklyVolume";
-import { ColorPalette } from "../ui/ColorPalette";
-import AllTimeStats from "./widgets/AllTimeStats";
+import WeeklyNumWorkouts from "./weekly-num-workouts/WeeklyNumWorkouts";
+import WeeklyVolume from "./weekly-volume/WeeklyVolume";
+import { ColorPalette } from "../../../../ColorPalette";
+import AllTimeStats from "./all-time-stats/AllTimeStats";
+import { useSelector } from "react-redux";
 
-export default function WidgetContainer({ widgets }) {
+export default function WidgetMain() {
+  const widgets = useSelector((state) => state.widgets.widgetList);
   const navigation = useNavigation();
+
   function openAddWidgetModal() {
-    navigation.navigate("AddWidgetModal");
+    navigation.navigate("add-widget-modal");
   }
 
   return (
@@ -37,7 +39,7 @@ export default function WidgetContainer({ widgets }) {
         title="Edit Widgets"
         iconName="add-circle-outline"
         textColor={ColorPalette.dark.secondary200}
-        style={{ marginTop: 80, marginBottom: 50 }}
+        style={styles.customButtonStyle}
       />
       <View style={styles.footer}></View>
     </ScrollView>
@@ -60,5 +62,10 @@ const styles = StyleSheet.create({
   footer: {
     height: 50,
     width: "100%",
+  },
+
+  customButtonStyle: {
+    marginTop: 80,
+    marginBottom: 50,
   },
 });

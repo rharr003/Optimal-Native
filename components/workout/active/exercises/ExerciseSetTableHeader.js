@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 
 export default function ExerciseSetTableHeader({
   handleModalToggle,

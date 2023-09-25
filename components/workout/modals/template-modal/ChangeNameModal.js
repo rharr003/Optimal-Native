@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput } from "react-native";
-import CustomButton from "../../../ui/CustomButton";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import CustomButton from "../../../shared/CustomButton";
+import { ColorPalette } from "../../../../ColorPalette";
 import { useState } from "react";
 import { updateTemplateName } from "../../../../util/sqlite/db";
 

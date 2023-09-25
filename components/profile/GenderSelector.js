@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { ColorPalette } from "../ui/ColorPalette";
+import { ColorPalette } from "../../ColorPalette";
 import SelectDropdown from "react-native-select-dropdown";
 
 const windowWidth = Dimensions.get("window").width;

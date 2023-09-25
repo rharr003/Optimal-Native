@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { parseDate } from "../../../util/chart/formatWeightData";
-import SwipeToDeleteView from "../../ui/SwipeToDeleteView";
+import SwipeToDeleteView from "../../shared/SwipeToDeleteView";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function StatDetailEntry({

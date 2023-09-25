@@ -1,4 +1,4 @@
-import { ColorPalette } from "../../components/ui/ColorPalette";
+import { ColorPalette } from "../../ColorPalette";
 export function createChartDataObjExercise(data) {
   function calculateSpacingInterval() {
     if (data.length < 5) return 1;

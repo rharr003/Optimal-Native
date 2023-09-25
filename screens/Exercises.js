@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { ColorPalette } from "../components/ui/ColorPalette";
+import { ColorPalette } from "../ColorPalette";
 import ExerciseDetail from "../components/exercises/ExerciseDetail";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ExercisesMain from "../components/exercises/ExercisesMain";

@@ -11,7 +11,7 @@ export default function ExercisesMain({ navigation }) {
     return;
   }
 
-  async function onAdd(name, equipment, bodyPart, setExercises) {
+  async function onCompleteModal(name, equipment, bodyPart, setExercises) {
     const newExercise = await insertExercise(name, equipment, bodyPart);
     const letter = name[0].toUpperCase();
 
@@ -35,7 +35,11 @@ export default function ExercisesMain({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ExerciseList onPress={onPress} onInit={onInit} onAdd={onAdd} />
+      <ExerciseList
+        onPress={onPress}
+        onInit={onInit}
+        onCompleteModal={onCompleteModal}
+      />
     </View>
   );
 }

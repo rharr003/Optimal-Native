@@ -1,7 +1,7 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import { useLayoutEffect, useState, useEffect } from "react";
-import { ColorPalette } from "../../ui/ColorPalette";
-import CustomButton from "../../ui/CustomButton";
+import { ColorPalette } from "../../../ColorPalette";
+import CustomButton from "../../shared/CustomButton";
 import Record from "./Record";
 import { fetchUserMetrics } from "../../../util/sqlite/db";
 import StatDetailEntry from "./StatDetailEntry";

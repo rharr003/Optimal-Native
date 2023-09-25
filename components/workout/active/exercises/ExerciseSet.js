@@ -1,6 +1,6 @@
 import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import * as Haptics from "expo-haptics";
 import * as Notifications from "expo-notifications";
 import { useDispatch } from "react-redux";

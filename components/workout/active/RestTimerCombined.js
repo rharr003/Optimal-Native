@@ -3,8 +3,8 @@ import { formatTime } from "../../../util/formatTime";
 import * as Notifications from "expo-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import persistRestTimer from "../../../util/persistRestTimer";
-import CustomButton from "../../ui/CustomButton";
-import { ColorPalette } from "../../ui/ColorPalette";
+import CustomButton from "../../shared/CustomButton";
+import { ColorPalette } from "../../../ColorPalette";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { View, StyleSheet, Text, AppState } from "react-native";
 import {

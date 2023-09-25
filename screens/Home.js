@@ -1,55 +1,41 @@
-import { View, StyleSheet, SafeAreaView } from "react-native";
-import { fetchWidgets } from "../util/sqlite/db";
-import { useEffect, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import WidgetContainer from "../components/home/WidgetContainer";
-import AddWidgetModal from "../components/home/AddWidgetModal";
-import { useIsFocused } from "@react-navigation/native";
-import { ColorPalette } from "../components/ui/ColorPalette";
+import { ColorPalette } from "../ColorPalette";
+import AddWidgetModal from "../components/home/add-widget-modal/AddWidgetModal";
+import HomeMain from "../components/home/main/HomeMain";
+
+const screenOptions = {
+  contentStyle: {
+    backgroundColor: ColorPalette.dark.gray900,
+  },
+  headerStyle: {
+    backgroundColor: ColorPalette.dark.gray800,
+  },
+  headerTintColor: ColorPalette.dark.gray100,
+};
 
 const Stack = createNativeStackNavigator();
 
 export default function Home() {
-  const isFocused = useIsFocused();
-  const [widgets, setWidgets] = useState([]);
-  useEffect(() => {
-    async function checkWidgets() {
-      const widgets = await fetchWidgets();
-      setWidgets(widgets);
-    }
-    checkWidgets();
-  }, [isFocused]);
-
   return (
     <View style={styles.container}>
-      <Stack.Navigator
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: ColorPalette.dark.gray900,
-          },
-          headerStyle: {
-            backgroundColor: ColorPalette.dark.gray800,
-          },
-          headerTintColor: ColorPalette.dark.gray100,
-        }}
-      >
+      <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen
           name="main"
           options={{
             headerShown: false,
           }}
-        >
-          {() => <WidgetContainer widgets={widgets} />}
-        </Stack.Screen>
+          component={HomeMain}
+        />
+
         <Stack.Screen
-          name="AddWidgetModal"
+          name="add-widget-modal"
           options={{
             presentation: "modal",
             headerTitle: "Add Widget",
           }}
-        >
-          {() => <AddWidgetModal widgets={widgets} setWidgets={setWidgets} />}
-        </Stack.Screen>
+          component={AddWidgetModal}
+        />
       </Stack.Navigator>
     </View>
   );

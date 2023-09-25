@@ -6,7 +6,7 @@ import {
   fetchRecentWeightDataWeeklyAvg,
   fetchRecentWeightDataMonthlyAvg,
 } from "../../../util/sqlite/db";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 
 export default function ChartFilter({
   setIndexesToHide,

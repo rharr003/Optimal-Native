@@ -1,26 +1,25 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
-import { useIsFocused } from "@react-navigation/native";
-import { fetchNumWorkoutsAllTime } from "../../../util/sqlite/db";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { useEffect } from "react";
+import { fetchNumWorkoutsAllTime } from "../../../../../util/sqlite/db";
+import { ColorPalette } from "../../../../../ColorPalette";
+import { useDispatch, useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { setTotalNumWorkouts } from "../../../../../util/redux/widgets";
 
 export default function TotalNumWorkouts() {
-  const [numWorkouts, setNumWorkouts] = useState(0);
-  const isFocused = useIsFocused();
+  const numWorkouts = useSelector((state) => state.widgets.totalNumWorkouts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetch() {
       const result = await fetchNumWorkoutsAllTime();
-      setNumWorkouts(result);
+      dispatch(setTotalNumWorkouts(result));
     }
-
-    if (isFocused) fetch();
-  }, [isFocused]);
+    fetch();
+  }, []);
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Workouts:</Text> */}
       <Ionicons
         name="trending-up-outline"
         size={32}

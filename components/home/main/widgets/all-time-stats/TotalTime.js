@@ -1,22 +1,23 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
-import { useIsFocused } from "@react-navigation/native";
-import { fetchTotalTimeAllTime } from "../../../util/sqlite/db";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { useEffect } from "react";
+import { fetchTotalTimeAllTime } from "../../../../../util/sqlite/db";
+import { ColorPalette } from "../../../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
+import { setTotalTime } from "../../../../../util/redux/widgets";
 
 export default function TotalTime() {
-  const [totalTime, setTotalTime] = useState(0);
-  const isFocused = useIsFocused();
+  const totalTime = useSelector((state) => state.widgets.totalTime);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetch() {
       const result = await fetchTotalTimeAllTime();
-      setTotalTime(result);
+      dispatch(setTotalTime(result));
     }
 
-    if (isFocused) fetch();
-  }, [isFocused]);
+    fetch();
+  }, []);
 
   function parseTime(time) {
     let days = Math.floor(time / 86400);
@@ -31,7 +32,6 @@ export default function TotalTime() {
   }
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Time:</Text> */}
       <Ionicons
         name="time-outline"
         size={32}

@@ -1,8 +1,8 @@
 import { View, TextInput, Keyboard, StyleSheet } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SelectDropdown from "react-native-select-dropdown";
-import CustomButton from "../../ui/CustomButton";
+import CustomButton from "../../shared/CustomButton";
 
 export default function SearchBar({
   search,
@@ -68,17 +68,6 @@ export default function SearchBar({
           onPress={handleAddModalOpen}
         />
         <SelectDropdown
-          // data={[
-          //   "Any",
-          //   "Chest",
-          //   "Back",
-          //   "Shoulders",
-          //   "Biceps",
-          //   "Triceps",
-          //   "Abs",
-          //   "Legs",
-          // ]}
-
           data={[
             "Any",
             "Abs",

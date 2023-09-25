@@ -1,9 +1,9 @@
-import CustomButton from "../../../ui/CustomButton";
+import CustomButton from "../../../shared/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { stopWorkout } from "../../../../util/redux/workout";
 import { stopRestTimer } from "../../../../util/redux/restTimer";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import {
   insertWorkout,
   insertWorkoutExercise,

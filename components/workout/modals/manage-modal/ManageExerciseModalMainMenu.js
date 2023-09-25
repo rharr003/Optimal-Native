@@ -1,5 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { ColorPalette } from "../../../ui/ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import ManageModalItem from "./ManageModalItem";
 import { removeExercise } from "../../../../util/redux/workout";
 import { updateExerciseRestTime } from "../../../../util/sqlite/db";

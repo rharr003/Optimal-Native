@@ -1,5 +1,5 @@
 import { smoothEmptyData } from "./smoothEmptyData";
-import { ColorPalette } from "../../components/ui/ColorPalette";
+import { ColorPalette } from "../../ColorPalette";
 import { buildWeekArray } from "./buildWeekArray";
 import { buildDayArray } from "./buildDayArray";
 import { buildMonthArray } from "./buildMonthArray";

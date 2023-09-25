@@ -1,47 +1,35 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { getWeeklyVolumePastSixWeeks } from "../../../util/sqlite/db";
+import { getWeeklyVolumePastSixWeeks } from "../../../../../util/sqlite/db";
 import { useEffect, useState } from "react";
 import { BarChart } from "react-native-chart-kit";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../../../ColorPalette";
 import { useIsFocused } from "@react-navigation/native";
+import {
+  chartConfig,
+  buildChartDataObj,
+} from "../../../../../util/chart/home/weeklyVolume";
+import { useDispatch, useSelector } from "react-redux";
+import { setWeeklyVolumeLastSixWeeksData } from "../../../../../util/redux/widgets";
 
 export default function WeeklyVolume() {
-  const [weeklyVolume, setWeeklyVolume] = useState([]);
+  const weeklyVolume = useSelector(
+    (state) => state.widgets.weeklyVolumeLastSixWeeksData
+  );
   const isEmpty = weeklyVolume.every((item) => item.totalVolume === 0);
   const max = Math.max(...weeklyVolume.map((item) => item.totalVolume));
-  const isFocused = useIsFocused();
+  const chartWidth = Dimensions.get("window").width - 20;
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function fetch() {
       const result = await getWeeklyVolumePastSixWeeks();
-      setWeeklyVolume(result);
+      dispatch(setWeeklyVolumeLastSixWeeksData(result));
     }
-    if (isFocused) fetch();
-  }, [isFocused]);
+    fetch();
+  }, []);
 
-  const data = {
-    labels: weeklyVolume.map((item) => item.label),
-    datasets: [
-      {
-        data: weeklyVolume.map((item) => item.totalVolume),
-      },
-    ],
-  };
-
-  const chartConfig = {
-    backgroundGradientFrom: "#01ffe6",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#004b42",
-    backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => "#80fdf1",
-    strokeWidth: 2,
-    barPercentage: 1,
-    useShadowColorFromDataset: false,
-    propsForBackgroundLines: {
-      fillOpacity: 0,
-      strokeOpacity: 0.7,
-    },
-    decimalPlaces: 0,
-  };
+  const data = buildChartDataObj(weeklyVolume);
+  const fromNumber = max > 5000 ? max : 5000;
 
   return (
     <View style={styles.container}>
@@ -49,14 +37,14 @@ export default function WeeklyVolume() {
       <View style={styles.chartContainer}>
         <BarChart
           data={data}
-          width={Dimensions.get("window").width - 20}
+          width={chartWidth}
           height={220}
           chartConfig={chartConfig}
           withInnerLines={false}
           withHorizontalLabels={!isEmpty}
           withVerticalLabels={!isEmpty}
-          style={{ marginLeft: -30 }}
-          fromNumber={max > 5000 ? max : 5000}
+          style={styles.chartOffset}
+          fromNumber={fromNumber}
           fromZero={true}
         />
       </View>
@@ -76,6 +64,10 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  chartOffset: {
+    marginLeft: -30,
   },
 
   title: {

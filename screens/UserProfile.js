@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { fetchUserData, setUserData as setUserDataDB } from "../util/sqlite/db";
-import { ColorPalette } from "../components/ui/ColorPalette";
+import { ColorPalette } from "../ColorPalette";
 import DatePicker from "react-native-date-picker";
 import ActivityLevelSelector from "../components/profile/ActivityLevelSelector";
 import { useIsFocused } from "@react-navigation/native";

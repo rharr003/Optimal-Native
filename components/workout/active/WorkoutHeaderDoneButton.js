@@ -1,9 +1,9 @@
-import CustomButton from "../../ui/CustomButton";
+import CustomButton from "../../shared/CustomButton";
 import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { updateWorkoutDuration } from "../../../util/redux/workout";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 
 export default function WorkoutHeaderDoneButton({ handleOpenModal }) {
   const timer = useSelector((state) => state.workout.timer);

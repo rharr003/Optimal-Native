@@ -5,7 +5,7 @@ import Weight from "./Weight";
 import { useState, useEffect } from "react";
 import calculateTdee from "../../../util/calculateTdee";
 import TdeeProgressChart from "../TdeeProgressChart";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import {

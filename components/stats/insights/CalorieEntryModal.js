@@ -1,8 +1,8 @@
-import CenteredModal from "../../ui/CenteredModal";
-import CustomButton from "../../ui/CustomButton";
+import CenteredModal from "../../shared/CenteredModal";
+import CustomButton from "../../shared/CustomButton";
 import { setCurrentIntake as dbSetIntake } from "../../../util/sqlite/db";
 import { StyleSheet, View, TextInput } from "react-native";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentIntake as setCurrentIntakeRedux } from "../../../util/redux/userData";

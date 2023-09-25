@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ColorPalette } from "../components/ui/ColorPalette";
+import { ColorPalette } from "../ColorPalette";
 import StatsHome from "../components/stats/StatsHome";
 import StatDetail from "../components/stats/detail/StatDetail";
 

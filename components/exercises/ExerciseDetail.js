@@ -7,16 +7,24 @@ import {
   getBestSetsConsecutiveRepsLast6Months,
   getBestSetsHoldTime,
   getBestSetsHoldTimeLast6Months,
+  updateExercise,
+  deleteExercise,
 } from "../../util/sqlite/db";
 import ExercisePerformance from "./ExercisePerformance";
 import ExercisePerformanceHeader from "./ExercisePerformanceHeader";
-import LineChart from "../ui/charts/line-chart/LineChart";
+import LineChart from "../shared/line-chart/LineChart";
 import { createChartDataObjExercise } from "../../util/chart/createChartDataObjExercise";
-import { ColorPalette } from "../ui/ColorPalette";
+import { ColorPalette } from "../../ColorPalette";
+import ExerciseEditButton from "./ExerciseEditButton";
+import ExerciseDeleteButton from "./ExerciseDeleteButton";
+import AddOrEditExerciseModal from "../shared/AddOrEditExerciseModal";
+import DeleteModal from "./DeleteModal";
 
 export default function ExerciseDetail({ route, navigation }) {
   const [performances, setPerformances] = useState([]);
   const [chartTitle, setChartTitle] = useState("1 Rep Max (lbs)");
+  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [thirdColumnName, setThirdColumnName] = useState("Date");
   const [chartData, setChartData] = useState({
     labels: [],
@@ -25,9 +33,19 @@ export default function ExerciseDetail({ route, navigation }) {
   });
   const { exercise } = route.params;
 
+  function openModal() {
+    setShowModal(true);
+  }
+
+  function openDeleteModal() {
+    setShowDeleteModal(true);
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: exercise.name,
+      headerRight: () => <ExerciseEditButton onPress={openModal} />,
+      headerLeft: () => <ExerciseDeleteButton onPress={openDeleteModal} />,
     });
   }, []);
 
@@ -84,11 +102,40 @@ export default function ExerciseDetail({ route, navigation }) {
     decimalPlaces: 0,
   };
 
+  async function onCompleteModal(name, equipment, bodyPart) {
+    const newExercise = await updateExercise(
+      exercise.id,
+      name,
+      equipment.toLowerCase(),
+      bodyPart
+    );
+    navigation.setOptions({
+      headerTitle: newExercise.name,
+    });
+    setShowModal(false);
+  }
+
+  async function handleDeleteExercise() {
+    await deleteExercise(exercise.id);
+    navigation.goBack();
+  }
+
   return (
     <View style={styles.container}>
-      <View
-        style={{ height: 260, justifyContent: "center", alignItems: "center" }}
-      >
+      <AddOrEditExerciseModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        onComplete={onCompleteModal}
+        isEditing={true}
+        exercise={exercise}
+      />
+      <DeleteModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        exercise={exercise}
+        onDelete={handleDeleteExercise}
+      />
+      <View style={styles.chartView}>
         <LineChart
           title={chartTitle}
           data={chartData}
@@ -98,14 +145,7 @@ export default function ExerciseDetail({ route, navigation }) {
           hideHorizontalLabels={chartData.datasets.length > 0 ? false : true}
         />
       </View>
-      <View
-        style={{
-          marginTop: 20,
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.performanceView}>
         <Text style={styles.title}>Top Performances</Text>
         <ExercisePerformanceHeader thirdColumnName={thirdColumnName} />
         <FlatList
@@ -142,5 +182,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: ColorPalette.dark.gray300,
     marginBottom: 10,
+  },
+
+  performanceView: {
+    marginTop: 20,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  chartView: {
+    height: 260,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

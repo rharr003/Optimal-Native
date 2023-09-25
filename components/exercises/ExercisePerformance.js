@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../ui/ColorPalette";
+import { ColorPalette } from "../../ColorPalette";
 
 export default function ExercisePerformance({ performance, index, equipment }) {
   const localDate = new Date(performance.date).toLocaleString("default", {

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import WorkoutHeaderTimer from "../active/WorkoutHeaderTimers";
 import { useSelector } from "react-redux";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { useEffect } from "react";
 
 export default function WorkoutHomeActiveWorkoutLabel() {

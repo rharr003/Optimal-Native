@@ -1,4 +1,4 @@
-import { ColorPalette } from "../../ui/ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutActiveMain from "./WorkoutActiveMain";
 import WorkoutHeaderTimer from "./WorkoutHeaderTimers";

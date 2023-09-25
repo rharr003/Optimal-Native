@@ -1,26 +1,27 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import { getTotalVolumeAllTime } from "../../../util/sqlite/db";
-import { ColorPalette } from "../../ui/ColorPalette";
+import { getTotalVolumeAllTime } from "../../../../../util/sqlite/db";
+import { ColorPalette } from "../../../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
+import { setTotalVolume } from "../../../../../util/redux/widgets";
 
 export default function TotalVolum() {
-  const [totalVolume, setTotalVolume] = useState("");
-  const isFocused = useIsFocused();
+  const totalVolume = useSelector((state) => state.widgets.totalVolume);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetch() {
       const result = await getTotalVolumeAllTime();
-      setTotalVolume(result);
+      dispatch(setTotalVolume(result));
     }
 
-    if (isFocused) fetch();
-  }, [isFocused]);
+    fetch();
+  }, []);
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Volume:</Text> */}
       <Ionicons
         name="barbell-outline"
         size={32}
