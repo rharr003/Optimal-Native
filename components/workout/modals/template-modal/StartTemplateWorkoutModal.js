@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { ColorPalette } from "../../../../ColorPalette";
-import CustomButton from "../../../shared/CustomButton";
+import CustomButton from "../../../shared/ui/CustomButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import {

@@ -1,58 +1,53 @@
 import { Text, View, StyleSheet } from "react-native";
-import { LineChart } from "react-native-chart-kit";
-import { useWindowDimensions } from "react-native";
 import { ColorPalette } from "../../../../../ColorPalette";
 import ChartFilter from "./ChartFilter";
-import { createChartDataObj } from "../../../../../util/chart/formatWeightData";
+import { useState, useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import {
+  fetchRecentWeightDataWeeklyAvg,
+  fetchRecentWeightDataDailyAvg,
+  fetchRecentWeightDataMonthlyAvg,
+} from "../../../../../util/sqlite/db";
+import LineChart from "./LineChart";
+import PressableOverlay from "../../../../shared/ui/PressableOverlay";
 
-export default function ChartMain({
-  metricData,
-  hiddenIndexes,
-  setIndexesToHide,
-  setMetricData,
-  setCurrFormat,
-}) {
-  const windowWidth = useWindowDimensions().width;
-  const data = createChartDataObj(metricData);
+export default function ChartMain({}) {
+  const [currFormat, setCurrFormat] = useState("weekly");
+  const [metricData, setMetricData] = useState([]);
+  const [indexesToHide, setIndexesToHide] = useState([]);
+  const isFocused = useIsFocused();
 
-  const chartConfig = {
-    backgroundGradientFrom: "#01ffe6",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#004b42",
-    backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => "#80fdf1",
-    strokeWidth: 2,
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false,
-    propsForBackgroundLines: {
-      fillOpacity: 0,
-      strokeOpacity: 0.5,
-    },
-    decimalPlaces: 1,
-  };
+  const withHorizontalLabels = metricData.length > 0 ? true : false;
+
+  useEffect(() => {
+    async function fetch() {
+      if (isFocused) {
+        let data;
+        let hiddenIndexes;
+        if (currFormat === "weekly") {
+          [data, hiddenIndexes] = await fetchRecentWeightDataWeeklyAvg();
+        } else if (currFormat === "monthly") {
+          [data, hiddenIndexes] = await fetchRecentWeightDataMonthlyAvg();
+        } else if (currFormat === "daily") {
+          [data, hiddenIndexes] = await fetchRecentWeightDataDailyAvg();
+        }
+        setMetricData(data);
+        setIndexesToHide(hiddenIndexes);
+      }
+    }
+    if (isFocused) fetch();
+  }, [isFocused]);
 
   return (
-    <View
-      style={{
-        width: "100%",
-      }}
-    >
+    <View style={styles.container}>
       <LineChart
-        data={data}
-        width={windowWidth - 40}
-        height={240}
-        chartConfig={chartConfig}
-        hidePointsAtIndex={hiddenIndexes}
-        withVerticalLines={false}
-        withHorizontalLabels={metricData.length > 0 ? true : false}
+        rawData={metricData}
+        hiddenIndexes={indexesToHide}
+        withHorizontalLabels={withHorizontalLabels}
       />
 
       {!metricData.length && (
-        <View style={styles.chartOverlay}>
-          <Text style={[styles.chartOverlayText, styles.italic]}>
-            No Data For Period Selected
-          </Text>
-        </View>
+        <PressableOverlay message={"No data for this period"} opacity={0.5} />
       )}
       <ChartFilter
         setCurrFormat={setCurrFormat}
@@ -64,6 +59,9 @@ export default function ChartMain({
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
   chartOverlay: {
     position: "absolute",
     top: 0,

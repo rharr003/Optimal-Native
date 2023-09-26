@@ -1,13 +1,18 @@
-import CenteredModal from "../../../../shared/modals/CenteredModal";
-import CustomButton from "../../../../shared/ui/CustomButton";
-import { setCurrentIntake as dbSetIntake } from "../../../../../util/sqlite/db";
+import CenteredModal from "../../../shared/modals/CenteredModal";
+import CustomButton from "../../../shared/CustomButton";
+import { setCurrentIntake as dbSetIntake } from "../../../../util/sqlite/db";
 import { StyleSheet, View, TextInput } from "react-native";
-import { ColorPalette } from "../../../../../ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrentIntake as setCurrentIntakeRedux } from "../../../../../util/redux/userData";
+import { setCurrentIntake as setCurrentIntakeRedux } from "../../../../util/redux/userData";
 
-export default function CalorieEntryModal({ showModal, setShowModal }) {
+export default function CalorieEntryModal({
+  setCurrentIntake,
+  showModal,
+  setShowModal,
+  refresh,
+}) {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
 
@@ -16,25 +21,21 @@ export default function CalorieEntryModal({ showModal, setShowModal }) {
   }
 
   async function handleSave() {
-    if (!text) {
-      handleClose();
-      return;
-    }
     await dbSetIntake(parseFloat(text));
     dispatch(setCurrentIntakeRedux(parseFloat(text)));
-    setText("");
+    setCurrentIntake(parseFloat(text));
     setShowModal(false);
+    refresh();
   }
 
   function handleClose() {
-    setText("");
     setShowModal(false);
   }
 
   return (
     <CenteredModal
       showModal={showModal}
-      handleClose={handleClose}
+      handleClose={() => setShowModal(false)}
       style={{ height: 200 }}
     >
       <View style={styles.modalContainer}>
@@ -51,14 +52,14 @@ export default function CalorieEntryModal({ showModal, setShowModal }) {
             title="Save"
             color={ColorPalette.dark.secondary200}
             onPress={handleSave}
-            style={styles.customButtonStyle}
+            style={{ width: "45%" }}
           />
 
           <CustomButton
             title="Cancel"
             color={ColorPalette.dark.gray500}
             onPress={handleClose}
-            style={styles.customButtonStyle}
+            style={{ width: "45%" }}
           />
         </View>
       </View>
@@ -91,6 +92,4 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-
-  customButtonStyle: { width: "45%" },
 });

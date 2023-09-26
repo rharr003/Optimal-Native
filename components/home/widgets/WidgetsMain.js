@@ -1,14 +1,14 @@
 import { View, ScrollView, StyleSheet } from "react-native";
-import CustomButton from "../../../shared/ui/CustomButton";
+import CustomButton from "../../shared/ui/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import WeeklyNumWorkoutsMain from "./weekly-num-workouts/WeeklyNumWorkoutsMain";
-import WeeklyVolumeMain from "./weekly-volume/WeeklyVolumeMain";
-import { ColorPalette } from "../../../../ColorPalette";
-import AllTimeStatsMain from "./all-time-stats/AllTimeStatsMain";
+import WeeklyNumWorkouts from "./WeeklyNumWorkouts";
+import WeeklyVolume from "./WeeklyVolume";
+import { ColorPalette } from "../../../ColorPalette";
+import AllTimeStats from "./all-time-stats/AllTimeStats";
 import { useSelector } from "react-redux";
 
-export default function WidgetMain() {
-  const widgets = useSelector((state) => state.widgets.widgetList);
+export default function WidgetContainer() {
+  const widgets = useSelector((state) => state.widgets.widgets);
   const navigation = useNavigation();
 
   function openAddWidgetModal() {
@@ -24,11 +24,11 @@ export default function WidgetMain() {
         if (widget?.shouldDisplay) {
           switch (widget?.name) {
             case "AllTimeStats":
-              return <AllTimeStatsMain key={widget.id} />;
+              return <AllTimeStats key={widget.id} />;
             case "WeeklyNumWorkouts":
-              return <WeeklyNumWorkoutsMain key={widget.id} />;
+              return <WeeklyNumWorkouts key={widget.id} />;
             case "WeeklyVolume":
-              return <WeeklyVolumeMain key={widget.id} />;
+              return <WeeklyVolume key={widget.id} />;
             default:
               return null;
           }

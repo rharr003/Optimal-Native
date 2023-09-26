@@ -1,5 +1,5 @@
 import { Modal, StyleSheet, View, Pressable } from "react-native";
-import { ColorPalette } from "../../ColorPalette";
+import { ColorPalette } from "../../../ColorPalette";
 import { BlurView } from "expo-blur";
 
 export default function CenteredModal({

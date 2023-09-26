@@ -2,7 +2,7 @@ import { View, TextInput, Keyboard, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SelectDropdown from "react-native-select-dropdown";
-import CustomButton from "../../shared/CustomButton";
+import CustomButton from "../../shared/ui/CustomButton";
 
 export default function SearchBar({
   search,

@@ -12,7 +12,7 @@ import {
 } from "../../../util/redux/restTimer";
 import WorkoutHeaderDoneButton from "./WorkoutHeaderDoneButton";
 import { useNavigation } from "@react-navigation/native";
-import CenteredModal from "../../shared/CenteredModal";
+import CenteredModal from "../../shared/modals/CenteredModal";
 import EndWorkoutMainMenu from "../modals/end-workout-modal/EndWorkoutMainMenu";
 
 export default function WorkoutActiveMain({ interval }) {

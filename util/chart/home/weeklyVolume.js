@@ -1,4 +1,4 @@
-import { parseDate } from "../formatWeightData";
+import { parseDate } from "../tracking/formatWeightData";
 import { buildWeekArray } from "../buildWeekArray";
 
 function calculateVolume(set) {

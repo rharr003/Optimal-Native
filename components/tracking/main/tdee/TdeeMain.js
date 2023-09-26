@@ -6,7 +6,7 @@ import calculateTdee from "../../../../util/calculateTdee";
 import { useNavigation } from "@react-navigation/native";
 import TdeeChartMain from "./tdee-chart/TdeeChartMain";
 import TdeeTargets from "./tdee-chart/targets/TargetsMain";
-import Overlay from "./tdee-chart/overlay/Overlay";
+import PressableOverlay from "../../../shared/ui/PressableOverlay";
 
 export default function TdeeMain() {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ export default function TdeeMain() {
   const overlayMessage = useSelector((state) => state.userData.overlayMessage);
 
   function handlePress() {
-    navigation.navigate("Profile");
+    navigation.navigate("profile");
   }
 
   useEffect(() => {
@@ -32,10 +32,16 @@ export default function TdeeMain() {
     fetch();
   }, []);
 
+  console.log(overlayMessage);
+
   return (
     <View style={styles.container}>
       {overlayMessage !== "" && (
-        <Overlay overlayMessage={overlayMessage} handlePress={handlePress} />
+        <PressableOverlay
+          message={overlayMessage}
+          onPress={handlePress}
+          zIndex={1}
+        />
       )}
       <View style={styles.chartContainer}>
         <TdeeChartMain />

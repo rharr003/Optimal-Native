@@ -1,6 +1,6 @@
-import CenteredModal from "../../shared/CenteredModal";
+import CenteredModal from "../../shared/modals/CenteredModal";
 import { View, TextInput, StyleSheet } from "react-native";
-import CustomButton from "../../shared/CustomButton";
+import CustomButton from "../../shared/ui/CustomButton";
 import { ColorPalette } from "../../../ColorPalette";
 import { useState } from "react";
 import {

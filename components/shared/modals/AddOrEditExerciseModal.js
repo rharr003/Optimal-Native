@@ -1,11 +1,11 @@
 import CenteredModal from "./CenteredModal";
 import { View, StyleSheet, Text, TextInput, Keyboard } from "react-native";
-import CustomButton from "./CustomButton";
-import { ColorPalette } from "../../ColorPalette";
+import CustomButton from "../ui/CustomButton";
+import { ColorPalette } from "../../../ColorPalette";
 import SelectDropdown from "react-native-select-dropdown";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState, useEffect } from "react";
-import ExerciseEditModalContent from "../exercises/ExerciseEditModalContent";
+import ExerciseEditModalContent from "../../exercises/ExerciseEditModalContent";
 
 const equipmentOptions = [
   "Barbell",

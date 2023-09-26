@@ -1,4 +1,4 @@
-import CustomButton from "../shared/CustomButton";
+import CustomButton from "../shared/ui/CustomButton";
 import { View, Text, StyleSheet } from "react-native";
 import { ColorPalette } from "../../ColorPalette";
 

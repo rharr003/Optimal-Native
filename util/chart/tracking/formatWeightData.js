@@ -1,8 +1,8 @@
-import { smoothEmptyData } from "./smoothEmptyData";
-import { ColorPalette } from "../../ColorPalette";
-import { buildWeekArray } from "./buildWeekArray";
-import { buildDayArray } from "./buildDayArray";
-import { buildMonthArray } from "./buildMonthArray";
+import { smoothEmptyData } from "../smoothEmptyData";
+import { ColorPalette } from "../../../ColorPalette";
+import { buildWeekArray } from "../buildWeekArray";
+import { buildDayArray } from "../buildDayArray";
+import { buildMonthArray } from "../buildMonthArray";
 
 export function formatDailyAvg(data, start, end) {
   let days = buildDayArray(start, end);
@@ -135,3 +135,19 @@ export function createChartDataObj(metricData, transparent) {
 
   return data;
 }
+
+export const chartConfig = {
+  backgroundGradientFrom: "#01ffe6",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#004b42",
+  backgroundGradientToOpacity: 0,
+  color: (opacity = 1) => "#80fdf1",
+  strokeWidth: 2,
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false,
+  propsForBackgroundLines: {
+    fillOpacity: 0,
+    strokeOpacity: 0.5,
+  },
+  decimalPlaces: 1,
+};

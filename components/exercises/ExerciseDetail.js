@@ -17,7 +17,7 @@ import { createChartDataObjExercise } from "../../util/chart/createChartDataObjE
 import { ColorPalette } from "../../ColorPalette";
 import ExerciseEditButton from "./ExerciseEditButton";
 import ExerciseDeleteButton from "./ExerciseDeleteButton";
-import AddOrEditExerciseModal from "../shared/AddOrEditExerciseModal";
+import AddOrEditExerciseModal from "../shared/modals/AddOrEditExerciseModal";
 import DeleteModal from "./DeleteModal";
 
 export default function ExerciseDetail({ route, navigation }) {

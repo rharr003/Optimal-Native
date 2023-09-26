@@ -1,6 +1,6 @@
 import ChangeNameModal from "./ChangeNameModal";
 import StartTemplateWorkoutModal from "./StartTemplateWorkoutModal";
-import CenteredModal from "../../../shared/CenteredModal";
+import CenteredModal from "../../../shared/modals/CenteredModal";
 import { StyleSheet } from "react-native";
 
 export default function TemplateModals({

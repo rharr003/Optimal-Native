@@ -1,4 +1,4 @@
-import CustomButton from "../../../shared/CustomButton";
+import CustomButton from "../../../shared/ui/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { stopWorkout } from "../../../../util/redux/workout";

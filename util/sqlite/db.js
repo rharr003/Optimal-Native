@@ -938,7 +938,7 @@ export const fetchUserMetrics = (metric_id) => {
   return promise;
 };
 
-import { formatDailyAvg } from "../chart/formatWeightData";
+import { formatDailyAvg } from "../chart/tracking/formatWeightData";
 
 // average by day for last 6 days
 
@@ -977,7 +977,10 @@ export const fetchRecentWeightDataDailyAvg = () => {
   return promise;
 };
 
-import { formatWeeklyAvg, getCurrWeekMonday } from "../chart/formatWeightData";
+import {
+  formatWeeklyAvg,
+  getCurrWeekMonday,
+} from "../chart/tracking/formatWeightData";
 
 // average by week for last 6 weeks
 export const fetchRecentWeightDataWeeklyAvg = () => {
@@ -1026,7 +1029,7 @@ export const fetchRecentWeightDataWeeklyAvg = () => {
   return promise;
 };
 
-import { formatMonthlyAvg } from "../chart/formatWeightData";
+import { formatMonthlyAvg } from "../chart/tracking/formatWeightData";
 // average by month for last 6 months
 export const fetchRecentWeightDataMonthlyAvg = () => {
   const now = new Date().toISOString().split("T")[0];

@@ -5,7 +5,7 @@ import {
   fetchRecentWeightDataWeeklyAvg,
 } from "../../../../../util/sqlite/db";
 import { ColorPalette } from "../../../../../ColorPalette";
-import CustomButton from "../../../../shared/CustomButton";
+import CustomButton from "../../../../shared/ui/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -17,7 +17,7 @@ export default function CurrentWeight() {
   async function handlePress() {
     const [measurements, indexesToHide] =
       await fetchRecentWeightDataWeeklyAvg();
-    navigation.navigate("detail", {
+    navigation.navigate("weight-detail", {
       metric: { id: 1, name: "weight", unit: "lbs" },
       measurements,
       indexesToHide,

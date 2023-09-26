@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 import ExerciseLetterGroup from "./ExerciseLetterGroup";
 import { useState, useEffect } from "react";
 import { fetchExercises } from "../../../util/sqlite/db";
-import AddOrEditExerciseModal from "../../shared/AddOrEditExerciseModal";
+import AddOrEditExerciseModal from "../../shared/modals/AddOrEditExerciseModal";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function ExerciseList({

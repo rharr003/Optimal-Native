@@ -9,8 +9,6 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
 import TemplateModals from "../modals/template-modal/TemplateModals";
-import CustomButton from "../../shared/CustomButton";
-import { ColorPalette } from "../../../ColorPalette";
 
 export default function TemplateContainer() {
   const [templates, setTemplates] = useState([]);

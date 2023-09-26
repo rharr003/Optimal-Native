@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import CustomButton from "../../shared/CustomButton";
+import CustomButton from "../../shared/ui/CustomButton";
 import { ColorPalette } from "../../../ColorPalette";
 
 export default function HeaderButton({ isReplacing, onPress }) {

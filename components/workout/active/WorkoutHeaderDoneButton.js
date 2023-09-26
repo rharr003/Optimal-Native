@@ -1,4 +1,4 @@
-import CustomButton from "../../shared/CustomButton";
+import CustomButton from "../../shared/ui/CustomButton";
 import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";

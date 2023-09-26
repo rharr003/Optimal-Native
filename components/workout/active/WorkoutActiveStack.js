@@ -4,7 +4,6 @@ import WorkoutActiveMain from "./WorkoutActiveMain";
 import WorkoutHeaderTimer from "./WorkoutHeaderTimers";
 import AddExercise from "../add-exercise/AddExercise";
 import WorkoutHeaderTitle from "./WorkoutHeaderTitle";
-import { useRoute } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 

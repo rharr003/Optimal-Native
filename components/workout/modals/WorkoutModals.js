@@ -1,4 +1,4 @@
-import CenteredModal from "../../shared/CenteredModal";
+import CenteredModal from "../../shared/modals/CenteredModal";
 import ManageExerciseModalMainMenu from "./manage-modal/ManageExerciseModalMainMenu";
 import RestTimerCombined from "../active/RestTimerCombined";
 

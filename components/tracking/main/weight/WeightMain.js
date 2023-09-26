@@ -1,10 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../ColorPalette";
-import {
-  fetchRecentWeightDataWeeklyAvg,
-  fetchRecentWeightDataDailyAvg,
-  fetchRecentWeightDataMonthlyAvg,
-} from "../../../../util/sqlite/db";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import ChartMain from "./chart/ChartMain";
@@ -16,24 +11,24 @@ export default function WeightMain() {
   const [indexesToHideState, setIndexesToHideState] = useState([]);
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    async function fetch() {
-      if (isFocused) {
-        let data;
-        let indexesToHide;
-        if (currFormat === "weekly") {
-          [data, indexesToHide] = await fetchRecentWeightDataWeeklyAvg();
-        } else if (currFormat === "monthly") {
-          [data, indexesToHide] = await fetchRecentWeightDataMonthlyAvg();
-        } else if (currFormat === "daily") {
-          [data, indexesToHide] = await fetchRecentWeightDataDailyAvg();
-        }
-        setMetricMeasurements(data);
-        setIndexesToHideState(indexesToHide);
-      }
-    }
-    if (isFocused) fetch();
-  }, [isFocused]);
+  // useEffect(() => {
+  //   async function fetch() {
+  //     if (isFocused) {
+  //       let data;
+  //       let indexesToHide;
+  //       if (currFormat === "weekly") {
+  //         [data, indexesToHide] = await fetchRecentWeightDataWeeklyAvg();
+  //       } else if (currFormat === "monthly") {
+  //         [data, indexesToHide] = await fetchRecentWeightDataMonthlyAvg();
+  //       } else if (currFormat === "daily") {
+  //         [data, indexesToHide] = await fetchRecentWeightDataDailyAvg();
+  //       }
+  //       setMetricMeasurements(data);
+  //       setIndexesToHideState(indexesToHide);
+  //     }
+  //   }
+  //   if (isFocused) fetch();
+  // }, [isFocused]);
 
   return (
     <View style={styles.container}>
