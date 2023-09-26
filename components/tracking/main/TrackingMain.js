@@ -1,22 +1,15 @@
 import { View, StyleSheet } from "react-native";
-import Calories from "./calories/Calories";
-import Weight from "./weight/Weight";
-import { useState } from "react";
+import CaloriesMain from "./calories/CaloriesMain";
+import WeightMain from "./weight/WeightMain";
 import TdeeMain from "./tdee/TdeeMain";
 
 export default function TrackingMain() {
-  const [reset, setReset] = useState(false);
-
-  function refresh() {
-    setReset(!reset);
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.rightView}>
-        <Weight />
+        <WeightMain />
       </View>
-      <Calories refresh={refresh} />
+      <CaloriesMain />
       <TdeeMain />
     </View>
   );

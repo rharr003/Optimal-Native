@@ -1,23 +1,23 @@
 import { StyleSheet, View } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
-import TdeeCalorieTarget from "./TdeeCalorieTarget";
+import Target from "./Target";
 import { useSelector } from "react-redux";
 
-export default function TdeeCalorieTargetContainer() {
+export default function TargetsMain() {
   const tdee = useSelector((state) => state.userData.tdee);
   return (
     <View style={styles.container}>
-      <TdeeCalorieTarget
+      <Target
         label={"Lose"}
         calories={tdee ? tdee - 500 : 0}
         color={ColorPalette.dark.error}
       />
-      <TdeeCalorieTarget
+      <Target
         label={"Maintain"}
         calories={tdee ? tdee : 0}
         color={ColorPalette.dark.secondary200}
       />
-      <TdeeCalorieTarget
+      <Target
         label={"Gain"}
         calories={tdee ? tdee + 350 : 0}
         color={ColorPalette.dark.primary200}

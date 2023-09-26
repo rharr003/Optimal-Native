@@ -6,7 +6,7 @@ import {
   buildChartDataObj,
 } from "../../../../../util/chart/tracking/tdee";
 
-export default function TdeeProgressChart() {
+export default function TdeeChartMain() {
   const tdee = useSelector((state) => state.userData.tdee);
   const currentIntake = useSelector((state) => state.userData.currentIntake);
   const data = buildChartDataObj(currentIntake, tdee);

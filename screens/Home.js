@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ColorPalette } from "../ColorPalette";
-import AddWidgetModal from "../components/home/add-widget-modal/AddWidgetModal";
+import AddWidgetModalMain from "../components/home/add-widget-modal/AddWidgetModalMain";
 import HomeMain from "../components/home/main/HomeMain";
 
 const screenOptions = {
@@ -34,7 +34,7 @@ export default function Home() {
             presentation: "modal",
             headerTitle: "Add Widget",
           }}
-          component={AddWidgetModal}
+          component={AddWidgetModalMain}
         />
       </Stack.Navigator>
     </View>

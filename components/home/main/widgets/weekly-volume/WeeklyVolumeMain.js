@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setWeeklyVolumeLastSixWeeksData } from "../../../../../util/redux/widgets";
 
-export default function WeeklyVolume() {
+export default function WeeklyVolumeMain() {
   const weeklyVolume = useSelector(
     (state) => state.widgets.weeklyVolumeLastSixWeeksData
   );

@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setNumWorkoutsLastSixWeeksData } from "../../../../../util/redux/widgets";
 
-export default function WeeklyNumWorkouts() {
+export default function WeeklyNumWorkoutsMain() {
   const numWorkouts = useSelector(
     (state) => state.widgets.numWorkoutsLastSixWeeksData
   );

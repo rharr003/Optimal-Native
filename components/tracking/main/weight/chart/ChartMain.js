@@ -1,11 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { useWindowDimensions } from "react-native";
-import { ColorPalette } from "../../../../ColorPalette";
+import { ColorPalette } from "../../../../../ColorPalette";
 import ChartFilter from "./ChartFilter";
-import { createChartDataObj } from "../../../../util/chart/formatWeightData";
+import { createChartDataObj } from "../../../../../util/chart/formatWeightData";
 
-export default function Chart({
+export default function ChartMain({
   metricData,
   hiddenIndexes,
   setIndexesToHide,

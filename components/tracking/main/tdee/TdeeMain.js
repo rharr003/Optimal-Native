@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { setOverlayMessage, setTdee } from "../../../../util/redux/userData";
 import calculateTdee from "../../../../util/calculateTdee";
 import { useNavigation } from "@react-navigation/native";
-import TdeeProgressChart from "./tdee-chart/TdeeProgressChart";
-import TdeeTargets from "./tdee-chart/targets/TdeeCalorieTargetContainer";
-import Overlay from "./tdee-chart/Overlay";
+import TdeeChartMain from "./tdee-chart/TdeeChartMain";
+import TdeeTargets from "./tdee-chart/targets/TargetsMain";
+import Overlay from "./tdee-chart/overlay/Overlay";
 
 export default function TdeeMain() {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ export default function TdeeMain() {
         <Overlay overlayMessage={overlayMessage} handlePress={handlePress} />
       )}
       <View style={styles.chartContainer}>
-        <TdeeProgressChart />
+        <TdeeChartMain />
         <TdeeTargets />
       </View>
     </View>

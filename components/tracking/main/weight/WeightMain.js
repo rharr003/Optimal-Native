@@ -7,10 +7,10 @@ import {
 } from "../../../../util/sqlite/db";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import Chart from "./Chart";
-import WeightHeader from "./WeightHeader";
+import ChartMain from "./chart/ChartMain";
+import CurrentWeight from "./current-weight/CurrentWeight";
 
-export default function Weight() {
+export default function WeightMain() {
   const [currFormat, setCurrFormat] = useState("weekly");
   const [metricMeasurements, setMetricMeasurements] = useState([]);
   const [indexesToHideState, setIndexesToHideState] = useState([]);
@@ -38,8 +38,8 @@ export default function Weight() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Weight Report</Text>
-      <WeightHeader />
-      <Chart
+      <CurrentWeight />
+      <ChartMain
         metricData={metricMeasurements}
         hiddenIndexes={indexesToHideState}
         setIndexesToHide={setIndexesToHideState}

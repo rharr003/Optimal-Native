@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import {
   fetchLastMetricValue,
   fetchRecentWeightDataWeeklyAvg,
-} from "../../../../util/sqlite/db";
-import { ColorPalette } from "../../../../ColorPalette";
-import CustomButton from "../../../shared/CustomButton";
+} from "../../../../../util/sqlite/db";
+import { ColorPalette } from "../../../../../ColorPalette";
+import CustomButton from "../../../../shared/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 
-export default function WeightHeader() {
+export default function CurrentWeight() {
   const [lastValue, setLastValue] = useState("No Data");
   const navigation = useNavigation();
   const isFocused = useIsFocused();

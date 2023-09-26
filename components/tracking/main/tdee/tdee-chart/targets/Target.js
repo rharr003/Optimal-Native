@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function TdeeCalorieTarget({ label, calories, color }) {
+export default function Target({ label, calories, color }) {
   return (
     <View style={styles.container}>
       <View style={styles.labelContainer}>

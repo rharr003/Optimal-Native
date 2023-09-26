@@ -1,5 +1,5 @@
 import { Pressable, View, Text, StyleSheet, Dimensions } from "react-native";
-import { ColorPalette } from "../../../../../ColorPalette";
+import { ColorPalette } from "../../../../../../ColorPalette";
 
 const width = Dimensions.get("window").width;
 
