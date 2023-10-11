@@ -6,16 +6,16 @@ export function smoothEmptyData(data) {
   let nextValidValue = 0;
   let numBetweenValid = 0;
 
-  //loop through data to find any empty datapoints and smooth them out.
-  //if the first datapoint is empty, skip it
-  //hide index on chart so the smoothed data point doesnt appear as a user input but the line is still continuous
+  //loop through data to find any empty datapoints and fill them out with the appropriate placeholder values to have a smooth line for charting.
 
   for (let i = 0; i < data.length; i++) {
     if (data[i].numDatapoints === 0 && lastNonZeroIndex === -1) {
+      //if the first datapoint is empty, skip it
       continue;
     } else if (data[i].numDatapoints === 0 && i === data.length - 1) {
       break;
     } else if (data[i].numDatapoints === 0) {
+      //hide index on chart so the smoothed data point doesnt appear as a user input but the line is still continuous
       indexesToHideOnChart.push(smoothedData.length);
       let currIndex = i;
       while (data[currIndex]?.numDatapoints === 0) {

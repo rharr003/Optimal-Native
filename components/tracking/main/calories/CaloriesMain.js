@@ -1,9 +1,9 @@
 import { View, StyleSheet } from "react-native";
 import { fetchCurrentIntake } from "../../../../util/sqlite/db";
 import { useEffect, useState } from "react";
-import CalorieEntryModal from "./intake/IntakeEntryModal";
+import IntakeEntryModal from "./intake/IntakeEntryModal";
 import { useDispatch } from "react-redux";
-import { setCurrentIntake } from "../../../../util/redux/userData";
+import { setCurrentIntake } from "../../../../util/redux/slices/userData";
 import Pacing from "./pacing/Pacing";
 import IntakeMain from "./intake/IntakeMain";
 
@@ -26,7 +26,7 @@ export default function CaloriesMain() {
   }
   return (
     <>
-      <CalorieEntryModal showModal={showModal} setShowModal={setShowModal} />
+      <IntakeEntryModal showModal={showModal} setShowModal={setShowModal} />
       <View style={styles.row}>
         <IntakeMain handlePress={handlePress} />
         <Pacing />

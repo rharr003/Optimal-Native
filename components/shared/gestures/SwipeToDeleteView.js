@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
@@ -9,6 +9,8 @@ import Animated, {
 import { useWindowDimensions } from "react-native";
 import React, { useEffect } from "react";
 import * as Haptics from "expo-haptics";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { ColorPalette } from "../../../ColorPalette";
 
 export default function SwipeToDeleteView({
   index,
@@ -16,7 +18,7 @@ export default function SwipeToDeleteView({
   removeSet,
   activeIdx,
   idxRemoved,
-  setIdxRemoved,
+  setIdxRemoved = () => {},
 }) {
   const { width } = useWindowDimensions();
   const offset = useSharedValue({ x: 0 });
@@ -26,7 +28,7 @@ export default function SwipeToDeleteView({
   const hasCrossed = useSharedValue(0);
 
   useEffect(() => {
-    if (idxRemoved.indexOf(index) !== -1) {
+    if (idxRemoved?.indexOf(index) !== -1) {
       setIdxRemoved([]);
     }
   }, [index]);
@@ -110,7 +112,17 @@ export default function SwipeToDeleteView({
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[styles.container, animatedStyles]}>
-        {children}
+        <View style={styles.innerContainer}>
+          {children}
+          <View style={styles.deleteView}>
+            <Ionicons
+              name="trash-outline"
+              size={26}
+              color={"#FFFFFF"}
+              style={{ marginLeft: 25 }}
+            />
+          </View>
+        </View>
       </Animated.View>
     </GestureDetector>
   );
@@ -119,5 +131,19 @@ export default function SwipeToDeleteView({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+  },
+
+  innerContainer: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  deleteView: {
+    backgroundColor: ColorPalette.dark.error,
+    width: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
 });

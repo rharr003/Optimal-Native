@@ -1,21 +1,19 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { getWeeklyVolumePastSixWeeks } from "../../../../../util/sqlite/db";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BarChart } from "react-native-chart-kit";
 import { ColorPalette } from "../../../../../ColorPalette";
-import { useIsFocused } from "@react-navigation/native";
 import {
   chartConfig,
   buildChartDataObj,
 } from "../../../../../util/chart/home/weeklyVolume";
 import { useDispatch, useSelector } from "react-redux";
-import { setWeeklyVolumeLastSixWeeksData } from "../../../../../util/redux/widgets";
+import { setWeeklyVolumeLastSixWeeksData } from "../../../../../util/redux/slices/widgets";
 
 export default function WeeklyVolumeMain() {
   const weeklyVolume = useSelector(
     (state) => state.widgets.weeklyVolumeLastSixWeeksData
   );
-  const isEmpty = weeklyVolume.every((item) => item.totalVolume === 0);
   const max = Math.max(...weeklyVolume.map((item) => item.totalVolume));
   const chartWidth = Dimensions.get("window").width - 20;
   const dispatch = useDispatch();
@@ -29,7 +27,7 @@ export default function WeeklyVolumeMain() {
   }, []);
 
   const data = buildChartDataObj(weeklyVolume);
-  const fromNumber = max > 5000 ? max : 5000;
+  const fromNumber = max > 50000 ? max : 50000;
 
   return (
     <View style={styles.container}>
@@ -41,8 +39,6 @@ export default function WeeklyVolumeMain() {
           height={220}
           chartConfig={chartConfig}
           withInnerLines={false}
-          withHorizontalLabels={!isEmpty}
-          withVerticalLabels={!isEmpty}
           style={styles.chartOffset}
           fromNumber={fromNumber}
           fromZero={true}

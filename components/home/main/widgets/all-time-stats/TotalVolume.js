@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
-import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
 import { getTotalVolumeAllTime } from "../../../../../util/sqlite/db";
 import { ColorPalette } from "../../../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
-import { setTotalVolume } from "../../../../../util/redux/widgets";
+import { setTotalVolume } from "../../../../../util/redux/slices/widgets";
+import { abbreviateNum } from "../../../../../util/sqlite/abbreviateNum";
 
 export default function TotalVolum() {
   const totalVolume = useSelector((state) => state.widgets.totalVolume);
@@ -27,7 +27,7 @@ export default function TotalVolum() {
         size={32}
         color={ColorPalette.dark.gray400}
       />
-      <Text style={styles.text}>{totalVolume} lbs</Text>
+      <Text style={styles.text}>{abbreviateNum(totalVolume)} lbs</Text>
       <Text style={styles.italic}>Total weight lifted</Text>
     </View>
   );

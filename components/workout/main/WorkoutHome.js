@@ -1,72 +1,40 @@
 import { View, StyleSheet } from "react-native";
-import { ColorPalette } from "../../../ColorPalette";
-import CustomButton from "../../shared/ui/CustomButton";
 import {
-  startWorkout,
   incrementTimer,
   addInterval,
-} from "../../../util/redux/workout";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import WorkoutHomeActiveWorkoutLabel from "./WorkoutHomeActiveWorkoutLabel";
-import { useIsFocused } from "@react-navigation/native";
-import TemplateContainer from "./TemplateContainer";
+} from "../../../util/redux/slices/workout";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef, useEffect } from "react";
+import MainButtons from "./main-buttons/MainButtons";
+import ActiveWorkoutDisplay from "./active-workout-display/ActiveWorkoutDisplay";
+import TemplatesMain from "./workout-templates/TemplatesMain";
+
 export default function WorkoutHome({ navigation }) {
   const dispatch = useDispatch();
   const workoutIsActive = useSelector((state) => state.workout.isActive);
-  const isFocused = useIsFocused();
   const interval = useRef(null);
 
+  // restart the workout duration timer on intitial app load if a workout was active upon the last app close
   useEffect(() => {
     if (workoutIsActive && !interval.current) {
-      console.log("workout home setting interval");
-
       interval.current = setInterval(() => {
         dispatch(incrementTimer({ amount: 1 }));
       }, 1000);
 
       dispatch(addInterval(interval.current));
     }
-  }, [workoutIsActive]);
-
-  const handleStartWorkout = () => {
-    dispatch(startWorkout());
-
-    interval.current = setInterval(() => {
-      dispatch(incrementTimer({ amount: 1 }));
-    }, 1000);
-    dispatch(addInterval(interval.current));
-
-    navigation.navigate("active", { interval: interval });
-  };
-
-  function handleContinueWorkout() {
-    navigation.navigate("active", { interval: interval });
-  }
+  }, []);
 
   return (
     <View style={styles.container}>
-      {workoutIsActive && isFocused ? (
-        <WorkoutHomeActiveWorkoutLabel position={"home"} />
-      ) : null}
-      <CustomButton
-        onPress={workoutIsActive ? handleContinueWorkout : handleStartWorkout}
-        title={workoutIsActive ? "Continue Workout" : "Start Empty Workout"}
-        iconName={workoutIsActive ? "enter-outline" : "flash-outline"}
-        color={ColorPalette.dark.secondary200}
-        showTimer={true}
-        style={{ width: "100%" }}
+      {workoutIsActive && <ActiveWorkoutDisplay />}
+      <MainButtons
+        interval={interval}
+        workoutIsActive={workoutIsActive}
+        navigation={navigation}
+        dispatch={dispatch}
       />
-      <CustomButton
-        title="View Past Workouts"
-        iconName="calendar-outline"
-        color={ColorPalette.dark.gray500}
-        textColor="#FFFFFF"
-        onPress={() => navigation.navigate("past")}
-        style={{ width: "100%" }}
-      />
-      <TemplateContainer />
+      <TemplatesMain />
     </View>
   );
 }

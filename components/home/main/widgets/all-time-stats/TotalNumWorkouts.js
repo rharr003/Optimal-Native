@@ -4,7 +4,7 @@ import { fetchNumWorkoutsAllTime } from "../../../../../util/sqlite/db";
 import { ColorPalette } from "../../../../../ColorPalette";
 import { useDispatch, useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { setTotalNumWorkouts } from "../../../../../util/redux/widgets";
+import { setTotalNumWorkouts } from "../../../../../util/redux/slices/widgets";
 
 export default function TotalNumWorkouts() {
   const numWorkouts = useSelector((state) => state.widgets.totalNumWorkouts);

@@ -1,8 +1,9 @@
 import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ColorPalette } from "../ColorPalette";
-import StatDetail from "../components/tracking/weight-detail/StatDetail";
+import MeasurementListMain from "../components/tracking/weight-detail/measurement-list/MeasurementListMain";
 import TrackingMain from "../components/tracking/main/TrackingMain";
+import WeightDetailMain from "../components/tracking/weight-detail/WeightDetailMain";
 
 const Stack = createNativeStackNavigator();
 export default function Tracking() {
@@ -25,7 +26,7 @@ export default function Tracking() {
         />
         <Stack.Screen
           name="weight-detail"
-          component={StatDetail}
+          component={WeightDetailMain}
           options={{
             presentation: "modal",
             headerShown: true,

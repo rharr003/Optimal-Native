@@ -1,11 +1,12 @@
 import { parseDate } from "../tracking/formatWeightData";
 import { buildWeekArray } from "../buildWeekArray";
+import { abbreviateNum } from "../../sqlite/abbreviateNum";
 
 function calculateVolume(set) {
   if (set.unit === "lbs") {
     return set.reps * set.weight;
   } else {
-    return set.reps * set.weight * 0.453592;
+    return set.reps * set.weight * 2.20462;
   }
 }
 
@@ -25,9 +26,11 @@ export function formatWeeklyVolume(data, start, end) {
   const formatted = weeks.map((week) => {
     return {
       label: week.label,
-      totalVolume: week.total.toFixed(0),
+      totalVolume: week.total,
     };
   });
+
+  console.log(formatted);
 
   return formatted.slice(1);
 }
@@ -70,4 +73,5 @@ export const chartConfig = {
     strokeOpacity: 0.7,
   },
   decimalPlaces: 0,
+  formatYLabel: (yLabel) => abbreviateNum(yLabel),
 };

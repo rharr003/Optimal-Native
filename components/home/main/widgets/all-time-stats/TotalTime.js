@@ -4,7 +4,7 @@ import { fetchTotalTimeAllTime } from "../../../../../util/sqlite/db";
 import { ColorPalette } from "../../../../../ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
-import { setTotalTime } from "../../../../../util/redux/widgets";
+import { setTotalTime } from "../../../../../util/redux/slices/widgets";
 
 export default function TotalTime() {
   const totalTime = useSelector((state) => state.widgets.totalTime);

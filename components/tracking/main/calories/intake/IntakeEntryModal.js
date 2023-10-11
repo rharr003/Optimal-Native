@@ -5,9 +5,9 @@ import { StyleSheet, View, TextInput } from "react-native";
 import { ColorPalette } from "../../../../../ColorPalette";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrentIntake as setCurrentIntakeRedux } from "../../../../../util/redux/userData";
+import { setCurrentIntake as setCurrentIntakeRedux } from "../../../../../util/redux/slices/userData";
 
-export default function CalorieEntryModal({ showModal, setShowModal }) {
+export default function IntakeEntryModal({ showModal, setShowModal }) {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
 

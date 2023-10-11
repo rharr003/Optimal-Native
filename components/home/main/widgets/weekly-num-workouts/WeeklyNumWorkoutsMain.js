@@ -8,7 +8,8 @@ import {
   buildChartDataObj,
 } from "../../../../../util/chart/home/weeklyNumWorkouts";
 import { useDispatch, useSelector } from "react-redux";
-import { setNumWorkoutsLastSixWeeksData } from "../../../../../util/redux/widgets";
+import { setNumWorkoutsLastSixWeeksData } from "../../../../../util/redux/slices/widgets";
+import { abbreviateNum } from "../../../../../util/sqlite/abbreviateNum";
 
 export default function WeeklyNumWorkoutsMain() {
   const numWorkouts = useSelector(

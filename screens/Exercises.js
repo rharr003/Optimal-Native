@@ -1,8 +1,8 @@
 import { View, StyleSheet } from "react-native";
 import { ColorPalette } from "../ColorPalette";
-import ExerciseDetail from "../components/exercises/ExerciseDetail";
+import ExerciseDetail from "../components/exercises/detail/ExerciseDetail";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ExercisesMain from "../components/exercises/ExercisesMain";
+import ExercisesMain from "../components/exercises/main/ExercisesMain";
 
 const Stack = createNativeStackNavigator();
 

@@ -2,7 +2,7 @@ import { Text, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
 import { ColorPalette } from "../../../ColorPalette";
 import { useDispatch } from "react-redux";
-import { toggleWidgetVisible } from "../../../util/redux/widgets";
+import { toggleWidgetVisible } from "../../../util/redux/slices/widgets";
 import { updateWidget } from "../../../util/sqlite/db";
 
 export default function AddWidgetModalItem({ widget }) {

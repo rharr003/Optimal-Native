@@ -1,7 +1,10 @@
 import { View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setOverlayMessage, setTdee } from "../../../../util/redux/userData";
+import {
+  setOverlayMessage,
+  setTdee,
+} from "../../../../util/redux/slices/userData";
 import calculateTdee from "../../../../util/calculateTdee";
 import { useNavigation } from "@react-navigation/native";
 import TdeeChartMain from "./tdee-chart/TdeeChartMain";
@@ -31,8 +34,6 @@ export default function TdeeMain() {
 
     fetch();
   }, []);
-
-  console.log(overlayMessage);
 
   return (
     <View style={styles.container}>

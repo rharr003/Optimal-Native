@@ -3,6 +3,7 @@ import { LineChart as RNCKLineChart } from "react-native-chart-kit";
 import { useWindowDimensions } from "react-native";
 import { ColorPalette } from "../../../ColorPalette";
 import LineChartFilterButton from "./LineChartFilterButton";
+import PressableOverlay from "../ui/PressableOverlay";
 
 export default function LineChart({
   data,
@@ -16,7 +17,7 @@ export default function LineChart({
   title = "",
 }) {
   const windowWidth = useWindowDimensions().width;
-  const offset = data.datasets.length > 0 ? -35 : -50;
+  const offset = data.datasets.length > 0 ? -20 : -40;
   return (
     <View style={styles.container}>
       {title && <Text style={styles.title}>{title}</Text>}
@@ -30,14 +31,10 @@ export default function LineChart({
           withVerticalLines={false}
           withHorizontalLabels={!hideHorizontalLabels}
         />
-        {!data.datasets.length && (
-          <View style={styles.chartOverlay}>
-            <Text style={[styles.chartOverlayText, styles.italic]}>
-              {emptyDataText}
-            </Text>
-          </View>
-        )}
       </View>
+      {!data.datasets.length && (
+        <PressableOverlay message={emptyDataText} opacity={0.5} />
+      )}
 
       {withFilterButton && (
         <LineChartFilterButton

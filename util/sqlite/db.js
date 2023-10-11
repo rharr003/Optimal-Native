@@ -671,7 +671,7 @@ export const getTotalVolumeAllTime = () => {
             }
             return acc;
           }, 0);
-          resolve(abbreviateNum(totalVolume.toFixed(0)));
+          resolve(totalVolume.toFixed(0));
         },
         (_, err) => reject(err)
       );
@@ -900,9 +900,9 @@ export const insertUserMetric = (metric_id, value, date) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO user_metrics (metric_id, value, date) VALUES (?, ?, ?) RETURNING id;`,
+        `INSERT INTO user_metrics (metric_id, value, date) VALUES (?, ?, ?) RETURNING *;`,
         [metric_id, value, date],
-        (_, result) => resolve(result.rows._array[0].id),
+        (_, result) => resolve(result.rows._array[0]),
         (_, err) => reject(err)
       );
     });

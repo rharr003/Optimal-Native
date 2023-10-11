@@ -1,0 +1,40 @@
+import { View, Text, StyleSheet } from "react-native";
+import { ColorPalette } from "../../../../../../ColorPalette";
+
+export default function ExerciseList({ exercises }) {
+  return (
+    <View>
+      {exercises.map((exercise, index) => (
+        <Text style={styles.text} key={Math.random()}>
+          {index === 5 && exercises.length > 5
+            ? `${
+                exercise.name +
+                ` (${
+                  exercise.equipment[0].toUpperCase() +
+                  exercise.equipment.slice(1)
+                })` +
+                " x " +
+                exercise.sets.length
+              } + ${workout.exercises.length - 5} more`
+            : `${
+                exercise.name +
+                ` (${
+                  exercise.equipment[0].toUpperCase() +
+                  exercise.equipment.slice(1)
+                })` +
+                " x " +
+                exercise.sets.length
+              }`}
+        </Text>
+      ))}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 18,
+    color: ColorPalette.dark.gray500,
+    marginVertical: 5,
+  },
+});

@@ -4,7 +4,7 @@ import Home from "./screens/Home";
 import Workout from "./screens/Workout";
 import Tracking from "./screens/Tracking";
 import Exercises from "./screens/Exercises";
-import UserProfile from "./screens/UserProfile";
+import Profile from "./screens/Profile";
 import { ColorPalette } from "./ColorPalette";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -71,7 +71,7 @@ export default function MainTabNavigator() {
         />
         <Tab.Screen
           name="profile"
-          component={UserProfile}
+          component={Profile}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person-outline" color={color} size={size} />

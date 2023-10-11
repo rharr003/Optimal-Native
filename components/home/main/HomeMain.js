@@ -2,7 +2,7 @@ import WidgetMain from "./widgets/WidgetsMain";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchWidgets } from "../../../util/sqlite/db";
-import { initializeWidgetList } from "../../../util/redux/widgets";
+import { initializeWidgetList } from "../../../util/redux/slices/widgets";
 
 export default function HomeMain() {
   const dispatch = useDispatch();
