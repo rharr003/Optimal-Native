@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    fontSize: 20,
+    fontSize: 16,
     color: ColorPalette.dark.secondary200,
   },
 

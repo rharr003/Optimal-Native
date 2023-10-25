@@ -109,6 +109,7 @@ function ExerciseMain({ exercise, index, dragIsActive, isFinishing }) {
   }
 
   function handleManageExerciseModalClose() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     setShowManageExerciseModal(false);
   }
 

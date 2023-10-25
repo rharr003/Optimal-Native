@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { formatTime } from "../../../../util/formatTime";
 import * as Notifications from "expo-notifications";
+import * as Haptics from "expo-haptics";
 import { useDispatch, useSelector } from "react-redux";
 import persistRestTimer from "../../../../util/app-state/persistRestTimer";
-import CustomButton from "../../../shared/ui/CustomButton";
 import { ColorPalette } from "../../../../ColorPalette";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import { View, StyleSheet, Text, AppState } from "react-native";
@@ -11,9 +11,11 @@ import {
   decrementRestTimer,
   incrementRestTimer,
   updateAndMinimizeRestTimer,
-  setRestTimer,
+  decrementRestTimerBy15,
 } from "../../../../util/redux/slices/restTimer";
 import { scheduleRestTimerNotification } from "../../../../util/app-state/restTimerNotification";
+import RestTimerCenter from "./RestTimerCenter";
+import RestTimerButtons from "./RestTimerButtons";
 
 export default function RestTimerCombined({
   finishRestTimer,
@@ -21,6 +23,7 @@ export default function RestTimerCombined({
   isMinimized,
   strokeWidth = 12,
   trailStrokeWidth = 12,
+  minimize,
 }) {
   const appState = AppState.currentState;
   const initialRestTime = useSelector(
@@ -64,10 +67,7 @@ export default function RestTimerCombined({
     currentRestTimeRef.current = restTimer;
     // only updates store when component unmounts as the shared state is not neeeded until then.
     return () => {
-      if (restTimer <= 0) return;
-      console.log(
-        `setting notification for ${currentRestTimeRef.current} seconds in the future`
-      );
+      if (currentRestTimeRef.current <= 0) return;
       Notifications.scheduleNotificationAsync({
         content: {
           title: "Rest Timer",
@@ -90,13 +90,15 @@ export default function RestTimerCombined({
   }
 
   function decreaseCurrentTimeBy15() {
-    dispatch(decrementRestTimer({ amount: 15 }));
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    dispatch(decrementRestTimerBy15());
     // change the key for the countdown circle timer so that it update the remaining time
     // when we change the remaining time in the store
     setKey(Math.random());
   }
 
   function increaseCurrentTimeBy15() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     dispatch(incrementRestTimer({ amount: 15 }));
     // change the key for the countdown circle timer so that it update the remaining time
     // when we change the remaining time in the store
@@ -104,6 +106,12 @@ export default function RestTimerCombined({
   }
   return (
     <View style={isMinimized ? styles.containerMinimized : styles.container}>
+      {!isMinimized && (
+        <View>
+          <Text style={styles.title}>Rest Timer</Text>
+          <Text style={styles.italic}>Tap outside to minimize</Text>
+        </View>
+      )}
       <CountdownCircleTimer
         isPlaying
         size={size}
@@ -119,9 +127,11 @@ export default function RestTimerCombined({
       >
         {!isMinimized &&
           (({ remainingTime, animatedColor }) => (
-            <Text style={{ color: "#FFFFFF", fontSize: 40 }}>
-              {formatTime(remainingTime)}
-            </Text>
+            <RestTimerCenter
+              time={remainingTime}
+              increase={increaseCurrentTimeBy15}
+              decrease={decreaseCurrentTimeBy15}
+            />
           ))}
       </CountdownCircleTimer>
       {isMinimized && (
@@ -131,29 +141,11 @@ export default function RestTimerCombined({
       )}
 
       {!isMinimized && (
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            title="Skip"
-            color={ColorPalette.dark.error}
-            onPress={finishRestTimer}
-            iconName="barbell-outline"
-            style={{ width: "25%" }}
-          />
-          <CustomButton
-            title="15 sec"
-            color={ColorPalette.dark.secondary200}
-            onPress={increaseCurrentTimeBy15}
-            iconName="add-circle-outline"
-            style={{ width: "25%" }}
-          />
-          <CustomButton
-            title="15 sec"
-            color={ColorPalette.dark.secondary200}
-            onPress={decreaseCurrentTimeBy15}
-            iconName="remove-circle-outline"
-            style={{ width: "25%" }}
-          />
-        </View>
+        <RestTimerButtons
+          skip={finishRestTimer}
+          increase={increaseCurrentTimeBy15}
+          decrease={decreaseCurrentTimeBy15}
+        />
       )}
     </View>
   );
@@ -175,9 +167,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
+  button: {
+    width: "80%",
+    paddingVertical: 2,
+    marginTop: 10,
+    marginBottom: 0,
+  },
+
+  title: {
+    fontSize: 34,
+    color: ColorPalette.dark.secondary200,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+
+  italic: {
+    fontSize: 18,
+    fontStyle: "italic",
+    color: ColorPalette.dark.gray500,
+    textAlign: "center",
   },
 });

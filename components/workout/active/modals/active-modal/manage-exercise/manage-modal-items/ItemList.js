@@ -1,6 +1,7 @@
 import Item from "./Item";
 import { ColorPalette } from "../../../../../../../ColorPalette";
 import { formatTime } from "../../../../../../../util/formatTime";
+import * as Haptics from "expo-haptics";
 
 export default function ItemList({
   setShowPicker,
@@ -11,6 +12,7 @@ export default function ItemList({
   exercise,
 }) {
   function togglePicker() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setShowPicker((prev) => !prev);
   }
   return (

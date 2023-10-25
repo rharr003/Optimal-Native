@@ -1,8 +1,8 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import { LineChart as RNCKLineChart } from "react-native-chart-kit";
 import { useWindowDimensions } from "react-native";
 import { ColorPalette } from "../../../ColorPalette";
-import LineChartFilterButton from "./LineChartFilterButton";
+import FilterButtonGroup from "./filter-button-group/FilterButtonGroup";
 import PressableOverlay from "../ui/PressableOverlay";
 
 export default function LineChart({
@@ -15,16 +15,16 @@ export default function LineChart({
   withFilterButton = true,
   emptyDataText = "No Data For Period Selected",
   title = "",
+  currFormat = "",
 }) {
-  const windowWidth = useWindowDimensions().width;
-  const offset = data.datasets.length > 0 ? -20 : -40;
+  const chartWidth = Dimensions.get("window").width - 40;
   return (
     <View style={styles.container}>
       {title && <Text style={styles.title}>{title}</Text>}
-      <View style={[styles.chartContainer, { marginLeft: offset }]}>
+      <View style={styles.chartContainer}>
         <RNCKLineChart
           data={data}
-          width={windowWidth - 10}
+          width={chartWidth}
           height={240}
           chartConfig={chartConfig}
           hidePointsAtIndex={hiddenIndexes.length > 0 ? hiddenIndexes : []}
@@ -32,12 +32,14 @@ export default function LineChart({
           withHorizontalLabels={!hideHorizontalLabels}
         />
       </View>
-      {!data.datasets.length && (
-        <PressableOverlay message={emptyDataText} opacity={0.5} />
+      {/* data contains only placeholder data if datasets length is less than 3 */}
+      {data.datasets.length < 3 && (
+        <PressableOverlay message={emptyDataText} opacity={0.8} />
       )}
 
       {withFilterButton && (
-        <LineChartFilterButton
+        <FilterButtonGroup
+          currFormat={currFormat}
           filterOptions={filterOptions}
           onFilterChange={onFilterChange}
         />
@@ -48,10 +50,13 @@ export default function LineChart({
 
 const styles = StyleSheet.create({
   container: {
-    height: 260,
-    width: "100%",
+    height: 270,
+    width: "95%",
     justifyContent: "center",
     alignItems: "center",
+    borderColor: ColorPalette.dark.secondary200,
+    borderWidth: 1,
+    borderRadius: 25,
   },
   chartContainer: {
     width: "100%",
@@ -68,6 +73,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: ColorPalette.dark.gray900,
     opacity: 0.7,
+  },
+
+  chart: {
+    backgroundColor: "blue",
   },
 
   chartOverlayText: {

@@ -7,7 +7,7 @@ import TotalVolume from "./TotalVolume";
 export default function AllTimeStatsMain() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lifetime Stats:</Text>
+      {/* <Text style={styles.title}>Lifetime Stats:</Text> */}
       <View style={styles.innerContainer}>
         <TotalNumWorkouts />
         <TotalTime />
@@ -35,10 +35,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
-    marginTop: 5,
-    marginBottom: 10,
-    color: ColorPalette.dark.gray400,
+    margin: 10,
+    color: ColorPalette.dark.secondary200,
   },
 });

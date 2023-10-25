@@ -33,10 +33,13 @@ export default async function handleAppOpen() {
 
   await AsyncStorage.getItem("prevRestTimerState").then((data) => {
     const prevRestTimerState = JSON.parse(data);
+
     if (prevRestTimerState && prevRestTimerState.restTimerActive) {
       const timePassedInSeconds = Math.ceil(
         (new Date().getTime() - prevRestTimerState.timeClosed) / 1000
       );
+
+      console.log(timePassedInSeconds);
       store.dispatch(
         setSavedRestTimer({
           restTime: prevRestTimerState.restTimer - timePassedInSeconds,

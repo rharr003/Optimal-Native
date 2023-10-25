@@ -11,14 +11,14 @@ export default function AddMeasurementButtonGroup({
       <CustomButton
         title="Save"
         color={ColorPalette.dark.secondary200}
-        textColor="#FFFFFF"
+        textColor="#000000"
         style={styles.buttonStyle}
         onPress={handleSave}
       />
       <CustomButton
         title="Cancel"
         color={ColorPalette.dark.gray500}
-        textColor="#FFFFFF"
+        textColor="#000000"
         style={styles.buttonStyle}
         onPress={handleCancel}
       />

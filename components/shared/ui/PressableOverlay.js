@@ -35,14 +35,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: ColorPalette.dark.gray900,
+    borderRadius: 25,
   },
 
   text: {
-    color: ColorPalette.dark.gray400,
+    color: ColorPalette.dark.secondary200,
     fontStyle: "italic",
     opacity: 1,
     fontSize: 22,
     fontWeight: "bold",
+    opacity: 0.7,
   },
 
   pressed: {

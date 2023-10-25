@@ -106,7 +106,16 @@ export function createChartDataObj(metricData, transparent) {
   if (!metricData.length) {
     return {
       labels: [],
-      datasets: [],
+      datasets: [
+        {
+          data: [200],
+          withDots: false,
+        },
+        {
+          data: [100],
+          withDots: false,
+        },
+      ],
       legend: [],
     };
   }

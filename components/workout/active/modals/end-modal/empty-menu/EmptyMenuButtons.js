@@ -10,7 +10,7 @@ export default function EmpytMenuButtons({ handleCancelWorkout }) {
       iconName={"trash-outline"}
       style={styles.buttonStyle}
       color={ColorPalette.dark.error}
-      textColor="#FFFFFF"
+      textColor="#000000"
     />
   );
 }

@@ -37,13 +37,13 @@ export default function MainTabNavigator() {
           }}
         />
         <Tab.Screen
-          name="tracking"
+          name="weight"
           component={Tracking}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="stats-chart-outline" color={color} size={size} />
             ),
-            title: "Tracking",
+            title: "Weight",
           }}
         />
         <Tab.Screen

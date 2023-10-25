@@ -886,9 +886,9 @@ export const fetchLastMetricValue = (metric_id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT value FROM user_metrics WHERE metric_id = ? ORDER BY date DESC, id DESC LIMIT 1;`,
+        `SELECT value, date FROM user_metrics WHERE metric_id = ? ORDER BY date DESC, id DESC LIMIT 1;`,
         [metric_id],
-        (_, result) => resolve(result.rows._array[0]?.value),
+        (_, result) => resolve(result.rows._array[0]),
         (_, err) => reject(err)
       );
     });
@@ -1100,7 +1100,7 @@ export const fetchTemplates = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT workout_id, name FROM templates;`,
+        `SELECT workout_id, date, templates.name FROM templates JOIN workouts on workout_id = workouts.id;`,
         [],
         (_, result) => resolve(result.rows._array),
         (_, err) => reject(err)
@@ -1110,7 +1110,7 @@ export const fetchTemplates = () => {
   return promise;
 };
 
-export const fetchTemplateExercises = (name, id) => {
+export const fetchTemplateExercises = (name, id, date) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -1120,6 +1120,7 @@ export const fetchTemplateExercises = (name, id) => {
           const formattedResult = {
             name,
             id,
+            date,
             exercises: result.rows._array,
           };
           resolve(formattedResult);

@@ -39,7 +39,11 @@ export default function AddExercise({ navigation, route }) {
     if (selectedExercises.length > 0) {
       navigation.setOptions({
         headerRight: () => (
-          <HeaderButton isReplacing={isReplacing} onPress={handleComplete} />
+          <HeaderButton
+            isReplacing={isReplacing}
+            onPress={handleComplete}
+            count={selectedExercises.length}
+          />
         ),
       });
     } else {

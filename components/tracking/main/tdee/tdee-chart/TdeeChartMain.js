@@ -15,10 +15,10 @@ export default function TdeeChartMain() {
   return (
     <ProgressChart
       data={data}
-      width={width / 2}
-      height={210}
-      strokeWidth={16}
-      radius={48}
+      width={Math.floor(width / 2.3)}
+      height={Math.floor(width / 2.3)}
+      strokeWidth={15}
+      radius={Math.floor(width / 10)}
       chartConfig={chartConfig}
       hideLegend={true}
       withCustomBarColorFromData={true}

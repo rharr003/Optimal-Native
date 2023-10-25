@@ -31,9 +31,8 @@ const styles = StyleSheet.create({
     flexBasis: "49%",
     alignItems: "center",
     justifyContent: "center",
-
     borderRadius: 10,
-    height: 280,
+    height: 250,
   },
 
   title: {

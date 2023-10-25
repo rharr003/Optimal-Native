@@ -30,8 +30,6 @@ export function formatWeeklyVolume(data, start, end) {
     };
   });
 
-  console.log(formatted);
-
   return formatted.slice(1);
 }
 

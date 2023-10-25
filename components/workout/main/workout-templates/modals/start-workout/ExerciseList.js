@@ -34,7 +34,7 @@ export default function ExerciseList({ exercises }) {
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
-    color: ColorPalette.dark.gray500,
+    color: ColorPalette.dark.gray400,
     marginVertical: 5,
   },
 });

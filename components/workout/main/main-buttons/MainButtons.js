@@ -34,14 +34,16 @@ export default function MainButtons({
 
   return (
     <>
-      <CustomButton
-        onPress={workoutIsActive ? handleContinueWorkout : handleStartWorkout}
-        title={workoutIsActive ? "Continue Workout" : "Start Empty Workout"}
-        iconName={workoutIsActive ? "enter-outline" : "flash-outline"}
-        color={ColorPalette.dark.secondary200}
-        showTimer={true}
-        style={styles.buttonStyle}
-      />
+      {!workoutIsActive && (
+        <CustomButton
+          onPress={workoutIsActive ? handleContinueWorkout : handleStartWorkout}
+          title={workoutIsActive ? "Continue Workout" : "Start Empty Workout"}
+          iconName={workoutIsActive ? "enter-outline" : "flash-outline"}
+          color={ColorPalette.dark.secondary200}
+          showTimer={true}
+          style={styles.buttonStyle}
+        />
+      )}
       <CustomButton
         title="View Past Workouts"
         iconName="calendar-outline"

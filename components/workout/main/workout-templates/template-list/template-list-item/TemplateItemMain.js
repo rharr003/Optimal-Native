@@ -6,7 +6,7 @@ import {
   deleteTemplate as deleteTemplateRedux,
   setTemplateToEdit,
 } from "../../../../../../util/redux/slices/templates";
-import PopoverMenu from "./PopoverMenu";
+import * as Haptics from "expo-haptics";
 
 export default function TemplateItemMain({
   template,
@@ -14,20 +14,30 @@ export default function TemplateItemMain({
   setShowModal,
 }) {
   const dispatch = useDispatch();
+  const daysPassed = Math.floor(
+    (Date.now() - new Date(template.date).getTime()) / (1000 * 60 * 60 * 24)
+  );
+  const formattedDate = new Date(template.date).toLocaleString("en-Us", {
+    month: "short",
+    day: "numeric",
+  });
 
   //truncate the exercises to just the first 3
   const exercisesToShow = template.exercises.slice(0, 4);
 
-  async function handleDelete() {
-    await deleteTemplate(template.id);
-    dispatch(deleteTemplateRedux(template.id));
+  function parseCompletedMessage() {
+    if (daysPassed === 0) return "Completed today";
+    if (daysPassed === 1) return "Completed yesterday";
+    if (daysPassed < 8) return `Completed ${daysPassed} days ago`;
+    return `Completed ${formattedDate}`;
   }
 
   function handlePress() {
     handleSelect(template);
   }
 
-  function openNameEditModal() {
+  function handleLongPress() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     dispatch(setTemplateToEdit(template));
     setShowModal(true);
   }
@@ -36,24 +46,23 @@ export default function TemplateItemMain({
     <Pressable
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={handlePress}
+      onLongPress={handleLongPress}
     >
-      <View style={styles.innerContainer}>
-        <Text style={styles.title}>{template.name}</Text>
-        <PopoverMenu
-          handleDeletePress={handleDelete}
-          handleEditPress={openNameEditModal}
-        />
-      </View>
       <View style={styles.fullWidth}>
+        <Text style={styles.title}>{template.name}</Text>
         {exercisesToShow.map((exercise, index) => (
           <Text style={styles.text} key={Math.random()}>
-            -
             {/* if there are more than 3 show a different message on the last exercise listed */}
             {index === 3 && template.exercises.length > 3
-              ? ` ${exercise.name} + ${template.exercises.length - 3} more`
-              : ` ${exercise.name}`}
+              ? `${exercise.name} + ${template.exercises.length - 3} more`
+              : `${exercise.name}`}
           </Text>
         ))}
+      </View>
+      <View style={styles.row}>
+        <Text style={[styles.text, styles.italic]}>
+          {parseCompletedMessage()}
+        </Text>
       </View>
     </Pressable>
   );
@@ -61,32 +70,30 @@ export default function TemplateItemMain({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ColorPalette.dark.gray700,
+    backgroundColor: ColorPalette.dark.gray800,
     padding: 5,
-    borderRadius: 10,
+    paddingTop: 10,
+    borderWidth: 1,
+    borderColor: ColorPalette.dark.secondary200,
+    borderRadius: 25,
     margin: 5,
-    flexBasis: "45%",
+    width: "45%",
     height: 150,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
   },
 
   fullWidth: {
     width: "100%",
-  },
-  innerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
     paddingLeft: 10,
-    alignItems: "center",
-    marginBottom: 10,
   },
 
   title: {
     fontSize: 20,
     fontWeight: "bold",
     color: ColorPalette.dark.secondary200,
+    textAlign: "left",
+    marginBottom: 5,
   },
 
   text: {
@@ -97,5 +104,18 @@ const styles = StyleSheet.create({
 
   pressed: {
     opacity: 0.5,
+  },
+
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  italic: {
+    fontStyle: "italic",
+    color: ColorPalette.dark.gray500,
+    textAlign: "center",
+    fontSize: 13,
   },
 });

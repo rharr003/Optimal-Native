@@ -56,7 +56,8 @@ export default function NewWorkoutMain({ workout }) {
     // add template to store so we dont have to keep rerunning template fetch from db
     const templateForRedux = await fetchTemplateExercises(
       workout.name,
-      workoutId
+      workoutId,
+      new Date().toISOString().split("T")[0]
     );
     dispatch(addTemplate(templateForRedux));
     navigation.goBack();

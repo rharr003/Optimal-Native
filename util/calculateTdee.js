@@ -5,7 +5,7 @@ export default async function calculateTdee() {
   if (!data) return "Tap to set up profile for full Insights";
   const currWeight = await fetchLastMetricValue(1);
 
-  if (currWeight && data.activity_level !== "placeholder") {
+  if (currWeight?.value && data.activity_level !== "placeholder") {
     let activityFactor = 0;
     switch (data.activity_level) {
       case "Sedentary":
@@ -21,7 +21,7 @@ export default async function calculateTdee() {
         activityFactor = 1.65;
         break;
     }
-    const currWeightInKG = parseFloat(currWeight) * 0.453592;
+    const currWeightInKG = parseFloat(currWeight.value) * 0.453592;
     const heightInCM = parseFloat(data.height) * 2.54;
     const birthday = new Date(data.birth_date);
     const age = new Date().getFullYear() - birthday.getFullYear();

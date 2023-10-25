@@ -6,7 +6,7 @@ import {
   renderers,
 } from "react-native-popup-menu";
 import { StyleSheet, Text } from "react-native";
-import { ColorPalette } from "../../../../../../ColorPalette";
+import { ColorPalette } from "../ColorPalette";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 

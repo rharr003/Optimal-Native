@@ -63,12 +63,12 @@ export default function SwipeToDeleteView({
 
         // haptic feedback when the set is dragged past the point needed to delete it and when it is dragged back into the safe zone
 
-        if (event.translationX < -200 && hasCrossed.value === 0) {
+        if (event.translationX < -300 && hasCrossed.value === 0) {
           runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
           hasCrossed.value = 1;
         }
 
-        if (event.translationX > -200 && hasCrossed.value === 1) {
+        if (event.translationX > -300 && hasCrossed.value === 1) {
           runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
           hasCrossed.value = 0;
         }
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   deleteView: {
-    backgroundColor: ColorPalette.dark.error,
+    backgroundColor: ColorPalette.dark.errorDark,
     width: "100%",
     justifyContent: "center",
     paddingHorizontal: 15,

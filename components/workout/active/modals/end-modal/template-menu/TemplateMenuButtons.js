@@ -13,21 +13,21 @@ export default function TemplateMenuButtons({
     <>
       {!workoutIsSame && (
         <CustomButton
-          title="Finish and update template"
+          title="Finish (Update template)"
           onPress={finishAndUpdate}
           iconName={"save-outline"}
           style={styles.buttonStyle}
-          color={ColorPalette.dark.primary200}
-          textColor="#FFFFFF"
+          color={ColorPalette.dark.secondary200}
+          textColor="#000000"
         />
       )}
       <CustomButton
-        title="Finish workout and discard changes"
+        title="Finish (Discard changes)"
         onPress={handleFinishWorkout}
-        iconName={"checkmark-outline"}
+        iconName={"flag-outline"}
         style={styles.buttonStyle}
         color={ColorPalette.dark.secondary200}
-        textColor="#FFFFFF"
+        textColor="#000000"
       />
     </>
   );

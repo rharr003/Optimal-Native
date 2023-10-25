@@ -10,11 +10,11 @@ export default function WorkoutFooterButtons({
     <View style={styles.footer}>
       <CustomButton
         title="Add Exercise"
-        color={ColorPalette.dark.gray500}
+        color={ColorPalette.dark.secondary200}
         iconName={"add-outline"}
         onPress={openAddExercise}
         style={styles.buttonStyle}
-        textColor="#FFFFFF"
+        textColor="#000000"
       />
       <CustomButton
         title="Cancel Workout"
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonStyle: {
-    width: "100%",
+    width: "95%",
+    paddingVertical: 5,
   },
 });

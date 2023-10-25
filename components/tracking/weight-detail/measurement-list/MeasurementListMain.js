@@ -1,10 +1,14 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text } from "react-native";
 import { useEffect } from "react";
-import { fetchUserMetrics } from "../../../../util/sqlite/db";
 import MeasurementEntry from "./MeasurementEntry";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSharedValue } from "react-native-reanimated";
-import { deleteUserMetric } from "../../../../util/sqlite/db";
+import {
+  deleteUserMetric,
+  fetchLastMetricValue,
+  fetchUserData,
+  fetchUserMetrics,
+} from "../../../../util/sqlite/db";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTdee,
@@ -14,7 +18,9 @@ import calculateTdee from "../../../../util/calculateTdee";
 import {
   setWeightMeasurements,
   deleteWeightMeasurement,
+  updateWeight,
 } from "../../../../util/redux/slices/userData";
+import { ColorPalette } from "../../../../ColorPalette";
 
 export default function MeasurementListMain({ route }) {
   const { metric } = route.params;
@@ -54,6 +60,19 @@ export default function MeasurementListMain({ route }) {
     await deleteUserMetric(id);
     dispatch(deleteWeightMeasurement(index));
     if (index === 0) {
+      const userData = await fetchUserData();
+      const prevData = await fetchLastMetricValue(1);
+      if (prevData) {
+        dispatch(
+          updateWeight({
+            weight: prevData.value,
+            date: prevData.Date,
+            height: userData?.height,
+          })
+        );
+      } else {
+        dispatch(updateWeight());
+      }
       const result = await calculateTdee();
       if (typeof result === "number") {
         dispatch(setTdee(result));
@@ -67,6 +86,7 @@ export default function MeasurementListMain({ route }) {
 
   return (
     <GestureHandlerRootView style={styles.container}>
+      <Text style={styles.header}>History</Text>
       <FlatList
         data={measurements}
         renderItem={renderItem}
@@ -90,10 +110,19 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
+  header: {
+    color: ColorPalette.dark.gray400,
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 25,
+  },
+
   listStyle: {
     width: "100%",
     height: "100%",
   },
+
   listSpacerStyle: {
     height: 50,
   },

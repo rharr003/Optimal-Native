@@ -9,6 +9,7 @@ export default function CustomButton({
   style = null,
   textColor = "#000000",
   size = 24,
+  onLongPress,
 }) {
   return (
     <Pressable
@@ -19,6 +20,7 @@ export default function CustomButton({
         style,
       ]}
       onPress={onPress}
+      onLongPress={onLongPress}
     >
       <Ionicons name={iconName} size={size} color={textColor} />
       {title !== "" ? (

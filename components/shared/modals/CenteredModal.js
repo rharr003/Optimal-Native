@@ -9,18 +9,11 @@ export default function CenteredModal({
   style,
 }) {
   return (
-    <Modal
-      visible={showModal}
-      animationType="fade"
-      transparent={true}
-      blurBackground={true}
-    >
+    <Modal visible={showModal} animationType="fade" transparent={true}>
       <Pressable style={styles.flex1} onPress={handleClose}>
-        <BlurView intensity={8} style={styles.flex1} tint="dark">
-          <View style={styles.centeredView}>
-            <Pressable style={[styles.container, style]}>{children}</Pressable>
-          </View>
-        </BlurView>
+        <View style={styles.centeredView}>
+          <Pressable style={[styles.container, style]}>{children}</Pressable>
+        </View>
       </Pressable>
     </Modal>
   );
@@ -30,18 +23,10 @@ const styles = StyleSheet.create({
   container: {
     width: "80%",
     height: "40%",
-    backgroundColor: ColorPalette.dark.gray700,
+    backgroundColor: ColorPalette.dark.gray800,
     position: "absolute",
-    borderRadius: 20,
+    borderRadius: 25,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   centeredView: {
     justifyContent: "center",
@@ -50,5 +35,6 @@ const styles = StyleSheet.create({
   },
   flex1: {
     flex: 1,
+    backgroundColor: "rgba(0,0,0,.7)",
   },
 });

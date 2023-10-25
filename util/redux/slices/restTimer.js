@@ -9,6 +9,7 @@ const restTimerSlice = createSlice({
     initialRestTime: 0,
     restTimerActive: false,
     timeClosed: null,
+    lastDecrent: Date.now(),
   },
   reducers: {
     startRestTimer(state, action) {
@@ -32,20 +33,32 @@ const restTimerSlice = createSlice({
         // state.restTimer = action.payload.restTime;
       }
     },
-    incrementRestTimer(state, action) {
-      if (state.restTimer + action.payload.amount > state.initialRestTime) {
-        state.initialRestTime = state.restTimer + action.payload.amount;
+    incrementRestTimerBy15(state) {
+      if (state.restTimer + 15 > state.initialRestTime) {
+        state.initialRestTime = state.restTimer + 15;
       }
-      state.restTimer = state.restTimer + action.payload.amount;
+      state.restTimer += 15;
     },
-    decrementRestTimer(state, action) {
-      if (state.restTimer - action.payload.amount <= 0) {
+
+    decrementRestTimerBy15(state) {
+      if (state.restTimer - 15 <= 0) {
         state.restTimer = 0;
         state.restTimerActive = false;
         return;
       }
-
-      state.restTimer = state.restTimer - action.payload.amount;
+      state.restTimer -= 15;
+    },
+    decrementRestTimer(state) {
+      //prevents the restTimer from being decreased too fast when switching between minized rest timer view
+      if (Date.now() - state.lastDecrent < 800) {
+        return;
+      }
+      state.lastDecrent = Date.now();
+      state.restTimer -= 1;
+      if (state.restTimer <= 0) {
+        state.restTimerActive = false;
+        return;
+      }
     },
 
     setRestTimer(state, action) {
@@ -69,7 +82,9 @@ export const stopRestTimer = restTimerSlice.actions.stopRestTimer;
 export const setRestTimer = restTimerSlice.actions.setRestTimer;
 export const updateAndMinimizeRestTimer =
   restTimerSlice.actions.updateAndMinimizeRestTimer;
-export const incrementRestTimer = restTimerSlice.actions.incrementRestTimer;
+export const incrementRestTimer = restTimerSlice.actions.incrementRestTimerBy15;
+export const decrementRestTimerBy15 =
+  restTimerSlice.actions.decrementRestTimerBy15;
 export const decrementRestTimer = restTimerSlice.actions.decrementRestTimer;
 export const setSavedRestTimer = restTimerSlice.actions.setSavedRestTimer;
 export const setTimeClosed = restTimerSlice.actions.setTimeClosed;

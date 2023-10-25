@@ -19,6 +19,7 @@ export default function WidgetMain() {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.scrollContainer}
+      showsVerticalScrollIndicator={false}
     >
       {widgets?.map((widget) => {
         if (widget?.shouldDisplay) {

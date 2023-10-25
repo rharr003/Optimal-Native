@@ -17,7 +17,6 @@ export const pickerStyle = {
 };
 
 export const bodyPartOptions = [
-  "Any",
   "Abs",
   "Back",
   "Biceps",

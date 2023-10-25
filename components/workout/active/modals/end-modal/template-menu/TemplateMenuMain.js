@@ -58,7 +58,8 @@ export default function TemplateMenuMain({ workout }) {
       await updateTemplate(workoutId, workout.name, prevWorkout.prevWorkoutId);
       const templateForRedux = await fetchTemplateExercises(
         workout.name,
-        workoutId
+        workoutId,
+        new Date().toISOString().split("T")[0]
       );
       const action = {
         id: prevWorkout.prevWorkoutId,

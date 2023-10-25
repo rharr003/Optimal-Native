@@ -1,4 +1,5 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
+import { ColorPalette } from "../../../../../ColorPalette";
 import TemplateItemMain from "./template-list-item/TemplateItemMain";
 export default function TemplateList({
   templates,
@@ -9,6 +10,8 @@ export default function TemplateList({
     <FlatList
       data={templates}
       numColumns={2}
+      contentContainerStyle={styles.content}
+      columnWrapperStyle={styles.columnWrapper}
       renderItem={({ item }) => (
         <TemplateItemMain
           template={item}
@@ -17,7 +20,24 @@ export default function TemplateList({
         />
       )}
       keyExtractor={(item) => item.id.toString()}
-      style={{ width: "100%" }}
+      style={styles.list}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  list: {
+    width: "100%",
+  },
+
+  content: {
+    marginVertical: 10,
+    alignItems: "flex-start",
+  },
+
+  columnWrapper: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+});

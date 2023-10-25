@@ -19,7 +19,6 @@ export default function Chart() {
   const [indexesToHide, setIndexesToHide] = useState([]);
   const isFocused = useIsFocused();
   const data = createChartDataObj(metricData);
-  const hideHorizontalLabels = metricData.length > 0 ? false : true;
 
   useEffect(() => {
     async function fetch() {
@@ -49,10 +48,10 @@ export default function Chart() {
       <LineChart
         data={data}
         chartConfig={chartConfig}
-        hideHorizontalLabels={hideHorizontalLabels}
         hiddenIndexes={indexesToHide}
         filterOptions={["Weekly Average", "Monthly Average", "Daily Average"]}
         onFilterChange={handleFilterChange}
+        currFormat={currFormat}
       />
     </View>
   );
@@ -61,6 +60,7 @@ export default function Chart() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    alignItems: "center",
   },
   chartOverlay: {
     position: "absolute",

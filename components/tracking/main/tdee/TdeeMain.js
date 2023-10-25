@@ -10,6 +10,9 @@ import { useNavigation } from "@react-navigation/native";
 import TdeeChartMain from "./tdee-chart/TdeeChartMain";
 import TdeeTargets from "./tdee-chart/targets/TargetsMain";
 import PressableOverlay from "../../../shared/ui/PressableOverlay";
+import { ColorPalette } from "../../../../ColorPalette";
+import CaloriesMain from "./calories/CaloriesMain";
+import TdeeHeader from "./header/TdeeHeader";
 
 export default function TdeeMain() {
   const dispatch = useDispatch();
@@ -37,16 +40,20 @@ export default function TdeeMain() {
 
   return (
     <View style={styles.container}>
-      {overlayMessage !== "" && (
-        <PressableOverlay
-          message={overlayMessage}
-          onPress={handlePress}
-          zIndex={1}
-        />
-      )}
-      <View style={styles.chartContainer}>
-        <TdeeChartMain />
-        <TdeeTargets />
+      <TdeeHeader />
+      <View style={styles.innerContainer}>
+        <CaloriesMain />
+        {overlayMessage !== "" && (
+          <PressableOverlay
+            message={overlayMessage}
+            onPress={handlePress}
+            zIndex={1}
+          />
+        )}
+        <View style={styles.chartContainer}>
+          <TdeeChartMain />
+          <TdeeTargets />
+        </View>
       </View>
     </View>
   );
@@ -55,7 +62,16 @@ export default function TdeeMain() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    height: "100%",
+    alignItems: "center",
+  },
+  innerContainer: {
+    width: "95%",
+    alignItems: "center",
     padding: 0,
+    borderColor: ColorPalette.dark.secondary200,
+    borderWidth: 1,
+    borderRadius: 25,
   },
 
   chartContainer: {

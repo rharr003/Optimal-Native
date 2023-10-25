@@ -3,11 +3,11 @@ import { formatTime } from "../../formatTime";
 
 export const pickerStyle = {
   modalViewBottom: {
-    backgroundColor: ColorPalette.dark.gray500,
+    backgroundColor: ColorPalette.dark.gray700,
   },
   modalViewMiddle: {
     borderTopWidth: 0,
-    backgroundColor: ColorPalette.dark.gray500,
+    backgroundColor: ColorPalette.dark.gray700,
   },
   done: {
     color: ColorPalette.dark.secondary200,

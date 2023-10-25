@@ -15,7 +15,7 @@ export default function WeeklyVolumeMain() {
     (state) => state.widgets.weeklyVolumeLastSixWeeksData
   );
   const max = Math.max(...weeklyVolume.map((item) => item.totalVolume));
-  const chartWidth = Dimensions.get("window").width - 20;
+  const chartWidth = Dimensions.get("window").width * 0.95;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function WeeklyVolumeMain() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Weekly Volume (lbs):</Text>
+      <Text style={styles.title}>Weekly Volume (Lbs):</Text>
       <View style={styles.chartContainer}>
         <BarChart
           data={data}
@@ -39,7 +39,6 @@ export default function WeeklyVolumeMain() {
           height={220}
           chartConfig={chartConfig}
           withInnerLines={false}
-          style={styles.chartOffset}
           fromNumber={fromNumber}
           fromZero={true}
         />
@@ -50,33 +49,26 @@ export default function WeeklyVolumeMain() {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "95%",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 25,
+    borderColor: ColorPalette.dark.secondary200,
+    borderWidth: 1,
+    borderRadius: 25,
   },
 
   chartContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  chartOffset: {
-    marginLeft: -30,
+    paddingRight: 10,
   },
 
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
     margin: 10,
-    color: ColorPalette.dark.gray400,
-  },
-
-  text: {
-    fontSize: 28,
     color: ColorPalette.dark.secondary200,
-    textAlign: "center",
-    marginVertical: 5,
   },
 });

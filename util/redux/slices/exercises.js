@@ -12,7 +12,6 @@ const exerciseSlice = createSlice({
 
     addExercise(state, action) {
       const letter = action.payload.letterGroup;
-      console.log(action.payload);
       const newExercises = {
         ...state.exercises,
         [letter]: state.exercises[letter]

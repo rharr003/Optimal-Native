@@ -21,17 +21,25 @@ export default function WorkoutActiveMain({ interval }) {
   const dispatch = useDispatch();
   const [showFinishModal, setShowFinishModal] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
   const timeClosed = useSelector((state) => state.restTimer.timeClosed);
   const navigation = useNavigation();
 
   function handleCloseModal() {
     setIsFinishing(false);
     setShowFinishModal(false);
+    setCancelling(false);
   }
 
   function handleOpenModal() {
     setIsFinishing(true);
     setShowFinishModal(true);
+  }
+
+  function handleCancel() {
+    setIsFinishing(true);
+    setShowFinishModal(true);
+    setCancelling(true);
   }
 
   useEffect(() => {
@@ -80,9 +88,16 @@ export default function WorkoutActiveMain({ interval }) {
         handleClose={handleCloseModal}
         style={styles.modalStyle}
       >
-        <EndWorkoutMain handleClose={handleCloseModal} />
+        <EndWorkoutMain
+          handleClose={handleCloseModal}
+          cancelling={cancelling}
+        />
       </CenteredModal>
-      <WorkoutExerciseList isFinishing={isFinishing} interval={interval} />
+      <WorkoutExerciseList
+        isFinishing={isFinishing}
+        interval={interval}
+        handleCancel={handleCancel}
+      />
       <KeyboardSpacer />
     </View>
   );

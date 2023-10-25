@@ -13,11 +13,12 @@ export default function ModalButtons({ handleStart, handleClose }) {
         style={styles.button}
       />
       <CustomButton
-        title="Cancel"
-        iconName="close-outline"
+        title="Go Back"
+        iconName="exit-outline"
         onPress={handleClose}
         color={ColorPalette.dark.gray500}
         style={styles.button}
+        textColor="#FFFFFF"
       />
     </View>
   );

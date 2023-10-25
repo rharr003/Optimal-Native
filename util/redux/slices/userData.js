@@ -9,6 +9,11 @@ const userDataSlice = createSlice({
     tdee: 0,
     currentIntake: 0,
     currentPacing: "",
+    currentWeight: {
+      weight: 0,
+      date: null,
+    },
+    currentBmi: 0,
     overlayMessage: "",
     weightMeasurements: [],
     calorieColor: ColorPalette.dark.gray400,
@@ -61,6 +66,31 @@ const userDataSlice = createSlice({
       const index = action.payload;
       state.weightMeasurements.splice(index, 1);
     },
+
+    updateWeight(state, action) {
+      if (!action.payload) {
+        (state.currentBmi = 0),
+          (state.currentWeight = {
+            weight: 0,
+            date: null,
+          });
+        return;
+      }
+      state.currentWeight = {
+        weight: action.payload.weight,
+        date: action.payload.date,
+      };
+      if (action.payload.height) {
+        state.currentBmi = parseFloat(
+          (
+            (action.payload.weight /
+              (parseInt(action.payload.height) *
+                parseInt(action.payload.height))) *
+            703
+          ).toFixed(1)
+        );
+      }
+    },
   },
 });
 
@@ -71,6 +101,7 @@ export const {
   setWeightMeasurements,
   addWeightMeasurement,
   deleteWeightMeasurement,
+  updateWeight,
 } = userDataSlice.actions;
 
 export default userDataSlice.reducer;

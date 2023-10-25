@@ -1,11 +1,11 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
 import { useState } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import {
   pickerStyle,
   bodyPartOptions,
-} from "../../../../../../util/config/exercises/BodyPartPickerConfig";
+} from "../../../../../../util/config/exercises/BodyPartFilterPickerConfig";
 import CustomButton from "../../../../../shared/ui/CustomButton";
 
 export default function BodyPartFilter({ handleChange, search }) {

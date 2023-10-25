@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 20,
   },
 
   innerContainer: {
@@ -51,13 +52,13 @@ const styles = StyleSheet.create({
   },
 
   dateText: {
-    color: ColorPalette.dark.gray300,
+    color: ColorPalette.dark.gray400,
     fontSize: 16,
-    fontWeight: "bold",
   },
 
   valueText: {
-    color: ColorPalette.dark.gray400,
+    color: ColorPalette.dark.gray300,
     fontSize: 16,
+    fontWeight: "bold",
   },
 });

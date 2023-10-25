@@ -32,7 +32,7 @@ export default function Home() {
           name="add-widget-modal"
           options={{
             presentation: "modal",
-            headerTitle: "Add Widget",
+            headerTitle: "Edit Widgets",
           }}
           component={AddWidgetModalMain}
         />

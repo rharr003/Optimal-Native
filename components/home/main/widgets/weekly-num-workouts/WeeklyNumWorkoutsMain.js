@@ -9,7 +9,6 @@ import {
 } from "../../../../../util/chart/home/weeklyNumWorkouts";
 import { useDispatch, useSelector } from "react-redux";
 import { setNumWorkoutsLastSixWeeksData } from "../../../../../util/redux/slices/widgets";
-import { abbreviateNum } from "../../../../../util/sqlite/abbreviateNum";
 
 export default function WeeklyNumWorkoutsMain() {
   const numWorkouts = useSelector(
@@ -17,7 +16,7 @@ export default function WeeklyNumWorkoutsMain() {
   );
   const dispatch = useDispatch();
   const max = Math.max(...numWorkouts.map((item) => item.total));
-  const chartWidth = Dimensions.get("window").width - 20;
+  const chartWidth = Dimensions.get("window").width * 0.95;
 
   useEffect(() => {
     async function fetch() {
@@ -33,47 +32,45 @@ export default function WeeklyNumWorkoutsMain() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Workouts per week:</Text>
-      <BarChart
-        data={data}
-        width={chartWidth}
-        height={220}
-        chartConfig={chartConfig}
-        withInnerLines={false}
-        style={{ marginLeft: -30 }}
-        fromNumber={fromNumber}
-        fromZero={true}
-        showBarTops={true}
-      />
+      <Text style={styles.title}>Workouts Per Week:</Text>
+      <View style={styles.chartContainer}>
+        <BarChart
+          data={data}
+          width={chartWidth}
+          height={220}
+          chartConfig={chartConfig}
+          withInnerLines={false}
+          fromNumber={fromNumber}
+          fromZero={true}
+          showBarTops={true}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "95%",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 25,
+    borderColor: ColorPalette.dark.secondary200,
+    borderWidth: 1,
+    borderRadius: 25,
   },
 
   chartContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    paddingRight: 10,
   },
 
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
     margin: 10,
-    color: ColorPalette.dark.gray400,
-  },
-
-  text: {
-    fontSize: 28,
     color: ColorPalette.dark.secondary200,
-    textAlign: "center",
-    marginVertical: 5,
   },
 });

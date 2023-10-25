@@ -14,27 +14,29 @@ export default function WorkoutHome({ navigation }) {
   const workoutIsActive = useSelector((state) => state.workout.isActive);
   const interval = useRef(null);
 
-  // restart the workout duration timer on intitial app load if a workout was active upon the last app close
-  useEffect(() => {
-    if (workoutIsActive && !interval.current) {
-      interval.current = setInterval(() => {
-        dispatch(incrementTimer({ amount: 1 }));
-      }, 1000);
+  // removed due to interval being set during handle app open call. Not sure why I had this.
+  // useEffect(() => {
+  //   if (workoutIsActive && !interval.current) {
+  //     interval.current = setInterval(() => {
+  //       dispatch(incrementTimer({ amount: 1 }));
+  //     }, 1000);
 
-      dispatch(addInterval(interval.current));
-    }
-  }, []);
+  //     dispatch(addInterval(interval.current));
+  //   }
+  // }, []);
 
   return (
     <View style={styles.container}>
-      {workoutIsActive && <ActiveWorkoutDisplay />}
+      <TemplatesMain />
+      {workoutIsActive && (
+        <ActiveWorkoutDisplay interval={interval} navigation={navigation} />
+      )}
       <MainButtons
         interval={interval}
         workoutIsActive={workoutIsActive}
         navigation={navigation}
         dispatch={dispatch}
       />
-      <TemplatesMain />
     </View>
   );
 }
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     padding: 10,
+    paddingBottom: 20,
     flex: 1,
   },
 });

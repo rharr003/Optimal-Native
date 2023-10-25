@@ -11,6 +11,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import ItemList from "./manage-modal-items/ItemList";
 import CenteredModal from "../../../../../shared/modals/CenteredModal";
+import * as Haptics from "expo-haptics";
 
 export default function ManageModalMain({
   index,
@@ -28,10 +29,10 @@ export default function ManageModalMain({
   const [showPicker, setShowPicker] = useState(false);
 
   async function closePicker(value) {
+    setShowPicker(false);
     if (value === exercise.restTime || !value) return;
     await updateExerciseRestTime(exercise.id, value);
     dispatch(updateRestTimeState({ id: exercise.id, restTime: value }));
-    setShowPicker(false);
   }
 
   function toggleExerciseModal() {
@@ -45,8 +46,8 @@ export default function ManageModalMain({
   }
 
   function handleToggleUnit() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     toggleUnit(unit);
-    handleClose();
   }
 
   function handleRemove() {
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
     alignItems: "center",
-    backgroundColor: ColorPalette.dark.gray600,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
   },
