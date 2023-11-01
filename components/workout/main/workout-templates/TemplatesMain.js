@@ -19,7 +19,6 @@ export default function TemplatesMain() {
   const templates = useSelector((state) => state.templates.templates);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-
   // fetch templates from db on initial load and save to redux store
   useEffect(() => {
     async function fetch() {
@@ -30,12 +29,17 @@ export default function TemplatesMain() {
           fetchTemplateExercises(
             template.name,
             template.workout_id,
-            template.date
+            template.date,
+            template.id
           )
         );
       });
       const fetchedTemplates = await Promise.all(promises);
-      dispatch(populateTemplates(fetchedTemplates));
+      dispatch(
+        populateTemplates(
+          fetchedTemplates.filter((template) => template !== null)
+        )
+      );
     }
 
     fetch();
@@ -44,16 +48,22 @@ export default function TemplatesMain() {
   async function handleSelect(template) {
     const exerciseNames = template.exercises.map((exercise) => exercise.name);
     const fullExerciseData = await fetchTemplateExercisesFormatted(
-      template.id,
+      template.prevWorkoutId,
       exerciseNames
     );
+
     const fullWorkoutData = {
       name: template.name,
       isTemplate: true,
-      prevWorkoutId: template.id,
+      prevWorkoutId: template.prevWorkoutId,
       duration: 0,
-      exercises: fullExerciseData,
+      exercisesNew: fullExerciseData.map((data) => data.exercise),
+      exerciseSets: {},
     };
+
+    fullExerciseData.forEach((data) => {
+      fullWorkoutData.exerciseSets[data.exercise.reactId] = data.sets;
+    });
     dispatch(setLoadedWorkout(fullWorkoutData));
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setShowModal(true);

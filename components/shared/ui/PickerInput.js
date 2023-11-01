@@ -1,5 +1,5 @@
 import { ColorPalette } from "../../../ColorPalette";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Keyboard } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import RNPickerSelect from "react-native-picker-select";
@@ -17,6 +17,7 @@ export default function PickerInput({
   const [showPicker, setShowPicker] = useState(false);
 
   function togglePicker() {
+    Keyboard.dismiss();
     setShowPicker((prev) => !prev);
   }
   return (
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
 
   fakeInput: {
     width: "100%",
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: "#121212f5",
     borderRadius: 5,
     padding: 5,
     paddingLeft: 25,

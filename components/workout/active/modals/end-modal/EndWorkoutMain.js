@@ -9,22 +9,16 @@ import TemplateMenuMain from "./template-menu/TemplateMenuMain";
 export default function EndWorkoutMain({ handleClose, cancelling }) {
   const workout = useSelector((state) => state.workout.workout);
   const isTemplate = workout.isTemplate;
-  const numSetsCompleted = workout.exercises.reduce(
-    (acc, exercise) =>
-      (acc += exercise.sets.filter((set) => set.completed).length),
+  const keys = Object.keys(workout.exerciseSets);
+  const numSetsCompleted = keys.reduce(
+    (acc, key) =>
+      (acc += workout.exerciseSets[key].filter((set) => set.completed).length),
     0
   );
 
   return (
     <View style={styles.centeredView}>
-      <Text
-        style={[
-          styles.title,
-          (numSetsCompleted === 0 || cancelling) && {
-            color: ColorPalette.dark.error,
-          },
-        ]}
-      >
+      <Text style={[styles.title]}>
         {numSetsCompleted === 0 || cancelling
           ? "Cancel Workout?"
           : "End Workout?"}

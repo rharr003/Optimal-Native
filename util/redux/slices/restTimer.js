@@ -43,12 +43,24 @@ const restTimerSlice = createSlice({
     decrementRestTimerBy15(state) {
       if (state.restTimer - 15 <= 0) {
         state.restTimer = 0;
+        s;
         state.restTimerActive = false;
         return;
       }
       state.restTimer -= 15;
     },
-    decrementRestTimer(state) {
+    decrementRestTimer(state, action) {
+      if (action.payload?.amount) {
+        console.log("amount", action.payload.amount);
+        const newTimeLeft = state.restTimer - action.payload.amount;
+        if (newTimeLeft <= 0) {
+          state.restTimerActive = false;
+          return;
+        }
+        state.restTimer = newTimeLeft;
+        return;
+      }
+
       //prevents the restTimer from being decreased too fast when switching between minized rest timer view
       if (Date.now() - state.lastDecrent < 800) {
         return;

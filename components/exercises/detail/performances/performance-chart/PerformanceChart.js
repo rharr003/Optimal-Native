@@ -11,7 +11,7 @@ export default function PerformanceChart({ title, data }) {
         chartConfig={chartConfig}
         withFilterButton={false}
         emptyDataText="No Recent Data"
-        hideHorizontalLabels={data.datasets.length > 0 ? false : true}
+        hideHorizontalLabels={false}
       />
     </View>
   );

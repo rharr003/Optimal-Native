@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: ColorPalette.dark.gray700,
   },
   title: {
     fontSize: 24,

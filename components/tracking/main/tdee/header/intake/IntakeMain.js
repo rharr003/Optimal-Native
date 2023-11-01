@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
 import CustomButton from "../../../../../shared/ui/CustomButton";
 import { ColorPalette } from "../../../../../../ColorPalette";
 

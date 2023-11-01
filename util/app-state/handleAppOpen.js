@@ -27,6 +27,7 @@ export default async function handleAppOpen() {
       store.dispatch(addInterval(interval));
       // for some reason moving this dispatch to the end of the function prevents a weird flicker on the ActiveWorkoutDisplay
       store.dispatch(setWorkout(prevState.workout));
+      console.log(prevState.workout);
       // store.dispatch(startWorkout()); removed not sure why i had this in the first place
     }
   });

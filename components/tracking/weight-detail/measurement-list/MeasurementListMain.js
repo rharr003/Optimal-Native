@@ -86,7 +86,7 @@ export default function MeasurementListMain({ route }) {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <Text style={styles.header}>History</Text>
+      <Text style={styles.header}>Recent History</Text>
       <FlatList
         data={measurements}
         renderItem={renderItem}

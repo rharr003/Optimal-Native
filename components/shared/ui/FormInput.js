@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 
   fakeInput: {
     width: "100%",
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: "#121212f5",
     borderRadius: 5,
     padding: 5,
     paddingLeft: 25,

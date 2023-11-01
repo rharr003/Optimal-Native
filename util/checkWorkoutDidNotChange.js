@@ -1,32 +1,49 @@
 export function checkWorkoutDidNotChange(workout, prevWorkout) {
   const namesAreSame = workout.name === prevWorkout.name;
-  const exercisesAreSame =
-    workout.exercises.length === prevWorkout.exercises.length &&
-    workout.exercises.every((exercise, index) => {
-      if (exercise.id !== prevWorkout.exercises[index]?.id) {
-        return false;
-      }
-      if (exercise.sets.length !== prevWorkout.exercises[index]?.sets.length) {
-        return false;
-      }
-      return true;
-    });
-  const setsAreSame = workout.exercises.every((exercise, index) => {
-    return exercise.sets.every((set, setIndex) => {
+  if (!namesAreSame) return false;
+  const numExercisesAreSame =
+    workout.exercisesNew.length === prevWorkout.exercisesNew.length;
+  if (!numExercisesAreSame) return false;
+  const exercisesAreSame = workout.exercisesNew.every((exercise, index) => {
+    if (exercise.id !== prevWorkout.exercisesNew[index]?.id) {
+      return false;
+    }
+    return true;
+  });
+  if (!exercisesAreSame) return false;
+
+  const numSetsNew = Object.keys(workout.exerciseSets).reduce((acc, key) => {
+    // only count completed sets
+    return (acc += workout.exerciseSets[key].filter(
+      (set) => set.completed === true
+    ).length);
+  }, 0);
+  const numSetsOld = Object.keys(prevWorkout.exerciseSets).reduce(
+    // we dont check for completed sets on the old workout because we wouldnt save it unless it was completed
+    (acc, key) => {
+      return (acc += prevWorkout.exerciseSets[key].length);
+    },
+    0
+  );
+
+  if (numSetsNew !== numSetsOld) return false;
+  const setsAreSame = Object.keys(workout.exerciseSets).every((key, index) => {
+    return workout.exerciseSets[key].every((set, setIndex) => {
+      const weight = set.weight ? set.weight : "0";
       if (
-        set.weight !==
-        prevWorkout.exercises[index]?.sets[setIndex]?.prevWeight.toString()
+        weight !== prevWorkout.exerciseSets[key][index]?.prevWeight.toString()
       ) {
+        console.log("weight mismatch");
         return false;
       }
       if (
-        set.reps !==
-        prevWorkout.exercises[index]?.sets[setIndex]?.prevReps.toString()
+        set.reps !== prevWorkout.exerciseSets[key][index]?.prevReps.toString()
       ) {
+        console.log("reps mismatch");
         return false;
       }
       return true;
     });
   });
-  return namesAreSame && exercisesAreSame && setsAreSame;
+  return setsAreSame;
 }

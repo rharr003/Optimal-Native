@@ -17,6 +17,7 @@ export default function AddOrEditExerciseModalMain({
   const [equipment, setEquipment] = useState("");
   const [bodyPart, setBodyPart] = useState("");
   const [error, setError] = useState("");
+
   async function handleAddExercise() {
     if (!name || !equipment || !bodyPart) {
       setError("All fields are required");

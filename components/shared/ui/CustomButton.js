@@ -10,6 +10,7 @@ export default function CustomButton({
   textColor = "#000000",
   size = 24,
   onLongPress,
+  disabled = false,
 }) {
   return (
     <Pressable
@@ -21,10 +22,24 @@ export default function CustomButton({
       ]}
       onPress={onPress}
       onLongPress={onLongPress}
+      disabled={disabled}
     >
-      <Ionicons name={iconName} size={size} color={textColor} />
+      <Ionicons
+        name={iconName}
+        size={size}
+        color={textColor}
+        style={disabled && styles.disabled}
+      />
       {title !== "" ? (
-        <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+        <Text
+          style={[
+            styles.text,
+            { color: textColor },
+            disabled && styles.disabled,
+          ]}
+        >
+          {title}
+        </Text>
       ) : null}
     </Pressable>
   );
@@ -45,5 +60,9 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     marginLeft: 5,
+  },
+
+  disabled: {
+    opacity: 0.4,
   },
 });

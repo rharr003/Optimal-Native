@@ -85,7 +85,7 @@ export default function RestTimerCombined({
 
   function updateCurrentTime(time) {
     //this runs once per second if passed into the countdown circle timer
-    dispatch(decrementRestTimer({ amount: 1 }));
+    dispatch(decrementRestTimer());
     currentRestTimeRef.current = time;
   }
 
@@ -108,7 +108,7 @@ export default function RestTimerCombined({
     <View style={isMinimized ? styles.containerMinimized : styles.container}>
       {!isMinimized && (
         <View>
-          <Text style={styles.title}>Rest Timer</Text>
+          {/* <Text style={styles.title}>Rest Timer</Text> */}
           <Text style={styles.italic}>Tap outside to minimize</Text>
         </View>
       )}
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 34,
+    fontSize: 24,
     color: ColorPalette.dark.secondary200,
     marginBottom: 10,
     textAlign: "center",

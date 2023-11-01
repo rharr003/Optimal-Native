@@ -48,7 +48,7 @@ export default function App() {
 
   useEffect(() => {
     async function load() {
-      // await wipeDatabase
+      // await wipeDatabase();
       await init();
       initNotifications();
       setLoading(false);

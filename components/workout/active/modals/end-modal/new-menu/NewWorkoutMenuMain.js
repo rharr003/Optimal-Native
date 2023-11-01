@@ -30,8 +30,8 @@ export default function NewWorkoutMain({ workout }) {
       new Date().toISOString().split("T")[0]
     );
     const promiseArray = [];
-    workout.exercises.forEach((exercise) => {
-      exercise.sets.forEach((set) => {
+    workout.exercisesNew.forEach((exercise) => {
+      workout.exerciseSets[exercise.reactId].forEach((set) => {
         if (set.completed) {
           promiseArray.push(
             insertWorkoutExercise(
@@ -52,13 +52,15 @@ export default function NewWorkoutMain({ workout }) {
 
   async function finishWorkoutAsTemplate() {
     const workoutId = await saveWorkout();
-    await insertTemplate(workout.name, workoutId);
+    const templateId = await insertTemplate(workout.name, workoutId);
     // add template to store so we dont have to keep rerunning template fetch from db
     const templateForRedux = await fetchTemplateExercises(
       workout.name,
       workoutId,
-      new Date().toISOString().split("T")[0]
+      new Date().toISOString().split("T")[0],
+      templateId
     );
+
     dispatch(addTemplate(templateForRedux));
     navigation.goBack();
   }

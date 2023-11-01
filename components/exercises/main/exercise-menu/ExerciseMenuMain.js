@@ -7,14 +7,9 @@ import AddOrEditExerciseModalMain from "../../../shared/modals/add-or-edit-exerc
 import { useDispatch, useSelector } from "react-redux";
 import { setExercises } from "../../../../util/redux/slices/exercises";
 import { ColorPalette } from "../../../../ColorPalette";
+import * as Haptics from "expo-haptics";
 
-export default function ExerciseMenuMain({
-  onPress,
-  uniqueSelected,
-  onAddNewExercise,
-  exerciseToReplaceInfo,
-  selectedExercises = [],
-}) {
+export default function ExerciseMenuMain({ onPress, onAddNewExercise }) {
   const dispatch = useDispatch();
   const exercises = useSelector((state) => state.exercises.exercises);
   const [filteredExercises, setFilteredExercises] = useState({});
@@ -32,29 +27,9 @@ export default function ExerciseMenuMain({
     fetch();
   }, []);
 
-  // allows us to have the exercises that is being replaced preselected
-
-  useEffect(() => {
-    if (exerciseToReplaceInfo?.id) {
-      const newExercises = {
-        ...exercises,
-        [exerciseToReplaceInfo.letterGroup]: exercises[
-          exerciseToReplaceInfo.letterGroup
-        ].map((exercise) => {
-          if (exercise.id === exerciseToReplaceInfo.id) {
-            return { ...exercise, defaultSelected: true };
-          } else {
-            return exercise;
-          }
-        }),
-      };
-      dispatch(setExercises(newExercises));
-      return;
-    }
-  }, [exerciseToReplaceInfo]);
-
   function handleAddModalOpen() {
     // clear search so that when the modal is closed, the newly added exercise will show up first
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setSearch({ name: "", category: "" });
     Keyboard.dismiss();
     setShowAddModal(true);
@@ -87,10 +62,9 @@ export default function ExerciseMenuMain({
       ) : (
         <ExerciseListMain
           search={search}
+          setSearch={setSearch}
           exercises={exercises}
           filteredExercises={filteredExercises}
-          uniqueSelected={uniqueSelected}
-          selectedExercises={selectedExercises}
           onPress={onPress}
         />
       )}

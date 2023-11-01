@@ -18,10 +18,11 @@ export default function WorkoutFooterButtons({
       />
       <CustomButton
         title="Cancel Workout"
-        color={ColorPalette.dark.error}
+        color={ColorPalette.dark.gray500}
         iconName={"trash-outline"}
         onPress={cancelWorkout}
         style={styles.buttonStyle}
+        textColor="#FFFFFF"
       />
     </View>
   );

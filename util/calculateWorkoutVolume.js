@@ -1,7 +1,8 @@
 export function calculateWorkoutVolume(workout) {
-  const volume = workout.exercises.reduce((acc, exercise) => {
+  const keys = Object.keys(workout.exerciseSets);
+  const volume = keys.reduce((acc, key) => {
     let exerciseVolume = 0;
-    exercise.sets.forEach((set) => {
+    workout.exerciseSets[key].forEach((set) => {
       if (set.unit === "lbs") {
         exerciseVolume += set.weight * set.reps;
       } else {

@@ -1,6 +1,4 @@
 import { Modal, StyleSheet, View, Pressable } from "react-native";
-import { ColorPalette } from "../../../ColorPalette";
-import { BlurView } from "expo-blur";
 
 export default function CenteredModal({
   children,
@@ -23,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     width: "80%",
     height: "40%",
-    backgroundColor: ColorPalette.dark.gray800,
+    backgroundColor: "#1d1d1de7",
     position: "absolute",
     borderRadius: 25,
     alignItems: "center",

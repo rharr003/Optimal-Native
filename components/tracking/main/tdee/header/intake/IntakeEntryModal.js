@@ -5,7 +5,10 @@ import { StyleSheet, View } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrentIntake as setCurrentIntakeRedux } from "../../../../../../util/redux/slices/userData";
+import {
+  setCurrentIntake as setCurrentIntakeRedux,
+  updatePacing,
+} from "../../../../../../util/redux/slices/userData";
 import FormInput from "../../../../../shared/ui/FormInput";
 
 export default function IntakeEntryModal({ showModal, setShowModal }) {
@@ -23,6 +26,7 @@ export default function IntakeEntryModal({ showModal, setShowModal }) {
     }
     await dbSetIntake(parseFloat(text));
     dispatch(setCurrentIntakeRedux(parseFloat(text)));
+    dispatch(updatePacing());
     setText("");
     setShowModal(false);
   }

@@ -8,12 +8,16 @@ import {
   stopRestTimer,
   startRestTimer,
 } from "../../../../../../../../util/redux/slices/restTimer";
+import {
+  updateSet,
+  completeSet,
+} from "../../../../../../../../util/redux/slices/workout";
 import React from "react";
 
 function ExerciseSet({
+  id,
   set,
   setNum,
-  setSets,
   restTime,
   setShowRestTimerModal,
   equipment,
@@ -21,18 +25,13 @@ function ExerciseSet({
   const dispatch = useDispatch();
   const useAltLayout = equipment === "static" || equipment === "body";
   function handleChangeText(text, type) {
-    setSets((prevSets) => {
-      const newSet = prevSets.map((set, setIndex) => {
-        if (setIndex === setNum - 1) {
-          return {
-            ...set,
-            [type]: text,
-          };
-        }
-        return set;
-      });
-      return newSet;
-    });
+    const payload = {
+      id: id,
+      index: setNum - 1,
+      type: type,
+      text: text,
+    };
+    dispatch(updateSet(payload));
   }
 
   function handleComplete() {
@@ -51,18 +50,7 @@ function ExerciseSet({
       dispatch(stopRestTimer());
     }
 
-    setSets((prevSets) => {
-      const newSet = prevSets.map((set, setIndex) => {
-        if (setIndex === setNum - 1) {
-          return {
-            ...set,
-            completed: !set.completed,
-          };
-        }
-        return set;
-      });
-      return newSet;
-    });
+    dispatch(completeSet({ id: id, index: setNum - 1 }));
   }
 
   function createPrevPerformance() {

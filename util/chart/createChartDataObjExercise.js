@@ -20,7 +20,10 @@ export function createChartDataObjExercise(data) {
   if (!data.length) {
     return {
       labels: [],
-      datasets: [],
+      datasets: [
+        { data: [0], withDots: false },
+        { data: [300], withDots: false },
+      ],
       legend: [],
     };
   }

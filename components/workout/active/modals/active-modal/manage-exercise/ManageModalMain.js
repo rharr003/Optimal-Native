@@ -1,6 +1,9 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
-import { removeExercise } from "../../../../../../util/redux/slices/workout";
+import {
+  removeExercise,
+  startReplacing,
+} from "../../../../../../util/redux/slices/workout";
 import { updateExerciseRestTime } from "../../../../../../util/sqlite/db";
 import { updateExerciseRestTime as updateRestTimeState } from "../../../../../../util/redux/slices/workout";
 import { useDispatch } from "react-redux";
@@ -23,7 +26,7 @@ export default function ManageModalMain({
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const exercise = useSelector(
-    (state) => state.workout.workout.exercises[index]
+    (state) => state.workout.workout.exercisesNew[index]
   );
 
   const [showPicker, setShowPicker] = useState(false);
@@ -37,11 +40,15 @@ export default function ManageModalMain({
 
   function toggleExerciseModal() {
     navigation.navigate("addExercise", {
-      isReplacing: true,
-      index,
-      id: exercise.id,
-      letterGroup: exercise.name[0].toUpperCase(),
+      index: index,
+      idBeingReplaced: exercise.id,
     });
+    dispatch(
+      startReplacing({
+        id: exercise.id,
+        exercise: { ...exercise, reactId: exercise.id + Date.now() },
+      })
+    );
     handleClose();
   }
 

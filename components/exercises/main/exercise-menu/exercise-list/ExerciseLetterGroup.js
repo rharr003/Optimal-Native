@@ -1,15 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import AddExerciseExerciseItem from "./ExerciseItem";
 import React from "react";
-import { ColorPalette } from "../../../../../ColorPalette";
 
-function AddExerciseLetterGroup({
-  exerciseArr,
-  letter,
-  onPress,
-  uniqueSelected,
-  selectedExercises,
-}) {
+function AddExerciseLetterGroup({ exerciseArr, letter, onPress, setSearch }) {
   return (
     <View>
       <Text style={styles.title}>{letter}</Text>
@@ -17,10 +10,9 @@ function AddExerciseLetterGroup({
         return (
           <AddExerciseExerciseItem
             key={exercise.id}
+            setSearch={setSearch}
             exercise={exercise}
             onPress={onPress}
-            uniqueSelected={uniqueSelected}
-            selectedExercises={selectedExercises}
           />
         );
       })}

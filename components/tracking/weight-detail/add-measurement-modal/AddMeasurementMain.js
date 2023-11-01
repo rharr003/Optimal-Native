@@ -95,10 +95,9 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
     width: "100%",
-    borderRadius: 10,
+    borderRadius: 25,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: ColorPalette.dark.gray800,
   },
 
   formGroup: {

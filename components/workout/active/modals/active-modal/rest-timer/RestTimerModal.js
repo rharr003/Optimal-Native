@@ -13,7 +13,7 @@ export default function RestTimerModal({
     <CenteredModal
       handleClose={handleClose}
       showModal={showModal}
-      style={{ height: height * 0.5 }}
+      style={{ height: height * 0.45 }}
     >
       <RestTimerCombined
         minimize={handleClose}

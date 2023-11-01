@@ -19,7 +19,7 @@ export default function TemplateList({
           setShowModal={setShowModal}
         />
       )}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item?.id?.toString()}
       style={styles.list}
     />
   );

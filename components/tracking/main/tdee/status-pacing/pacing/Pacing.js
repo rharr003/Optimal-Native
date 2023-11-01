@@ -10,7 +10,11 @@ export default function Pacing() {
       <Text style={styles.title}>Pacing: </Text>
       <View style={[styles.textContainer, { backgroundColor: calorieColor }]}>
         <Text style={styles.text}>
-          {currentPacing ? ` ${currentPacing} lbs/week` : "No Data"}
+          {currentPacing !== ""
+            ? `${currentPacing > 0 ? "+" : ""} ${
+                currentPacing === 0 ? "0.0" : currentPacing
+              } lbs/week`
+            : "No Data"}
         </Text>
       </View>
     </View>

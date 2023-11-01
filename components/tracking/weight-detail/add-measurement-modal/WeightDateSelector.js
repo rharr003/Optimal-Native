@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Keyboard } from "react-native";
 import { useState } from "react";
 import { ColorPalette } from "../../../../ColorPalette";
 import DatePicker from "react-native-date-picker";
@@ -7,6 +7,7 @@ export default function WeightDateSelector({ date, handleChange }) {
   const [showPicker, setShowPicker] = useState(false);
 
   function togglePicker() {
+    Keyboard.dismiss();
     setShowPicker((prev) => !prev);
   }
   return (

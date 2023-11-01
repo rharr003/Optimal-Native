@@ -10,15 +10,48 @@ const workoutSlice = createSlice({
       name: "My Workout",
       isTemplate: false,
       prevWorkoutId: null,
-      exercises: [],
+      // exercises: [],
+      exercisesNew: [],
+      exerciseSets: {},
       duration: 0,
     },
+    selectedExercises: {},
+    isReplacing: false,
     prevWorkout: null,
   },
   reducers: {
     startWorkout(state, action) {
       state.isActive = true;
       state.timer = 0;
+    },
+
+    addSelectedExercise(state, action) {
+      if (state.isReplacing) {
+        const obj = {
+          [action.payload.id]: action.payload.exercise,
+        };
+
+        state.selectedExercises = obj;
+        return;
+      }
+      state.selectedExercises[action.payload.id] = action.payload.exercise;
+    },
+
+    removeSelectedExercise(state, action) {
+      // this may not play nice with redux
+      const copy = state.selectedExercises;
+      delete copy[action.payload.id];
+      state.selectedExercises = copy;
+    },
+
+    startReplacing(state, action) {
+      state.isReplacing = true;
+      state.selectedExercises[action.payload.id] = action.payload.exercise;
+    },
+
+    clearSelectedExercises(state, action) {
+      state.selectedExercises = {};
+      state.isReplacing = false;
     },
 
     addInterval(state, action) {
@@ -53,7 +86,11 @@ const workoutSlice = createSlice({
       state.timer = 0;
       state.workout = {
         name: "My Workout",
+        isTemplate: false,
+        prevWorkoutId: null,
         exercises: [],
+        exercisesNew: [],
+        exerciseSets: {},
         duration: 0,
       };
     },
@@ -66,84 +103,96 @@ const workoutSlice = createSlice({
     },
 
     bulkAddExercises(state, action) {
-      state.workout.exercises = [...state.workout.exercises, ...action.payload];
+      state.workout.exercisesNew = [
+        ...state.workout.exercisesNew,
+        ...action.payload.exercises,
+      ];
+
+      action.payload.setsArray.forEach((exercise) => {
+        state.workout.exerciseSets[exercise.id] = exercise.sets;
+      });
     },
     removeExercise(state, action) {
       const { id, index } = action.payload;
-      state.workout.exercises.splice(index, 1);
+      state.workout.exercisesNew.splice(index, 1);
+      const newState = state.workout.exerciseSets;
+      delete newState[id];
+      state.workout.exerciseSets = newState;
     },
     updateExerciseOrder(state, action) {
-      state.workout.exercises = action.payload;
+      console.log(action.payload);
+      state.workout.exercisesNew = action.payload;
     },
 
     replaceExercise(state, action) {
       const index = action.payload.index;
       const exercise = action.payload.exercise;
-      state.workout.exercises[index] = exercise;
+      const newState = state.workout.exerciseSets;
+      delete newState[action.payload.oldId];
+      newState[action.payload.exercise.reactId] = action.payload.sets;
+      state.workout.exerciseSets = newState;
+      state.workout.exercisesNew[index] = exercise;
     },
 
     updateExerciseRestTime(state, action) {
       const { id, restTime } = action.payload;
-      const exercise = state.workout.exercises.find(
-        (exercise) => exercise.id === id
-      );
-      exercise.restTime = restTime;
+      const newExercises = state.workout.exercisesNew.map((exercise) => {
+        if (exercise.id === id) {
+          return {
+            ...exercise,
+            restTime,
+          };
+        }
+        return exercise;
+      });
+      state.workout.exercisesNew = newExercises;
     },
 
     addSet(state, action) {
-      const { exerciseId } = action.payload;
-      const exercise = state.workout.exercises.find(
-        (exercise) => exercise.id === exerciseId
-      );
-      exercise.sets.push({
-        prevWeight: null,
-        prevReps: null,
+      const { id } = action.payload;
+      const emptySet = {
         weight: "",
         reps: "",
+        prevReps: null,
+        prevWeight: null,
         completed: false,
-      });
+        unit: action.payload.unit,
+      };
+      state.workout.exerciseSets[id].push(emptySet);
     },
-    bulkUpdateSets(state, action) {
-      const { reactId, sets } = action.payload;
-      const exercise = state.workout.exercises.find(
-        (exercise, idx) => exercise.reactId === reactId
-      );
-      if (exercise) exercise.sets = sets;
+
+    toggleUnit(state, action) {
+      const { id, newUnit } = action.payload;
+      console.log(id, newUnit);
+      const newState = state.workout.exerciseSets[id].map((set) => ({
+        ...set,
+        unit: newUnit,
+      }));
+
+      state.workout.exerciseSets[id] = newState;
+    },
+
+    removeSet(state, action) {
+      const { id, setIndex } = action.payload;
+      state.workout.exerciseSets[id].splice(setIndex, 1);
     },
 
     updateSet(state, action) {
-      const { exerciseId, setNum, weight, reps } = action.payload;
-      const exercise = state.workout.exercises.find(
-        (exercise) => exercise.id === exerciseId
-      );
-      exercise.sets[setNum] = {
-        ...exercise.sets[setNum],
-        weight,
-        reps,
+      const copy =
+        state.workout.exerciseSets[action.payload.id][action.payload.index];
+      state.workout.exerciseSets[action.payload.id][action.payload.index] = {
+        ...copy,
+        [action.payload.type]: action.payload.text,
       };
     },
 
     completeSet(state, action) {
-      const { exerciseId, setNum, weight, reps } = action.payload;
-      const exercise = state.workout.exercises.find(
-        (exercise) => exercise.id === exerciseId
-      );
-      exercise.sets[setNum] = {
-        ...exercise.sets[setNum],
-        weight,
-        reps,
-        completed: !exercise.sets[setNum].completed,
+      const copy =
+        state.workout.exerciseSets[action.payload.id][action.payload.index];
+      state.workout.exerciseSets[action.payload.id][action.payload.index] = {
+        ...copy,
+        completed: !copy.completed,
       };
-    },
-
-    removeSet(state, action) {
-      const { exerciseId, setIndex } = action.payload;
-      state.workout.exercises = state.workout.exercises.map((exercise) => {
-        if (exercise.id === exerciseId) {
-          exercise.sets = exercise.sets.filter((set, idx) => idx !== setIndex);
-        }
-        return exercise;
-      });
     },
 
     incrementTimer(state, action) {
@@ -153,6 +202,7 @@ const workoutSlice = createSlice({
 });
 
 export const startWorkout = workoutSlice.actions.startWorkout;
+export const toggleUnit = workoutSlice.actions.toggleUnit;
 export const setWorkout = workoutSlice.actions.setWorkout;
 export const stopWorkout = workoutSlice.actions.stopWorkout;
 export const addInterval = workoutSlice.actions.addInterval;
@@ -164,11 +214,16 @@ export const removeExercise = workoutSlice.actions.removeExercise;
 export const addSet = workoutSlice.actions.addSet;
 export const completeSet = workoutSlice.actions.completeSet;
 export const removeSet = workoutSlice.actions.removeSet;
-export const bulkUpdateSets = workoutSlice.actions.bulkUpdateSets;
 export const updateSet = workoutSlice.actions.updateSet;
 export const updateExerciseOrder = workoutSlice.actions.updateExerciseOrder;
 export const incrementTimer = workoutSlice.actions.incrementTimer;
 export const replaceExercise = workoutSlice.actions.replaceExercise;
 export const updateExerciseRestTime =
   workoutSlice.actions.updateExerciseRestTime;
+export const addSelectedExercise = workoutSlice.actions.addSelectedExercise;
+export const clearSelectedExercises =
+  workoutSlice.actions.clearSelectedExercises;
+export const removeSelectedExercise =
+  workoutSlice.actions.removeSelectedExercise;
+export const startReplacing = workoutSlice.actions.startReplacing;
 export default workoutSlice.reducer;

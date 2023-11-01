@@ -10,8 +10,11 @@ export default function Status() {
       return "Losing Weight";
     } else if (currentPacing > 0) {
       return "Gaining Weight";
+    } else if (currentPacing === 0) {
+      return "Maintaining Weight";
     }
-    return "Maintaining Weight";
+
+    return "No Data";
   }
   return (
     <View style={styles.container}>

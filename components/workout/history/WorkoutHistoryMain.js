@@ -20,6 +20,7 @@ export default function WorkoutHistoryMain() {
         renderItem={({ item }) => <WorkoutHistoryItem workout={item} />}
         keyExtractor={(item) => item.id.toString()}
         style={styles.flatlistContainer}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

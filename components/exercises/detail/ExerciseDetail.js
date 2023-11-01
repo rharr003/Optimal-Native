@@ -9,6 +9,8 @@ import {
   getBestSetsHoldTimeLast6Months,
   updateExercise,
   deleteExercise,
+  fetchTemplates,
+  fetchTemplateExercises,
 } from "../../../util/sqlite/db";
 import { createChartDataObjExercise } from "../../../util/chart/createChartDataObjExercise";
 import ExerciseEditButton from "./header-buttons/ExerciseEditButton";
@@ -21,6 +23,7 @@ import {
   updateExercise as updateExerciseRedux,
 } from "../../../util/redux/slices/exercises";
 import PerformancesMain from "./performances/PerformancesMain";
+import { populateTemplates } from "../../../util/redux/slices/templates";
 
 export default function ExerciseDetail({ route, navigation }) {
   const dispatch = useDispatch();
@@ -56,35 +59,25 @@ export default function ExerciseDetail({ route, navigation }) {
   useEffect(() => {
     // we adjust the fetch function so that the metrics we are fetching make sense for the type of exercise
     async function fetch() {
+      let chartData = null;
       if (exercise.equipment === "body") {
         const result = await getBestSetsConsecutiveReps(exercise.id);
-        const newChartData = await getBestSetsConsecutiveRepsLast6Months(
-          exercise.id
-        );
-        if (newChartData) {
-          setChartData(createChartDataObjExercise(newChartData));
-        }
+        chartData = await getBestSetsConsecutiveRepsLast6Months(exercise.id);
         setPerformances(result);
         setChartTitle("Max Reps");
-        return;
       } else if (exercise.equipment === "static") {
         setChartTitle("Max Hold Time (sec)");
         const result = await getBestSetsHoldTime(exercise.id);
-        const newChartData = await getBestSetsHoldTimeLast6Months(exercise.id);
-        if (newChartData) {
-          setChartData(createChartDataObjExercise(newChartData));
-        }
+        chartData = await getBestSetsHoldTimeLast6Months(exercise.id);
         setPerformances(result);
-        return;
-      }
-      setThirdColumnName("1RM");
-      const result = await getBestSets1RM(exercise.id);
-      const newChartData = await getBestSets1RMLast6Months(exercise.id);
-      if (newChartData) {
-        setChartData(createChartDataObjExercise(newChartData));
-      }
+      } else {
+        setThirdColumnName("1RM");
+        const result = await getBestSets1RM(exercise.id);
+        chartData = await getBestSets1RMLast6Months(exercise.id);
 
-      setPerformances(result);
+        setPerformances(result);
+      }
+      setChartData(createChartDataObjExercise(chartData));
     }
 
     fetch();
@@ -117,6 +110,24 @@ export default function ExerciseDetail({ route, navigation }) {
     const letterGroup = exercise.name[0].toUpperCase();
     await deleteExercise(exercise.id);
     dispatch(deleteExerciseRedux({ id: exercise.id, letterGroup }));
+    const templatesToFetch = await fetchTemplates();
+    const promises = [];
+    templatesToFetch.forEach((template) => {
+      promises.push(
+        fetchTemplateExercises(
+          template.name,
+          template.workout_id,
+          template.date
+        )
+      );
+    });
+    const fetchedTemplates = await Promise.all(promises);
+    console.log(fetchedTemplates);
+    dispatch(
+      populateTemplates(
+        fetchedTemplates.filter((template) => template !== null)
+      )
+    );
     navigation.goBack();
   }
 

@@ -1,11 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
-import { deleteTemplate } from "../../../../../../util/sqlite/db";
 import { useDispatch } from "react-redux";
-import {
-  deleteTemplate as deleteTemplateRedux,
-  setTemplateToEdit,
-} from "../../../../../../util/redux/slices/templates";
+import { setTemplateToEdit } from "../../../../../../util/redux/slices/templates";
 import * as Haptics from "expo-haptics";
 
 export default function TemplateItemMain({
@@ -54,7 +50,7 @@ export default function TemplateItemMain({
           <Text style={styles.text} key={Math.random()}>
             {/* if there are more than 3 show a different message on the last exercise listed */}
             {index === 3 && template.exercises.length > 3
-              ? `${exercise.name} + ${template.exercises.length - 3} more`
+              ? `${exercise.name} + ${template.exercises.length - 3} more...`
               : `${exercise.name}`}
           </Text>
         ))}
@@ -97,7 +93,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 16,
+    fontSize: 14,
     color: ColorPalette.dark.gray300,
     textAlign: "left",
   },

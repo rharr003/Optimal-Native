@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import {
   setOverlayMessage,
   setTdee,
+  updatePacing,
 } from "../../../../util/redux/slices/userData";
 import calculateTdee from "../../../../util/calculateTdee";
 import { useNavigation } from "@react-navigation/native";
@@ -11,8 +12,8 @@ import TdeeChartMain from "./tdee-chart/TdeeChartMain";
 import TdeeTargets from "./tdee-chart/targets/TargetsMain";
 import PressableOverlay from "../../../shared/ui/PressableOverlay";
 import { ColorPalette } from "../../../../ColorPalette";
-import CaloriesMain from "./calories/CaloriesMain";
 import TdeeHeader from "./header/TdeeHeader";
+import StatusPacing from "./status-pacing/StatusPacing";
 
 export default function TdeeMain() {
   const dispatch = useDispatch();
@@ -27,12 +28,15 @@ export default function TdeeMain() {
     async function fetch() {
       const result = await calculateTdee();
       if (typeof result === "number") {
+        console.log("setting tdee to:", result);
         dispatch(setTdee(result));
         dispatch(setOverlayMessage(""));
       } else {
         dispatch(setTdee(0));
         dispatch(setOverlayMessage(result));
       }
+
+      dispatch(updatePacing());
     }
 
     fetch();
@@ -42,7 +46,7 @@ export default function TdeeMain() {
     <View style={styles.container}>
       <TdeeHeader />
       <View style={styles.innerContainer}>
-        <CaloriesMain />
+        <StatusPacing />
         {overlayMessage !== "" && (
           <PressableOverlay
             message={overlayMessage}

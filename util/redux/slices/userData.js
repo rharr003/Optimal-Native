@@ -21,33 +21,25 @@ const userDataSlice = createSlice({
   reducers: {
     setTdee(state, action) {
       state.tdee = action.payload;
-      if (state.currentIntake > 0 && action.payload > 0) {
-        const result = (
-          ((state.currentIntake - action.payload) * 7) /
-          3500
-        ).toFixed(1);
-        result > 0
-          ? (state.calorieColor = ColorPalette.dark.secondary200)
-          : (state.calorieColor = ColorPalette.dark.error);
-        state.currentPacing = result > 0 ? `+ ${result} ` : result;
-      } else {
-        state.currentPacing = "";
-        state.calorieColor = ColorPalette.dark.gray400;
-      }
     },
 
     setCurrentIntake(state, action) {
       state.currentIntake = action.payload;
-      if (action.payload > 0 && state.tdee > 0) {
-        const result = (((action.payload - state.tdee) * 7) / 3500).toFixed(1);
-        result > 0
-          ? (state.calorieColor = ColorPalette.dark.secondary200)
-          : (state.calorieColor = ColorPalette.dark.error);
-        state.currentPacing = result > 0 ? `+ ${result} ` : result;
-      } else {
-        state.currentPacing = "";
-        state.calorieColor = ColorPalette.dark.gray400;
+    },
+
+    updatePacing(state, action) {
+      if (!state.currentIntake || !state.tdee) {
+        (state.currentPacing = ""),
+          (state.calorieColor = ColorPalette.dark.gray400);
+        return;
       }
+      const result = parseFloat(
+        (((state.currentIntake - state.tdee) * 7) / 3500).toFixed(1)
+      );
+      state.currentPacing = result;
+      if (result > 0) state.calorieColor = ColorPalette.dark.primary200;
+      else if (result < 0) state.calorieColor = ColorPalette.dark.error;
+      else state.calorieColor = ColorPalette.dark.secondary200;
     },
 
     setOverlayMessage(state, action) {
@@ -56,10 +48,15 @@ const userDataSlice = createSlice({
 
     setWeightMeasurements(state, action) {
       state.weightMeasurements = action.payload;
+      console.log(action.payload);
     },
 
     addWeightMeasurement(state, action) {
-      state.weightMeasurements.push(action.payload);
+      const newMeasurements = [
+        ...state.weightMeasurements,
+        action.payload,
+      ].sort((a, b) => new Date(b.date) - new Date(a.date));
+      state.weightMeasurements = newMeasurements;
     },
 
     deleteWeightMeasurement(state, action) {
@@ -102,6 +99,7 @@ export const {
   addWeightMeasurement,
   deleteWeightMeasurement,
   updateWeight,
+  updatePacing,
 } = userDataSlice.actions;
 
 export default userDataSlice.reducer;

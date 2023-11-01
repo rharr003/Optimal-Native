@@ -928,7 +928,7 @@ export const fetchUserMetrics = (metric_id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT * FROM user_metrics WHERE metric_id = ? ORDER BY date DESC, id DESC;`,
+        `SELECT * FROM user_metrics WHERE metric_id = ? ORDER BY date DESC, id DESC LIMIT 90;`,
         [metric_id],
         (_, result) => resolve(result.rows._array),
         (_, err) => reject(err)
@@ -1072,9 +1072,9 @@ export const insertTemplate = (name, workout_id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO templates (name, workout_id) VALUES (?, ?);`,
+        `INSERT INTO templates (name, workout_id) VALUES (?, ?) RETURNING id;`,
         [name, workout_id],
-        (_, result) => resolve(result),
+        (_, result) => resolve(result.rows._array[0].id),
         (_, err) => reject(err)
       );
     });
@@ -1086,7 +1086,7 @@ export const deleteTemplate = (id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `DELETE FROM templates WHERE workout_id = ?;`,
+        `DELETE FROM templates WHERE id = ?;`,
         [id],
         (_, result) => resolve(result),
         (_, err) => reject(err)
@@ -1100,7 +1100,7 @@ export const fetchTemplates = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT workout_id, date, templates.name FROM templates JOIN workouts on workout_id = workouts.id;`,
+        `SELECT workout_id, date, templates.id, templates.name FROM templates JOIN workouts on workout_id = workouts.id;`,
         [],
         (_, result) => resolve(result.rows._array),
         (_, err) => reject(err)
@@ -1110,19 +1110,25 @@ export const fetchTemplates = () => {
   return promise;
 };
 
-export const fetchTemplateExercises = (name, id, date) => {
+export const fetchTemplateExercises = (name, workoutId, date, id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
         `SELECT name, equipment FROM workout_exercises JOIN exercises ON exercises.id = exercise_id WHERE workout_id = ? GROUP BY name ORDER BY workout_exercises.id;`,
-        [id],
+        [workoutId],
         (_, result) => {
           const formattedResult = {
             name,
+            prevWorkoutId: workoutId,
             id,
             date,
             exercises: result.rows._array,
           };
+
+          if (!result.rows._array.length) {
+            deleteTemplate(id);
+            resolve(null);
+          }
           resolve(formattedResult);
         },
         (_, err) => reject(err)
@@ -1145,12 +1151,14 @@ export const fetchTemplateExercisesFormatted = (id, exerciseNames) => {
               (row) => row.name === name
             );
             formattedResult.push({
-              name,
-              id: matchingExercises[0].exercise_id,
-              equipment: matchingExercises[0].equipment,
-              muscleGroup: matchingExercises[0].muscleGroup,
-              restTime: matchingExercises[0].restTime,
-              reactId: Date.now() * Math.random(),
+              exercise: {
+                name,
+                id: matchingExercises[0].exercise_id,
+                equipment: matchingExercises[0].equipment,
+                muscleGroup: matchingExercises[0].muscleGroup,
+                restTime: matchingExercises[0].restTime,
+                reactId: Date.now() * Math.random(),
+              },
               sets: matchingExercises.map((row) => ({
                 prevWeight: row.weight,
                 prevReps: row.reps,
@@ -1175,9 +1183,9 @@ export const updateTemplate = (id, name, prevId) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE templates SET name = ?, workout_id = ? WHERE workout_id = ?;`,
+        `UPDATE templates SET name = ?, workout_id = ? WHERE workout_id = ? RETURNING id;`,
         [name, id, prevId],
-        (_, result) => resolve(result),
+        (_, result) => resolve(result.rows._array[0].id),
         (_, err) => reject(err)
       );
     });
@@ -1281,7 +1289,7 @@ async function seedWidgets() {
     const promise = new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          `INSERT INTO widgets (name, displayName, description, shouldDisplay) VALUES (?, ?, ?, false);`,
+          `INSERT INTO widgets (name, displayName, description, shouldDisplay) VALUES (?, ?, ?, true);`,
           [widget.name, widget.displayName, widget.description],
           (_, result) => resolve(result),
           (_, err) => reject(err)

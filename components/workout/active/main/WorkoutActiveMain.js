@@ -20,24 +20,20 @@ export default function WorkoutActiveMain({ interval }) {
   const appState = AppState.currentState;
   const dispatch = useDispatch();
   const [showFinishModal, setShowFinishModal] = useState(false);
-  const [isFinishing, setIsFinishing] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const timeClosed = useSelector((state) => state.restTimer.timeClosed);
   const navigation = useNavigation();
 
   function handleCloseModal() {
-    setIsFinishing(false);
     setShowFinishModal(false);
     setCancelling(false);
   }
 
   function handleOpenModal() {
-    setIsFinishing(true);
     setShowFinishModal(true);
   }
 
   function handleCancel() {
-    setIsFinishing(true);
     setShowFinishModal(true);
     setCancelling(true);
   }
@@ -94,7 +90,6 @@ export default function WorkoutActiveMain({ interval }) {
         />
       </CenteredModal>
       <WorkoutExerciseList
-        isFinishing={isFinishing}
         interval={interval}
         handleCancel={handleCancel}
       />

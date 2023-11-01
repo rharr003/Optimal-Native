@@ -17,7 +17,7 @@ export default function StartWorkoutMain({ workout, handleClose }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const exercisesToShow = workout.exercises.slice(0, 6);
+  const exercisesToShow = workout.exercisesNew.slice(0, 6);
 
   function handleStartWorkout() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -39,7 +39,10 @@ export default function StartWorkoutMain({ workout, handleClose }) {
     <View style={styles.container}>
       <Text style={styles.title}>{workout.name}</Text>
 
-      <ExerciseList exercises={exercisesToShow} />
+      <ExerciseList
+        exercises={exercisesToShow}
+        exerciseSets={workout.exerciseSets}
+      />
       {isActive && (
         <Text style={styles.warning}>
           Starting workout will overide current workout

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../../../ColorPalette";
 
-export default function ExerciseList({ exercises }) {
+export default function ExerciseList({ exercises, exerciseSets }) {
   return (
     <View>
       {exercises.map((exercise, index) => (
@@ -14,7 +14,7 @@ export default function ExerciseList({ exercises }) {
                   exercise.equipment.slice(1)
                 })` +
                 " x " +
-                exercise.sets.length
+                exerciseSets[exercise.reactId].length
               } + ${workout.exercises.length - 5} more`
             : `${
                 exercise.name +
@@ -23,7 +23,7 @@ export default function ExerciseList({ exercises }) {
                   exercise.equipment.slice(1)
                 })` +
                 " x " +
-                exercise.sets.length
+                exerciseSets[exercise.reactId].length
               }`}
         </Text>
       ))}

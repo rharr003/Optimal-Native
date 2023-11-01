@@ -6,7 +6,9 @@ import { addExercise } from "../../../util/redux/slices/exercises";
 
 export default function ExercisesMain({ navigation }) {
   const dispatch = useDispatch();
-  function onPress(exercise) {
+  function onPress(exercise, setSearch) {
+    // I only do this to avoid a deleted exercise being show to to an active search
+    setSearch({ name: "", category: "" });
     navigation.navigate("exerciseDetails", { exercise });
   }
 

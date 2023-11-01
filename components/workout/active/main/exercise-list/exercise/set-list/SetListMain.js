@@ -13,7 +13,6 @@ export default function SetListMain({
   removeSet,
   activeIdx,
   setIdxRemoved,
-  setSets,
   exercise,
   setShowRestTimerModal,
   addSet,
@@ -36,9 +35,9 @@ export default function SetListMain({
             setIdxRemoved={setIdxRemoved}
           >
             <ExerciseSet
+              id={exercise.reactId}
               set={item}
               setNum={index + 1}
-              setSets={setSets}
               restTime={exercise.restTime}
               setShowRestTimerModal={setShowRestTimerModal}
               equipment={exercise.equipment}

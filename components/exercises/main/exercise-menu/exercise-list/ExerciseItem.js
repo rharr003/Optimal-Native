@@ -1,36 +1,38 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useState, useEffect } from "react";
 import React from "react";
 import { ColorPalette } from "../../../../../ColorPalette";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addSelectedExercise,
+  removeSelectedExercise,
+} from "../../../../../util/redux/slices/workout";
 
-function AddExerciseExerciseItem({
-  exercise,
-  onPress,
-  uniqueSelected,
-  selectedExercises,
-}) {
-  const isInSelected = selectedExercises.some(
-    (item) => item.id === exercise.id
+function AddExerciseExerciseItem({ exercise, onPress, setSearch }) {
+  const dispatch = useDispatch();
+  //access by key to avoid every exercise from re-rendering everytime another exercise is added or deleted for redux selection
+  const exerciseInRedux = useSelector(
+    (state) => state.workout.selectedExercises[exercise.id]
   );
+  const selected = exerciseInRedux ? true : false;
 
-  const [selected, setSelected] = useState(isInSelected);
   function handlePress() {
-    onPress(exercise, setSelected);
-  }
-
-  // for some reason the state doesnt update properly on rerender so you have to make sure the state and isInSelected are in sync
-  useEffect(() => {
-    setSelected(isInSelected);
-  }, [isInSelected]);
-
-  useEffect(() => {
-    if (uniqueSelected) {
-      if (uniqueSelected !== exercise.id) {
-        setSelected(false);
-      }
+    // override default behavior if onPress function is provided
+    if (onPress) {
+      onPress(exercise, setSearch);
+      return;
     }
-  }, [uniqueSelected]);
+    if (!selected) {
+      dispatch(
+        addSelectedExercise({
+          id: exercise.id,
+          exercise: { ...exercise, reactId: exercise.id + Date.now() },
+        })
+      );
+    } else {
+      dispatch(removeSelectedExercise({ id: exercise.id }));
+    }
+  }
 
   return (
     <Pressable

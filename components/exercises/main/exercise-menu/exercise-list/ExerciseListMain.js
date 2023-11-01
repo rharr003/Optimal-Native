@@ -3,10 +3,9 @@ import ExerciseLetterGroup from "./ExerciseLetterGroup";
 
 export default function ExerciseListMain({
   search,
+  setSearch,
   exercises,
   filteredExercises,
-  uniqueSelected,
-  selectedExercises,
   onPress,
 }) {
   return (
@@ -20,14 +19,13 @@ export default function ExerciseListMain({
       renderItem={({ item }) => (
         <ExerciseLetterGroup
           letter={item}
+          setSearch={setSearch}
           exerciseArr={
             (search.name === "" && search.category === ""
               ? exercises
               : filteredExercises)[item]
           }
           onPress={onPress}
-          uniqueSelected={uniqueSelected}
-          selectedExercises={selectedExercises}
         />
       )}
       keyExtractor={(item) => item}
