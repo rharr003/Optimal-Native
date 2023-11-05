@@ -13,7 +13,7 @@ import SelectorsMain from "./selectors/SelectorsMain";
 
 export default function ProfileMain() {
   const [userData, setUserData] = useState({
-    name: "",
+    name: "test",
     height: "",
     birth_date: "",
     calorie_intake: 0,
@@ -34,7 +34,7 @@ export default function ProfileMain() {
           heightIn: (data.height % 12).toString(),
         });
     }
-    if (isFocused) fetch();
+    fetch();
   }, []);
 
   useEffect(() => {
@@ -80,13 +80,13 @@ export default function ProfileMain() {
 
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-      <TextInput
+      {/* <TextInput
         style={[styles.input, styles.inputLarge]}
         placeholder="Enter Name"
         placeholderTextColor={ColorPalette.dark.gray500}
         value={userData?.name !== "User" ? userData?.name : ""}
         onChangeText={handleChangeName}
-      />
+      /> */}
       <SelectorsMain userData={userData} setUserData={setUserData} />
     </Pressable>
   );

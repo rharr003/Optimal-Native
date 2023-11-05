@@ -1,8 +1,8 @@
 import CenteredModal from "../../../shared/modals/CenteredModal";
 import { View, Text, StyleSheet } from "react-native";
 import CustomButton from "../../../shared/ui/CustomButton";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { ColorPalette } from "../../../../ColorPalette";
+import * as Haptics from "expo-haptics";
 
 export default function DeleteModal({
   showModal,
@@ -15,6 +15,7 @@ export default function DeleteModal({
   }
 
   function handleDelete() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     setShowModal(false);
     onDelete();
   }
@@ -23,29 +24,36 @@ export default function DeleteModal({
       showModal={showModal}
       setShowModal={setShowModal}
       handleClose={handleClose}
-      style={{ height: 200 }}
+      style={{ height: 240 }}
     >
       <View style={styles.container}>
-        <Text style={styles.text}>
-          Are you sure you want to delete {exercise.name} ({exercise.equipment}
-          )?
+        <Text style={styles.title}>Delete Exercise</Text>
+        <Text style={styles.disclaimer}>
+          Are you sure you want to delete{" "}
+          <Text style={styles.exerciseInfo}>
+            {exercise.name} {exercise.equipment}?
+          </Text>
+          (This cannot be undone)
         </Text>
-        <Text style={styles.italic}>(This cannot be undone)</Text>
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            title="Delete"
-            color={ColorPalette.dark.error}
-            onPress={handleDelete}
-            style={styles.button}
-          />
-          <CustomButton
-            title="Cancel"
-            color={ColorPalette.dark.gray500}
-            onPress={handleClose}
-            style={styles.button}
-          />
-        </View>
+        {/* <View style={styles.buttonContainer}> */}
+        <CustomButton
+          title="Delete (press and hold)"
+          onLongPress={handleDelete}
+          iconName={"trash-outline"}
+          style={styles.buttonStyle}
+          color={ColorPalette.dark.error}
+          textColor="#000000"
+        />
+        <CustomButton
+          onPress={handleClose}
+          title="Go Back"
+          iconName="log-out-outline"
+          style={styles.buttonStyle}
+          color={ColorPalette.dark.gray500}
+          textColor="#FFFFFF"
+        />
       </View>
+      {/* </View> */}
     </CenteredModal>
   );
 }
@@ -57,21 +65,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
   },
-  title: {
-    color: ColorPalette.dark.gray100,
-    fontSize: 20,
+
+  exerciseInfo: {
     fontWeight: "bold",
+    opacity: 1,
+    color: ColorPalette.dark.error,
   },
-  text: {
-    color: ColorPalette.dark.gray100,
-    fontSize: 18,
+  title: {
+    fontSize: 20,
+    color: ColorPalette.dark.secondary200,
+    marginBottom: 10,
     textAlign: "center",
   },
 
-  italic: {
+  disclaimer: {
+    color: ColorPalette.dark.gray400,
+    opacity: 0.7,
     fontStyle: "italic",
-    fontSize: 16,
-    color: ColorPalette.dark.error,
+    textAlign: "center",
+    marginBottom: 25,
+    marginTop: 10,
+    fontSize: 18,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -80,5 +94,11 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "45%",
+  },
+  buttonStyle: {
+    margin: 0,
+    marginVertical: 5,
+    paddingVertical: 3,
+    width: "90%",
   },
 });

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   fakeInput: {
     width: "100%",
     backgroundColor: "#121212f5",
-    borderRadius: 5,
+    borderRadius: 25,
     padding: 5,
     paddingLeft: 25,
     height: 40,

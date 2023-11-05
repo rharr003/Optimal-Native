@@ -13,7 +13,7 @@ import TdeeTargets from "./tdee-chart/targets/TargetsMain";
 import PressableOverlay from "../../../shared/ui/PressableOverlay";
 import { ColorPalette } from "../../../../ColorPalette";
 import TdeeHeader from "./header/TdeeHeader";
-import StatusPacing from "./status-pacing/StatusPacing";
+import ChartHeader from "./chart-header/ChartHeader";
 
 export default function TdeeMain() {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export default function TdeeMain() {
     <View style={styles.container}>
       <TdeeHeader />
       <View style={styles.innerContainer}>
-        <StatusPacing />
+        <ChartHeader />
         {overlayMessage !== "" && (
           <PressableOverlay
             message={overlayMessage}

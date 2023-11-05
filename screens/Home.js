@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ColorPalette } from "../ColorPalette";
-import AddWidgetModalMain from "../components/home/add-widget-modal/AddWidgetModalMain";
+import AddWidgetModalMain from "../components/home/add-widget/AddWidgetModalMain";
 import HomeMain from "../components/home/main/HomeMain";
 
 const screenOptions = {

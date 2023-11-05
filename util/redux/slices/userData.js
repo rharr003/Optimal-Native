@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ColorPalette } from "../../../ColorPalette";
 
-let interval = null;
-
 const userDataSlice = createSlice({
   name: "userData",
   initialState: {
@@ -48,10 +46,19 @@ const userDataSlice = createSlice({
 
     setWeightMeasurements(state, action) {
       state.weightMeasurements = action.payload;
-      console.log(action.payload);
+      if (action.payload.length) {
+        state.currentWeight = {
+          weight: action.payload[0].weight,
+          date: action.payload[0].date,
+        };
+      }
     },
 
     addWeightMeasurement(state, action) {
+      if (action.payload.date === state.currentWeight.date) {
+        state.weightMeasurements.unshift(action.payload);
+        return;
+      }
       const newMeasurements = [
         ...state.weightMeasurements,
         action.payload,
@@ -66,11 +73,11 @@ const userDataSlice = createSlice({
 
     updateWeight(state, action) {
       if (!action.payload) {
-        (state.currentBmi = 0),
-          (state.currentWeight = {
-            weight: 0,
-            date: null,
-          });
+        state.currentBmi = 0;
+        state.currentWeight = {
+          weight: 0,
+          date: null,
+        };
         return;
       }
       state.currentWeight = {

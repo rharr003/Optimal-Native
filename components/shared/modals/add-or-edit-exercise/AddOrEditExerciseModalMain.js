@@ -77,7 +77,9 @@ export default function AddOrEditExerciseModalMain({
 
   return (
     <CenteredModal showModal={showModal} handleClose={handleClose}>
-      <Text style={styles.title}>{isEditing ? "Edit" : "Add New"}</Text>
+      <Text style={styles.title}>
+        {isEditing ? "Edit Exercise" : "Add Exercise"}
+      </Text>
       <View style={styles.container}>
         <FormInput
           placeholder={"Example:  Bicep Curl"}
@@ -102,15 +104,18 @@ export default function AddOrEditExerciseModalMain({
         <View style={styles.buttonContainer}>
           <CustomButton
             title={isEditing ? "Save" : "Add"}
+            iconName={"save-outline"}
             color={ColorPalette.dark.secondary200}
             onPress={handleAddExercise}
             style={styles.button}
           />
           <CustomButton
-            title="Cancel"
-            color={ColorPalette.dark.error}
+            title="Go Back"
+            color={ColorPalette.dark.gray500}
+            iconName={"log-out-outline"}
             onPress={handleClose}
             style={styles.button}
+            textColor="#FFFFFF"
           />
         </View>
       </View>

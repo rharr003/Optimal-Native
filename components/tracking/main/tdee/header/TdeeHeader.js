@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../../ColorPalette";
-import IntakeMain from "./intake/IntakeMain";
-import IntakeEntryModal from "./intake/IntakeEntryModal";
+import CurrentIntakeLabel from "./CurrentIntakeLabel";
+import IntakeEntryModal from "../modals/IntakeEntryModal";
 import { useState } from "react";
 
 export default function TdeeHeader() {
@@ -14,7 +14,7 @@ export default function TdeeHeader() {
     <View style={styles.container}>
       <IntakeEntryModal showModal={showModal} setShowModal={setShowModal} />
       <Text style={styles.title}>Intake Report:</Text>
-      <IntakeMain handlePress={toggleModal} />
+      <CurrentIntakeLabel handlePress={toggleModal} />
     </View>
   );
 }

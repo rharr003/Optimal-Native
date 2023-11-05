@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ColorPalette } from "../../../../../ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 
-export default function Bmi({ bmi }) {
+export default function Weight({ currWeight }) {
+  const value = currWeight === 0 ? "No Data" : currWeight + " lbs";
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>BMI</Text>
-      <Text style={styles.text}>{bmi ? bmi.toFixed(1) : "No Data"}</Text>
+      <Text style={styles.title}>Weight</Text>
+      <Text style={styles.text}>{value}</Text>
     </View>
   );
 }

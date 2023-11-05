@@ -4,12 +4,12 @@ import {
   fetchUserData,
 } from "../../../../util/sqlite/db";
 import { useEffect } from "react";
-import Weight from "./weight/Weight";
-import Bmi from "./bmi/Bmi";
+import Weight from "./Weight";
+import Bmi from "./Bmi";
 import { ColorPalette } from "../../../../ColorPalette";
 import { useSelector, useDispatch } from "react-redux";
 import { updateWeight } from "../../../../util/redux/slices/userData";
-import WeightStatus from "./weight-status/WeightStatus";
+import WeightStatus from "./WeightStatus";
 import CustomButton from "../../../shared/ui/CustomButton";
 
 export default function CurrentWeightMain({ handleOpenModal }) {

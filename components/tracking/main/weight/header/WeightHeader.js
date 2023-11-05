@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import CurrentWeight from "./current-weight/CurrentWeight";
+import CurrentWeight from "./CurrentWeight";
 import { ColorPalette } from "../../../../../ColorPalette";
 
 export default function WeightHeader() {

@@ -6,10 +6,10 @@ import {
   setCurrentIntake,
   updatePacing,
 } from "../../../../../util/redux/slices/userData";
-import Pacing from "./pacing/Pacing";
-import Status from "./status/Status";
+import Pacing from "./Pacing";
+import Status from "./Status";
 
-export default function StatusPacing() {
+export default function ChartHeader() {
   const dispatch = useDispatch();
 
   useEffect(() => {

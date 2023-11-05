@@ -1,11 +1,11 @@
 import { Text, StyleSheet, Pressable } from "react-native";
 import { useEffect } from "react";
-import { fetchLastMetricValue } from "../../../../../../util/sqlite/db";
-import { ColorPalette } from "../../../../../../ColorPalette";
-import CustomButton from "../../../../../shared/ui/CustomButton";
+import { fetchLastMetricValue } from "../../../../../util/sqlite/db";
+import { ColorPalette } from "../../../../../ColorPalette";
+import CustomButton from "../../../../shared/ui/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { updateWeight } from "../../../../../../util/redux/slices/userData";
+import { updateWeight } from "../../../../../util/redux/slices/userData";
 
 export default function CurrentWeight() {
   const currWeight = useSelector(

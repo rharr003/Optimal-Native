@@ -1,15 +1,15 @@
-import CenteredModal from "../../../../../shared/modals/CenteredModal";
-import CustomButton from "../../../../../shared/ui/CustomButton";
-import { setCurrentIntake as dbSetIntake } from "../../../../../../util/sqlite/db";
+import CenteredModal from "../../../../shared/modals/CenteredModal";
+import CustomButton from "../../../../shared/ui/CustomButton";
+import { setCurrentIntake as dbSetIntake } from "../../../../../util/sqlite/db";
 import { StyleSheet, View } from "react-native";
-import { ColorPalette } from "../../../../../../ColorPalette";
+import { ColorPalette } from "../../../../../ColorPalette";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   setCurrentIntake as setCurrentIntakeRedux,
   updatePacing,
-} from "../../../../../../util/redux/slices/userData";
-import FormInput from "../../../../../shared/ui/FormInput";
+} from "../../../../../util/redux/slices/userData";
+import FormInput from "../../../../shared/ui/FormInput";
 
 export default function IntakeEntryModal({ showModal, setShowModal }) {
   const [text, setText] = useState("");

@@ -56,6 +56,7 @@ export default function MeasurementListMain({ route }) {
   }
 
   async function removeItem(index) {
+    console.log("removing item");
     const id = measurements[index].id;
     await deleteUserMetric(id);
     dispatch(deleteWeightMeasurement(index));
@@ -63,10 +64,11 @@ export default function MeasurementListMain({ route }) {
       const userData = await fetchUserData();
       const prevData = await fetchLastMetricValue(1);
       if (prevData) {
+        console.log(prevData);
         dispatch(
           updateWeight({
             weight: prevData.value,
-            date: prevData.Date,
+            date: prevData.date,
             height: userData?.height,
           })
         );

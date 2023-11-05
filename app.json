@@ -22,6 +22,8 @@
     },
 
     "android": {
+      "package": "com.robertharrington.optimal_native",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

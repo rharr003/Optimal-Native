@@ -22,7 +22,7 @@ export default function TemplateMenuButtons({
         />
       )}
       <CustomButton
-        title="Finish (Discard changes)"
+        title={`Finish${!workoutIsSame ? " (discard changes)" : ""}`}
         onPress={handleFinishWorkout}
         iconName={"flag-outline"}
         style={styles.buttonStyle}

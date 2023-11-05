@@ -29,8 +29,8 @@ export default function AddMeasurementMain({ showModal, handleClose, metric }) {
     const formattedDate = date.toISOString().split("T")[0];
     const newEntry = await insertUserMetric(metric.id, text, formattedDate);
     dispatch(addWeightMeasurement(newEntry));
-
     // if the submitted data would be the most recent data point we update redux
+    console.log(currWeightDate);
     if (date.getTime() > new Date(currWeightDate).getTime()) {
       const userData = await fetchUserData();
       dispatch(

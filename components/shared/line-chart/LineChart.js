@@ -16,10 +16,11 @@ export default function LineChart({
   emptyDataText = "No Data For Period Selected",
   title = "",
   currFormat = "",
+  withBorder = true,
 }) {
   const chartWidth = Dimensions.get("window").width - 40;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, withBorder && styles.border]}>
       {title && <Text style={styles.title}>{title}</Text>}
       <View style={styles.chartContainer}>
         <RNCKLineChart
@@ -51,12 +52,16 @@ export default function LineChart({
 const styles = StyleSheet.create({
   container: {
     height: 270,
-    width: "95%",
+    width: "110%",
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  border: {
     borderColor: ColorPalette.dark.secondary200,
     borderWidth: 1,
     borderRadius: 25,
+    width: "95%",
   },
   chartContainer: {
     width: "100%",

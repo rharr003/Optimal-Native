@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { Text, StyleSheet, Pressable } from "react-native";
-import CustomButton from "../../../../../shared/ui/CustomButton";
-import { ColorPalette } from "../../../../../../ColorPalette";
+import CustomButton from "../../../../shared/ui/CustomButton";
+import { ColorPalette } from "../../../../../ColorPalette";
 
-export default function IntakeMain({ handlePress }) {
+export default function CurrentIntakeLabel({ handlePress }) {
   const currentIntake = useSelector((state) => state.userData.currentIntake);
   return (
     <Pressable

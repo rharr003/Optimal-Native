@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-import { ColorPalette } from "../../../../../../ColorPalette";
+import { ColorPalette } from "../../../../../ColorPalette";
 
 export default function Status() {
   const currentPacing = useSelector((state) => state.userData.currentPacing);
