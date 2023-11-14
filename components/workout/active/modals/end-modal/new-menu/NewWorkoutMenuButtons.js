@@ -10,7 +10,7 @@ export default function NewWorkoutMenuButtons({ finishAsTemplate, finish }) {
         onPress={finishAsTemplate}
         iconName={"save-outline"}
         style={styles.buttonStyle}
-        color={ColorPalette.dark.secondary200}
+        color={ColorPalette.dark.primary200}
         textColor="#000000"
       />
       <CustomButton

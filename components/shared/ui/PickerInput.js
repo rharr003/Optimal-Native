@@ -1,7 +1,7 @@
 import { ColorPalette } from "../../../ColorPalette";
-import { View, Text, StyleSheet, Pressable, Keyboard } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useState } from "react";
+
 import RNPickerSelect from "react-native-picker-select";
 
 export default function PickerInput({
@@ -14,32 +14,24 @@ export default function PickerInput({
   disabled = false,
   textColor = ColorPalette.dark.secondary200,
 }) {
-  const [showPicker, setShowPicker] = useState(false);
-
-  function togglePicker() {
-    Keyboard.dismiss();
-    setShowPicker((prev) => !prev);
-  }
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <Pressable
+      <RNPickerSelect
+        onValueChange={handleChange}
+        items={pickerOptions}
+        style={pickerStyle}
         disabled={disabled}
-        onPress={togglePicker}
-        style={({ pressed }) => [styles.fakeInput, pressed && styles.pressed]}
       >
-        <Ionicons name={iconName} size={20} color={ColorPalette.dark.gray500} />
-        <Text style={[styles.text, { color: textColor }]}>{value}</Text>
-      </Pressable>
-      {showPicker && (
-        <RNPickerSelect
-          onValueChange={handleChange}
-          items={pickerOptions}
-          onClose={togglePicker}
-          onDonePress={togglePicker}
-          style={pickerStyle}
-        />
-      )}
+        <View style={styles.fakeInput}>
+          <Ionicons
+            name={iconName}
+            size={20}
+            color={ColorPalette.dark.gray500}
+          />
+          <Text style={[styles.text, { color: textColor }]}>{value}</Text>
+        </View>
+      </RNPickerSelect>
     </View>
   );
 }

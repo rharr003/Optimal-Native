@@ -13,34 +13,20 @@ export default function Item({
       onPress={onPress}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <View style={styles.row}>
         <Ionicons name={icon} size={24} color={iconColor} />
         <Text style={[styles.text, { marginLeft: 10 }]}>{title}</Text>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {rightText ? (
-          <>
-            <Text style={[styles.text, { color: iconColor }]}>{rightText}</Text>
-            <Ionicons
-              name="chevron-forward-outline"
-              size={24}
-              color={iconColor}
-            />
-          </>
-        ) : null}
-      </View>
+      {rightText && (
+        <View style={styles.row}>
+          <Text style={[styles.text, { color: iconColor }]}>{rightText}</Text>
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={iconColor}
+          />
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -51,8 +37,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    flex: 1,
     width: "100%",
+    marginVertical: 15,
+  },
+
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   pressed: {

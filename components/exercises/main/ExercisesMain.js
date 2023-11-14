@@ -13,10 +13,20 @@ export default function ExercisesMain({ navigation }) {
   }
 
   async function onAddNewExercise(name, equipment, bodyPart) {
-    const newExercise = await insertExercise(name, equipment, bodyPart);
-    const letter = name[0].toUpperCase();
-    // update redux store with new exercise
-    dispatch(addExercise({ newExercise, letterGroup: letter }));
+    try {
+      const newId = await insertExercise(name, equipment, bodyPart);
+
+      const letter = name[0].toUpperCase();
+      // update redux store with new exercise
+      dispatch(
+        addExercise({
+          newExercise: { name, equipment, muscleGroup: bodyPart, id: newId },
+          letterGroup: letter,
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import RestTimerCombined from "../../../shared/RestTimerCombined";
+import RestTimerCombined from "../../../rest-timer/RestTimerCombined";
 import CenteredModal from "../../../../../shared/modals/CenteredModal";
 import { Dimensions } from "react-native";
 
@@ -13,7 +13,7 @@ export default function RestTimerModal({
     <CenteredModal
       handleClose={handleClose}
       showModal={showModal}
-      style={{ height: height * 0.45 }}
+      style={{ height: 400 }}
     >
       <RestTimerCombined
         minimize={handleClose}

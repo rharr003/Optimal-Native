@@ -47,7 +47,7 @@ export default function CustomButton({
 
 const styles = StyleSheet.create({
   button: {
-    padding: 10,
+    padding: 5,
     borderRadius: 15,
     margin: 10,
     flexDirection: "row",

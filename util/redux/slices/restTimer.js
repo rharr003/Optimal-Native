@@ -43,7 +43,6 @@ const restTimerSlice = createSlice({
     decrementRestTimerBy15(state) {
       if (state.restTimer - 15 <= 0) {
         state.restTimer = 0;
-        s;
         state.restTimerActive = false;
         return;
       }
@@ -51,7 +50,6 @@ const restTimerSlice = createSlice({
     },
     decrementRestTimer(state, action) {
       if (action.payload?.amount) {
-        console.log("amount", action.payload.amount);
         const newTimeLeft = state.restTimer - action.payload.amount;
         if (newTimeLeft <= 0) {
           state.restTimerActive = false;

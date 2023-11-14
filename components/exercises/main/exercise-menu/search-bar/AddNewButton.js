@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import CustomButton from "../../../../../shared/ui/CustomButton";
-import { ColorPalette } from "../../../../../../ColorPalette";
+import CustomButton from "../../../../shared/ui/CustomButton";
+import { ColorPalette } from "../../../../../ColorPalette";
 
 export default function AddNewButton({ onPress }) {
   return (

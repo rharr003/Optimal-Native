@@ -41,32 +41,39 @@ export default function TemplatesMain() {
         )
       );
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   async function handleSelect(template) {
-    const exerciseNames = template.exercises.map((exercise) => exercise.name);
-    const fullExerciseData = await fetchTemplateExercisesFormatted(
-      template.prevWorkoutId,
-      exerciseNames
-    );
+    try {
+      const exerciseNames = template.exercises.map((exercise) => exercise.name);
+      const fullExerciseData = await fetchTemplateExercisesFormatted(
+        template.prevWorkoutId,
+        exerciseNames
+      );
 
-    const fullWorkoutData = {
-      name: template.name,
-      isTemplate: true,
-      prevWorkoutId: template.prevWorkoutId,
-      duration: 0,
-      exercisesNew: fullExerciseData.map((data) => data.exercise),
-      exerciseSets: {},
-    };
+      const fullWorkoutData = {
+        name: template.name,
+        isTemplate: true,
+        prevWorkoutId: template.prevWorkoutId,
+        duration: 0,
+        exercisesNew: fullExerciseData.map((data) => data.exercise),
+        exerciseSets: {},
+      };
 
-    fullExerciseData.forEach((data) => {
-      fullWorkoutData.exerciseSets[data.exercise.reactId] = data.sets;
-    });
-    dispatch(setLoadedWorkout(fullWorkoutData));
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setShowModal(true);
+      fullExerciseData.forEach((data) => {
+        fullWorkoutData.exerciseSets[data.exercise.reactId] = data.sets;
+      });
+      dispatch(setLoadedWorkout(fullWorkoutData));
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      setShowModal(true);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (

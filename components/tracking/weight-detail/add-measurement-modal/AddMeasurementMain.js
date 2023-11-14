@@ -26,29 +26,34 @@ export default function AddMeasurementMain({ showModal, handleClose, metric }) {
   const dispatch = useDispatch();
 
   async function handleSave() {
-    const formattedDate = date.toISOString().split("T")[0];
-    const newEntry = await insertUserMetric(metric.id, text, formattedDate);
-    dispatch(addWeightMeasurement(newEntry));
-    // if the submitted data would be the most recent data point we update redux
-    console.log(currWeightDate);
-    if (date.getTime() > new Date(currWeightDate).getTime()) {
-      const userData = await fetchUserData();
+    try {
+      const formattedDate = date.toISOString().split("T")[0];
+      const newId = await insertUserMetric(metric.id, text, formattedDate);
       dispatch(
-        updateWeight({
-          weight: parseFloat(text),
-          date: formattedDate,
-          height: userData?.height,
-        })
+        addWeightMeasurement({ date: formattedDate, value: text, id: newId })
       );
-      // recalculate tdee based on new weight
-      const result = await calculateTdee();
-      if (typeof result === "number") {
-        dispatch(setTdee(result));
-        dispatch(setOverlayMessage(""));
-      } else {
-        dispatch(setTdee(0));
-        dispatch(setOverlayMessage(result));
+      // if the submitted data would be the most recent data point we update redux
+      if (date.getTime() > new Date(currWeightDate).getTime()) {
+        const userData = await fetchUserData();
+        dispatch(
+          updateWeight({
+            weight: parseFloat(text),
+            date: formattedDate,
+            height: userData?.height,
+          })
+        );
+        // recalculate tdee based on new weight
+        const result = await calculateTdee();
+        if (typeof result === "number") {
+          dispatch(setTdee(result));
+          dispatch(setOverlayMessage(""));
+        } else {
+          dispatch(setTdee(0));
+          dispatch(setOverlayMessage(result));
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
     setText("");
     handleClose();

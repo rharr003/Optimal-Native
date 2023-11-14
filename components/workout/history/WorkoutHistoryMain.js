@@ -10,7 +10,11 @@ export default function WorkoutHistoryMain() {
       const workouts = await fetchWorkouts();
       setWorkouts(workouts);
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

@@ -19,6 +19,7 @@ const screenOptions = {
     backgroundColor: ColorPalette.dark.gray900,
   },
   tabBarActiveTintColor: ColorPalette.dark.secondary200,
+  // tabBarHideOnKeyboard: true,
   headerTintColor: ColorPalette.dark.gray100,
 };
 

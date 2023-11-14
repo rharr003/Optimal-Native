@@ -1,6 +1,7 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ColorPalette } from "../../../../../../../ColorPalette";
+import CustomButton from "../../../../../../shared/ui/CustomButton";
 
 export default function SetHeader({ handleModalToggle, unit, equipment }) {
   // adjust the layout of the table header to make sense for the type of exercise
@@ -29,14 +30,21 @@ export default function SetHeader({ handleModalToggle, unit, equipment }) {
         {/* adjust the cell name to make sense for the type of exercise */}
         {equipment === "static" ? "Time (sec)" : "Reps"}
       </Text>
-      <Pressable style={styles.tableCellExtraSmall} onPress={handleModalToggle}>
+      {/* <Pressable style={styles.tableCellExtraSmall} onPress={handleModalToggle}>
         <Ionicons
-          name="ellipsis-vertical-outline"
-          size={28}
-          color={ColorPalette.dark.secondary200}
+          name="ellipsis-horizontal-outline"
+          size={26}
+          color={"#FFFFFF"}
           style={styles.icon}
         />
-      </Pressable>
+      </Pressable> */}
+      <CustomButton
+        style={[styles.tableCellExtraSmall, styles.buttonStyle]}
+        onPress={handleModalToggle}
+        iconName={"ellipsis-horizontal-outline"}
+        color={ColorPalette.dark.secondary200}
+        size={20}
+      />
     </View>
   );
 }
@@ -50,7 +58,6 @@ const styles = StyleSheet.create({
   },
   tableCellExtraSmall: {
     flex: 1,
-    margin: 0,
     textAlign: "center",
     margin: 5,
   },
@@ -69,7 +76,7 @@ const styles = StyleSheet.create({
 
   tableHeaderText: {
     fontWeight: "bold",
-    color: ColorPalette.dark.secondary200,
+    color: "#FFFFFF",
     fontSize: 16,
   },
 
@@ -83,5 +90,11 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     textAlign: "center",
+  },
+
+  buttonStyle: {
+    padding: 0,
+    paddingLeft: 5,
+    marginRight: 0,
   },
 });

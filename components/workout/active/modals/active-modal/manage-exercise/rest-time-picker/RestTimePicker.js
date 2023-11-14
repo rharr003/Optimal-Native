@@ -1,31 +1,31 @@
 import RNPickerSelect from "react-native-picker-select";
-import { useState } from "react";
-import { View, StyleSheet } from "react-native";
 import {
   pickerStyle,
   restTimeOptions,
 } from "../../../../../../../util/config/workout/restTimePickerConfig";
+import Item from "../manage-modal-items/Item";
+import { formatTime } from "../../../../../../../util/formatTime";
+import { ColorPalette } from "../../../../../../../ColorPalette";
+import { View, StyleSheet } from "react-native";
+import CustomButton from "../../../../../../shared/ui/CustomButton";
 
-export default function RestTimePicker({ restTime, close }) {
-  const [currSelection, setCurrSelection] = useState(restTime);
-
-  function handleChange(value) {
-    setCurrSelection(value);
-  }
-
-  function handleClose() {
-    close(currSelection);
-  }
-
+export default function RestTimePicker({ restTime, handleChange }) {
   return (
     <View style={styles.container}>
       <RNPickerSelect
         onValueChange={handleChange}
         items={restTimeOptions}
-        onClose={handleClose}
-        onDonePress={handleClose}
         style={pickerStyle}
-      />
+        placeholder={{}}
+        value={restTime}
+      >
+        <Item
+          title="Edit Rest Time"
+          icon={"time-outline"}
+          iconColor={ColorPalette.dark.secondary200}
+          rightText={formatTime(restTime)}
+        />
+      </RNPickerSelect>
     </View>
   );
 }
@@ -33,10 +33,6 @@ export default function RestTimePicker({ restTime, close }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    top: 0,
-    left: 0,
+    width: "100%",
   },
 });

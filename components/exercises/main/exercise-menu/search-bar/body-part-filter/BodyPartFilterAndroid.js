@@ -4,10 +4,10 @@ import RNPickerSelect from "react-native-picker-select";
 import {
   pickerStyle,
   bodyPartOptions,
-} from "../../../../../../util/config/exercises/BodyPartFilterPickerConfig";
+} from "../../../../../../util/config/exercises/BodyPartFilterPickerConfigAndroid";
 import CustomButton from "../../../../../shared/ui/CustomButton";
 
-export default function BodyPartFilter({ handleChange, search }) {
+export default function BodyPartFilterAndroid({ handleChange, search }) {
   function onValueChange(val) {
     if (!val) return;
     handleChange({ ...search, category: val });

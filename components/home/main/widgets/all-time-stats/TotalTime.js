@@ -15,8 +15,11 @@ export default function TotalTime() {
       const result = await fetchTotalTimeAllTime();
       dispatch(setTotalTime(result));
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   function parseTime(time) {

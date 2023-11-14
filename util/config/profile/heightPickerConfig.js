@@ -1,4 +1,5 @@
 import { ColorPalette } from "../../../ColorPalette";
+import { Platform } from "react-native";
 
 export const pickerStyle = {
   modalViewBottom: {
@@ -28,6 +29,6 @@ export const heightOptions = [
   86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
 ].map((val) => ({
   label: parseHeight(val),
-  color: "#FFFFFF",
+  color: Platform.OS === "ios" ? "#FFFFFF" : "#000000",
   value: val,
 }));

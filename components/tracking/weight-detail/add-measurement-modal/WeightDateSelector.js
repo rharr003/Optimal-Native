@@ -1,11 +1,17 @@
-import { View, Text, StyleSheet, Pressable, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Keyboard,
+  Platform,
+} from "react-native";
 import { useState } from "react";
 import { ColorPalette } from "../../../../ColorPalette";
 import DatePicker from "react-native-date-picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 export default function WeightDateSelector({ date, handleChange }) {
   const [showPicker, setShowPicker] = useState(false);
-
   function togglePicker() {
     Keyboard.dismiss();
     setShowPicker((prev) => !prev);
@@ -33,7 +39,7 @@ export default function WeightDateSelector({ date, handleChange }) {
         onConfirm={handleChange}
         onCancel={togglePicker}
         mode="date"
-        theme="dark"
+        theme={Platform.OS === "ios" ? "dark" : "light"}
         locale="en"
         timeZoneOffsetInMinutes={0}
       />
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: ColorPalette.dark.gray900,
-    borderRadius: 5,
+    borderRadius: 25,
     width: "100%",
     padding: 5,
     alignItems: "center",

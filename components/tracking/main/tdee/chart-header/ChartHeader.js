@@ -20,7 +20,11 @@ export default function ChartHeader() {
         dispatch(updatePacing());
       }
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

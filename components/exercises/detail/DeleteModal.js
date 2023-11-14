@@ -1,7 +1,7 @@
-import CenteredModal from "../../../shared/modals/CenteredModal";
+import CenteredModal from "../../shared/modals/CenteredModal";
 import { View, Text, StyleSheet } from "react-native";
-import CustomButton from "../../../shared/ui/CustomButton";
-import { ColorPalette } from "../../../../ColorPalette";
+import CustomButton from "../../shared/ui/CustomButton";
+import { ColorPalette } from "../../../ColorPalette";
 import * as Haptics from "expo-haptics";
 
 export default function DeleteModal({
@@ -28,14 +28,15 @@ export default function DeleteModal({
     >
       <View style={styles.container}>
         <Text style={styles.title}>Delete Exercise</Text>
-        <Text style={styles.disclaimer}>
-          Are you sure you want to delete{" "}
-          <Text style={styles.exerciseInfo}>
-            {exercise.name} {exercise.equipment}?
+        <View style={styles.textContainer}>
+          <Text style={styles.disclaimer}>
+            Are you sure you want to delete{" "}
           </Text>
-          (This cannot be undone)
-        </Text>
-        {/* <View style={styles.buttonContainer}> */}
+          <Text style={[styles.disclaimer, styles.exerciseInfo]}>
+            {exercise.name} ({exercise.equipment})?
+          </Text>
+          {/* <Text style={styles.disclaimer}>(this cannot be undone)</Text> */}
+        </View>
         <CustomButton
           title="Delete (press and hold)"
           onLongPress={handleDelete}
@@ -53,7 +54,6 @@ export default function DeleteModal({
           textColor="#FFFFFF"
         />
       </View>
-      {/* </View> */}
     </CenteredModal>
   );
 }
@@ -63,28 +63,33 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "100%",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    paddingTop: 10,
+  },
+
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 20,
   },
 
   exerciseInfo: {
     fontWeight: "bold",
     opacity: 1,
-    color: ColorPalette.dark.error,
+    color: ColorPalette.dark.secondary200,
   },
   title: {
-    fontSize: 20,
-    color: ColorPalette.dark.secondary200,
+    fontSize: 28,
+    color: "#FFFFFF",
     marginBottom: 10,
     textAlign: "center",
   },
 
   disclaimer: {
-    color: ColorPalette.dark.gray400,
+    color: ColorPalette.dark.gray300,
     opacity: 0.7,
     fontStyle: "italic",
     textAlign: "center",
-    marginBottom: 25,
-    marginTop: 10,
+
     fontSize: 18,
   },
   buttonContainer: {

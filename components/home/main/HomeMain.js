@@ -12,7 +12,11 @@ export default function HomeMain() {
       const widgets = await fetchWidgets();
       dispatch(initializeWidgetList(widgets));
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
   return <WidgetMain />;
 }

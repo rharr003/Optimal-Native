@@ -66,7 +66,11 @@ export default function NewWorkoutMain({ workout }) {
   }
 
   async function finishWorkout() {
-    await saveWorkout();
+    try {
+      await saveWorkout();
+    } catch (e) {
+      console.log(e);
+    }
     navigation.goBack();
   }
 

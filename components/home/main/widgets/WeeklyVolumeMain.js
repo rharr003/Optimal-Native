@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { getWeeklyVolumePastSixWeeks } from "../../../../../util/sqlite/db";
+import { getWeeklyVolumePastSixWeeks } from "../../../../util/sqlite/db";
 import { useEffect } from "react";
 import { BarChart } from "react-native-chart-kit";
-import { ColorPalette } from "../../../../../ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import {
   chartConfig,
   buildChartDataObj,
-} from "../../../../../util/chart/home/weeklyVolume";
+} from "../../../../util/chart/home/weeklyVolume";
 import { useDispatch, useSelector } from "react-redux";
-import { setWeeklyVolumeLastSixWeeksData } from "../../../../../util/redux/slices/widgets";
+import { setWeeklyVolumeLastSixWeeksData } from "../../../../util/redux/slices/widgets";
 
 export default function WeeklyVolumeMain() {
   const weeklyVolume = useSelector(
@@ -23,7 +23,11 @@ export default function WeeklyVolumeMain() {
       const result = await getWeeklyVolumePastSixWeeks();
       dispatch(setWeeklyVolumeLastSixWeeksData(result));
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   const data = buildChartDataObj(weeklyVolume);

@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import LineChart from "../../../../shared/line-chart/LineChart";
-import { chartConfig } from "../../../../../util/chart/exercises/performanceChart";
+import LineChart from "../../../shared/line-chart/LineChart";
+import { chartConfig } from "../../../../util/chart/exercises/performanceChart";
 
 export default function PerformanceChart({ title, data }) {
   return (

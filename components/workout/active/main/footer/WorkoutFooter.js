@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import WorkoutFooterButtons from "./WorkoutFooterButtons";
 
-export default function WorkoutFooter({ interval, handleCancel }) {
+export default function WorkoutFooter({ handleCancel, handleFinish }) {
   const navigation = useNavigation();
 
   function openAddExercise() {
@@ -12,6 +12,7 @@ export default function WorkoutFooter({ interval, handleCancel }) {
     <WorkoutFooterButtons
       openAddExercise={openAddExercise}
       cancelWorkout={handleCancel}
+      openFinishModal={handleFinish}
     />
   );
 }

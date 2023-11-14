@@ -1,9 +1,10 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WorkoutHome from "../components/workout/main/WorkoutHome";
 import { ColorPalette } from "../ColorPalette";
 import WorkoutActiveStack from "../components/workout/active/main/WorkoutActiveStack";
 import WorkoutHistoryMain from "../components/workout/history/WorkoutHistoryMain";
+import AndroidScreenHeader from "../components/shared/ui/AndroidScreenHeader";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,21 +39,42 @@ export default function Workout() {
             gestureDuration: 5,
           }}
         />
-
-        <Stack.Screen
-          name="past"
-          component={WorkoutHistoryMain}
-          options={{
-            presentation: "modal",
-            headerStyle: {
-              backgroundColor: ColorPalette.dark.gray700,
-            },
-            contentStyle: {
-              backgroundColor: ColorPalette.dark.gray800,
-            },
-            title: "Past Workouts",
-          }}
-        />
+        {Platform.OS === "ios" ? (
+          <Stack.Screen
+            name="past"
+            component={WorkoutHistoryMain}
+            options={{
+              presentation: "modal",
+              headerStyle: {
+                backgroundColor: ColorPalette.dark.gray700,
+              },
+              contentStyle: {
+                backgroundColor: ColorPalette.dark.gray800,
+              },
+              title: "Past Workouts",
+            }}
+          />
+        ) : (
+          <Stack.Screen
+            name="past"
+            component={WorkoutHistoryMain}
+            options={{
+              header: (props) => (
+                <AndroidScreenHeader
+                  goBack={props.navigation.goBack}
+                  name={"Workout History"}
+                />
+              ),
+              headerStyle: {
+                backgroundColor: ColorPalette.dark.gray700,
+              },
+              contentStyle: {
+                backgroundColor: ColorPalette.dark.gray800,
+              },
+              title: "Past Workouts",
+            }}
+          />
+        )}
       </Stack.Navigator>
     </View>
   );

@@ -28,8 +28,12 @@ export default function TemplateModals({ showModal, setShowModal }) {
   }
 
   async function handleDelete() {
-    await deleteTemplate(templateToEdit.id);
-    dispatch(deleteTemplateRedux(templateToEdit.id));
+    try {
+      await deleteTemplate(templateToEdit.id);
+      dispatch(deleteTemplateRedux(templateToEdit.id));
+    } catch (e) {
+      console.log(e);
+    }
     handleClose();
   }
 

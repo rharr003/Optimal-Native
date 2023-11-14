@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../../ColorPalette";
 import TotalNumWorkouts from "./TotalNumWorkouts";
 import TotalTime from "./TotalTime";
@@ -7,7 +7,6 @@ import TotalVolume from "./TotalVolume";
 export default function AllTimeStatsMain() {
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Lifetime Stats:</Text> */}
       <View style={styles.innerContainer}>
         <TotalNumWorkouts />
         <TotalTime />

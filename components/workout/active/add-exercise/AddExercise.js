@@ -37,24 +37,28 @@ export default function AddExercise({ navigation, route }) {
   }, []);
 
   async function onAddNewExercise(name, equipment, bodyPart) {
-    if (name === "" || equipment === "" || bodyPart === "") return;
-    const result = await insertExercise(name.trim(), equipment, bodyPart);
-    const newExercise = { ...result };
-    dispatch(
-      addExercise({
-        newExercise,
-        letterGroup: newExercise.name[0].toUpperCase(),
-      })
-    );
-    dispatch(
-      addSelectedExercise({
-        id: newExercise.id,
-        exercise: {
-          ...newExercise,
-          reactId: newExercise.id + Date.now(),
-        },
-      })
-    );
+    try {
+      if (name === "" || equipment === "" || bodyPart === "") return;
+      const result = await insertExercise(name.trim(), equipment, bodyPart);
+      const newExercise = { ...result };
+      dispatch(
+        addExercise({
+          newExercise,
+          letterGroup: newExercise.name[0].toUpperCase(),
+        })
+      );
+      dispatch(
+        addSelectedExercise({
+          id: newExercise.id,
+          exercise: {
+            ...newExercise,
+            reactId: newExercise.id + Date.now(),
+          },
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (

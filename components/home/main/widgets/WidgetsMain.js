@@ -1,8 +1,8 @@
 import { View, ScrollView, StyleSheet } from "react-native";
 import CustomButton from "../../../shared/ui/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import WeeklyNumWorkoutsMain from "./weekly-num-workouts/WeeklyNumWorkoutsMain";
-import WeeklyVolumeMain from "./weekly-volume/WeeklyVolumeMain";
+import WeeklyNumWorkoutsMain from "./WeeklyNumWorkoutsMain";
+import WeeklyVolumeMain from "./WeeklyVolumeMain";
 import { ColorPalette } from "../../../../ColorPalette";
 import AllTimeStatsMain from "./all-time-stats/AllTimeStatsMain";
 import { useSelector } from "react-redux";
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
 
   customButtonStyle: {
-    marginTop: 80,
+    marginTop: 0,
     marginBottom: 50,
   },
 });

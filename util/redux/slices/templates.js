@@ -10,12 +10,10 @@ const templateSlice = createSlice({
   reducers: {
     populateTemplates(state, action) {
       state.templates = action.payload;
-      console.log("fresh load templates: ", state.templates);
     },
 
     addTemplate(state, action) {
       state.templates.push(action.payload);
-      console.log("live push templates", state.templates);
     },
 
     deleteTemplate(state, action) {

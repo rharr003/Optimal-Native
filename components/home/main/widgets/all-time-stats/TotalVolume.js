@@ -16,8 +16,11 @@ export default function TotalVolum() {
       const result = await getTotalVolumeAllTime();
       dispatch(setTotalVolume(result));
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

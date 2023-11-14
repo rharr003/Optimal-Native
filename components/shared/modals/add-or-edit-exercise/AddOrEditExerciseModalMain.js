@@ -33,6 +33,7 @@ export default function AddOrEditExerciseModalMain({
       setError("");
       setShowModal(false);
     } catch (err) {
+      console.log(err);
       setError(`"${name} (${equipment})" already exists`);
     }
   }

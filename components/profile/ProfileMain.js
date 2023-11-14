@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, Pressable, Keyboard } from "react-native";
+import { StyleSheet, Pressable, Keyboard } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
@@ -34,7 +34,11 @@ export default function ProfileMain() {
           heightIn: (data.height % 12).toString(),
         });
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   useEffect(() => {
@@ -71,22 +75,17 @@ export default function ProfileMain() {
       }
     }
     // write updated user data to store and local db once the user navigates off this screen.
-    if (!isFocused) save();
+    if (!isFocused) {
+      try {
+        save();
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }, [isFocused]);
-
-  function handleChangeName(text) {
-    setUserData({ ...userData, name: text });
-  }
 
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-      {/* <TextInput
-        style={[styles.input, styles.inputLarge]}
-        placeholder="Enter Name"
-        placeholderTextColor={ColorPalette.dark.gray500}
-        value={userData?.name !== "User" ? userData?.name : ""}
-        onChangeText={handleChangeName}
-      /> */}
       <SelectorsMain userData={userData} setUserData={setUserData} />
     </Pressable>
   );
@@ -102,20 +101,5 @@ const styles = StyleSheet.create({
     backgroundColor: ColorPalette.dark.gray800,
     height: "100%",
     width: "100%",
-  },
-
-  input: {
-    width: "90%",
-    backgroundColor: ColorPalette.dark.gray900,
-    borderRadius: 10,
-    padding: 5,
-    fontSize: 24,
-    color: ColorPalette.dark.secondary200,
-    textAlign: "center",
-  },
-
-  inputLarge: {
-    height: 40,
-    marginVertical: 15,
   },
 });

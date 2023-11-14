@@ -1,11 +1,12 @@
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 
 export const db = SQLite.openDatabase("optimal.db");
 
 export const init = async () => {
   if (
-    !(await AsyncStorage.getItem("dbInitialized")) &&
+    !(await AsyncStorage.getItem("dbInitialized")) ||
     !(await getAllTableName())
   ) {
     const promiseArray = [];
@@ -368,9 +369,9 @@ export const insertExercise = (name, equipment, muscleGroup) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO exercises (name,  equipment, muscleGroup) VALUES (?, ?, ? ) RETURNING *;`,
+        `INSERT INTO exercises (name,  equipment, muscleGroup) VALUES (?, ?, ? ) ;`,
         [name, equipment, muscleGroup],
-        (_, result) => resolve(result.rows._array[0]),
+        (_, result) => resolve(result.insertId),
         (_, err) => reject(err)
       );
     });
@@ -452,7 +453,7 @@ export const updateExercise = (id, name, equipment, muscleGroup) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE exercises SET name = ?, equipment = ?, muscleGroup = ? WHERE id = ? RETURNING *;`,
+        `UPDATE exercises SET name = ?, equipment = ?, muscleGroup = ? WHERE id = ?;`,
         [name, equipment, muscleGroup, id],
         (_, result) => resolve(result.rows._array[0]),
         (_, err) => reject(err)
@@ -494,7 +495,7 @@ export const insertWorkout = (name, duration, date) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO workouts (name, duration, date) VALUES (?, ?, ?) RETURNING id;`,
+        `INSERT INTO workouts (name, duration, date) VALUES (?, ?, ?);`,
         [name, duration, date],
         (_, result) => resolve(result.insertId),
         (_, err) => reject(err)
@@ -897,12 +898,24 @@ export const fetchLastMetricValue = (metric_id) => {
 };
 
 export const insertUserMetric = (metric_id, value, date) => {
+  // if (Platform.OS === "android") {
+  //   const result = db.execAsync(
+  //     [
+  //       {
+  //         sql: "INSERT INTO user_metrics (metric_id, value, date) VALUES (?, ?, ?) ",
+  //         args: [metric_id, value, date],
+  //       },
+  //     ],
+  //     false
+  //   );
+  //   return result;
+  // }
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO user_metrics (metric_id, value, date) VALUES (?, ?, ?) RETURNING *;`,
+        `INSERT INTO user_metrics (metric_id, value, date) VALUES (?, ?, ?);`,
         [metric_id, value, date],
-        (_, result) => resolve(result.rows._array[0]),
+        (_, result) => resolve(result.insertId),
         (_, err) => reject(err)
       );
     });
@@ -1245,7 +1258,7 @@ export const getAllTableName = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';`,
+        `SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'android_metadata';`,
         [],
         (_, result) => {
           if (result.rows._array.length === 0) {

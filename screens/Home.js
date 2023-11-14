@@ -1,8 +1,9 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ColorPalette } from "../ColorPalette";
 import AddWidgetModalMain from "../components/home/add-widget/AddWidgetModalMain";
 import HomeMain from "../components/home/main/HomeMain";
+import AndroidScreenHeader from "../components/shared/ui/AndroidScreenHeader";
 
 const screenOptions = {
   contentStyle: {
@@ -27,15 +28,29 @@ export default function Home() {
           }}
           component={HomeMain}
         />
-
-        <Stack.Screen
-          name="add-widget-modal"
-          options={{
-            presentation: "modal",
-            headerTitle: "Edit Widgets",
-          }}
-          component={AddWidgetModalMain}
-        />
+        {Platform.OS === "ios" ? (
+          <Stack.Screen
+            name="add-widget-modal"
+            options={{
+              presentation: "modal",
+              headerTitle: "Edit Widgets",
+            }}
+            component={AddWidgetModalMain}
+          />
+        ) : (
+          <Stack.Screen
+            name="add-widget-modal"
+            options={{
+              header: (props) => (
+                <AndroidScreenHeader
+                  goBack={props.navigation.goBack}
+                  name={"Manage Widgets"}
+                />
+              ),
+            }}
+            component={AddWidgetModalMain}
+          />
+        )}
       </Stack.Navigator>
     </View>
   );

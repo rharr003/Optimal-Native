@@ -1,4 +1,4 @@
-import PerformanceChart from "./performance-chart/PerformanceChart";
+import PerformanceChart from "./PerformanceChart";
 import PerformanceListMain from "./performance-list/PerformanceListMain";
 import { View, StyleSheet } from "react-native";
 

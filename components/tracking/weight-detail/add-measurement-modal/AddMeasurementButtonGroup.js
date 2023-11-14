@@ -10,6 +10,7 @@ export default function AddMeasurementButtonGroup({
     <View style={styles.container}>
       <CustomButton
         title="Save"
+        iconName="save-outline"
         color={ColorPalette.dark.secondary200}
         textColor="#000000"
         style={styles.buttonStyle}
@@ -17,8 +18,9 @@ export default function AddMeasurementButtonGroup({
       />
       <CustomButton
         title="Cancel"
+        iconName="exit-outline"
         color={ColorPalette.dark.gray500}
-        textColor="#000000"
+        textColor="#FFFFFF"
         style={styles.buttonStyle}
         onPress={handleCancel}
       />

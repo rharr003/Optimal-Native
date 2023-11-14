@@ -36,7 +36,13 @@ export default function Chart() {
         setIndexesToHide(hiddenIndexes);
       }
     }
-    if (isFocused) fetch();
+    if (isFocused) {
+      try {
+        fetch();
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }, [isFocused, currFormat]);
 
   function handleFilterChange(newFormat) {

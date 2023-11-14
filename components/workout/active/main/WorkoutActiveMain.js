@@ -1,4 +1,4 @@
-import { View, StyleSheet, AppState } from "react-native";
+import { View, StyleSheet, AppState, Platform } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
 import KeyboardSpacer from "react-native-keyboard-spacer";
@@ -52,11 +52,13 @@ export default function WorkoutActiveMain({ interval }) {
         Notifications.cancelAllScheduledNotificationsAsync();
       }
     });
-    navigation.setOptions({
-      headerRight: () => (
-        <FinishWorkoutButton handleOpenModal={handleOpenModal} />
-      ),
-    });
+    if (Platform.OS === "ios") {
+      navigation.setOptions({
+        headerRight: () => (
+          <FinishWorkoutButton handleOpenModal={handleOpenModal} />
+        ),
+      });
+    }
 
     return () => {
       subscription.remove();
@@ -92,6 +94,7 @@ export default function WorkoutActiveMain({ interval }) {
       <WorkoutExerciseList
         interval={interval}
         handleCancel={handleCancel}
+        handleFinish={handleOpenModal}
       />
       <KeyboardSpacer />
     </View>

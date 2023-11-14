@@ -1,7 +1,16 @@
-import { StyleSheet, Pressable, Text, View } from "react-native";
-import { ColorPalette } from "../../../../ColorPalette";
+import {
+  StyleSheet,
+  Pressable,
+  Text,
+  View,
+  Platform,
+  Dimensions,
+} from "react-native";
+import { ColorPalette } from "../../../ColorPalette";
 import { useState } from "react";
 import DatePicker from "react-native-date-picker";
+
+const { width } = Dimensions.get("window");
 
 export default function BirthDateSelector({ handleChange, userData }) {
   const [showPicker, setShowPicker] = useState(false);
@@ -27,7 +36,7 @@ export default function BirthDateSelector({ handleChange, userData }) {
           onConfirm={handleChange}
           onCancel={togglePicker}
           mode="date"
-          theme="dark"
+          theme={Platform.OS === "ios" ? "dark" : "light"}
           locale="en"
           timeZoneOffsetInMinutes={0}
         />
@@ -46,7 +55,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: ColorPalette.dark.gray900,
     borderRadius: 10,
-    width: "100%",
+    width: Platform.OS === "ios" ? "100%" : width * 0.85,
     padding: 5,
     alignItems: "center",
     justifyContent: "center",

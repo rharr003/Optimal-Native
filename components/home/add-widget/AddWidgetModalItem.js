@@ -10,9 +10,13 @@ export default function AddWidgetModalItem({ widget }) {
   const dispatch = useDispatch();
 
   async function onPress() {
-    setSelected(!selected);
-    await updateWidget(widget.id, !widget.shouldDisplay);
-    dispatch(toggleWidgetVisible({ id: widget.id }));
+    try {
+      setSelected(!selected);
+      await updateWidget(widget.id, !widget.shouldDisplay);
+      dispatch(toggleWidgetVisible({ id: widget.id }));
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (

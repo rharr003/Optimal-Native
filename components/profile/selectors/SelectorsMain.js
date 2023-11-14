@@ -1,7 +1,7 @@
-import ActivityLevelSelector from "./activity-level/ActivityLevelSelector";
-import GenderSelector from "./gender/GenderSelector";
-import HeightSelector from "./height/HeightSelector";
-import BirthDateSelector from "./birth-date/BirthDateSelector";
+import ActivityLevelSelector from "./ActivityLevelSelector";
+import GenderSelector from "./GenderSelector";
+import HeightSelector from "./HeightSelector";
+import BirthDateSelector from "./BirthDateSelector";
 
 export default function SelectorsMain({ userData, setUserData }) {
   function handleChangeActivityLevel(level) {

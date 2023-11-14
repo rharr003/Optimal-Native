@@ -1,7 +1,6 @@
-import { AppState, StyleSheet, ActivityIndicator, View } from "react-native";
+import { AppState } from "react-native";
 import { init, wipeDatabase } from "./util/sqlite/db";
 import { useEffect } from "react";
-import { ColorPalette } from "./ColorPalette";
 import store from "./util/redux/store";
 import { Provider } from "react-redux";
 import handleAppClose from "./util/app-state/handleAppClose";
@@ -9,6 +8,7 @@ import handleAppOpen from "./util/app-state/handleAppOpen";
 import { useState } from "react";
 import * as Notifications from "expo-notifications";
 import MainTabNavigator from "./MainTabNavigator";
+import * as SplashScreen from "expo-splash-screen";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -33,9 +33,10 @@ const requestNotificationsAsync = async () => {
   return granted;
 };
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [appState, setAppState] = useState(AppState.currentState);
-  const [loading, setLoading] = useState(true);
   async function initNotifications() {
     const allowed = await allowsNotificationsAsync();
     if (!allowed) {
@@ -51,7 +52,7 @@ export default function App() {
       // await wipeDatabase();
       await init();
       initNotifications();
-      setLoading(false);
+      await SplashScreen.hideAsync();
     }
     load();
   }, []);
@@ -73,26 +74,9 @@ export default function App() {
     };
   }, [appState]);
 
-  if (loading) {
-    return (
-      <View style={styles.backdrop}>
-        <ActivityIndicator size={"large"} color={ColorPalette.dark.gray500} />
-      </View>
-    );
-  }
-
   return (
     <Provider store={store}>
       <MainTabNavigator />
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  backdrop: {
-    backgroundColor: ColorPalette.dark.gray900,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-  },
-});

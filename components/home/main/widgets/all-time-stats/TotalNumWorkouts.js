@@ -15,7 +15,11 @@ export default function TotalNumWorkouts() {
       const result = await fetchNumWorkoutsAllTime();
       dispatch(setTotalNumWorkouts(result));
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

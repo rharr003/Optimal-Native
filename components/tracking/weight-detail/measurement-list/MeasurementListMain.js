@@ -36,7 +36,11 @@ export default function MeasurementListMain({ route }) {
       const metrics = await fetchUserMetrics(metric.id);
       dispatch(setWeightMeasurements(metrics));
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   function renderItem({ item, index }) {
@@ -56,33 +60,36 @@ export default function MeasurementListMain({ route }) {
   }
 
   async function removeItem(index) {
-    console.log("removing item");
-    const id = measurements[index].id;
-    await deleteUserMetric(id);
-    dispatch(deleteWeightMeasurement(index));
-    if (index === 0) {
-      const userData = await fetchUserData();
-      const prevData = await fetchLastMetricValue(1);
-      if (prevData) {
-        console.log(prevData);
-        dispatch(
-          updateWeight({
-            weight: prevData.value,
-            date: prevData.date,
-            height: userData?.height,
-          })
-        );
-      } else {
-        dispatch(updateWeight());
+    try {
+      const id = measurements[index].id;
+      await deleteUserMetric(id);
+      dispatch(deleteWeightMeasurement(index));
+      if (index === 0) {
+        const userData = await fetchUserData();
+        const prevData = await fetchLastMetricValue(1);
+        if (prevData) {
+          console.log(prevData);
+          dispatch(
+            updateWeight({
+              weight: prevData.value,
+              date: prevData.date,
+              height: userData?.height,
+            })
+          );
+        } else {
+          dispatch(updateWeight());
+        }
+        const result = await calculateTdee();
+        if (typeof result === "number") {
+          dispatch(setTdee(result));
+          dispatch(setOverlayMessage(""));
+        } else {
+          dispatch(setTdee(0));
+          dispatch(setOverlayMessage(result));
+        }
       }
-      const result = await calculateTdee();
-      if (typeof result === "number") {
-        dispatch(setTdee(result));
-        dispatch(setOverlayMessage(""));
-      } else {
-        dispatch(setTdee(0));
-        dispatch(setOverlayMessage(result));
-      }
+    } catch (e) {
+      console.log(e);
     }
   }
 

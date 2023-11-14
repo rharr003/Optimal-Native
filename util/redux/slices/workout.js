@@ -120,7 +120,6 @@ const workoutSlice = createSlice({
       state.workout.exerciseSets = newState;
     },
     updateExerciseOrder(state, action) {
-      console.log(action.payload);
       state.workout.exercisesNew = action.payload;
     },
 
@@ -163,7 +162,6 @@ const workoutSlice = createSlice({
 
     toggleUnit(state, action) {
       const { id, newUnit } = action.payload;
-      console.log(id, newUnit);
       const newState = state.workout.exerciseSets[id].map((set) => ({
         ...set,
         unit: newUnit,

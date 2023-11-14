@@ -1,8 +1,9 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { ColorPalette } from "../ColorPalette";
 import ExerciseDetail from "../components/exercises/detail/ExerciseDetail";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ExercisesMain from "../components/exercises/main/ExercisesMain";
+import HeaderAndroid from "../components/exercises/detail/HeaderAndroid";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,20 +31,43 @@ export default function Exercises() {
             },
           }}
         />
-        <Stack.Screen
-          name="exerciseDetails"
-          component={ExerciseDetail}
-          options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: ColorPalette.dark.gray700,
-            },
-            contentStyle: {
-              backgroundColor: ColorPalette.dark.gray800,
-            },
-            presentation: "modal",
-          }}
-        />
+
+        {Platform.OS === "ios" ? (
+          <Stack.Screen
+            name="exerciseDetails"
+            component={ExerciseDetail}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: ColorPalette.dark.gray700,
+              },
+              contentStyle: {
+                backgroundColor: ColorPalette.dark.gray800,
+              },
+              presentation: "modal",
+            }}
+          />
+        ) : (
+          <Stack.Screen
+            name="exerciseDetails"
+            component={ExerciseDetail}
+            options={{
+              headerShown: true,
+              header: (props) => (
+                <HeaderAndroid
+                  goBack={props.navigation.goBack}
+                  name={props.route.params.exercise.name}
+                />
+              ),
+              headerStyle: {
+                backgroundColor: ColorPalette.dark.gray700,
+              },
+              contentStyle: {
+                backgroundColor: ColorPalette.dark.gray800,
+              },
+            }}
+          />
+        )}
       </Stack.Navigator>
     </View>
   );

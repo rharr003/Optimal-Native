@@ -1,20 +1,15 @@
 import Item from "./Item";
 import { ColorPalette } from "../../../../../../../ColorPalette";
-import { formatTime } from "../../../../../../../util/formatTime";
-import * as Haptics from "expo-haptics";
+import RestTimePicker from "../rest-time-picker/RestTimePicker";
 
 export default function ItemList({
-  setShowPicker,
   handleToggleUnit,
   handleRemove,
   toggleExerciseModal,
   unit,
-  exercise,
+  restTime,
+  handleRestTimeChange,
 }) {
-  function togglePicker() {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setShowPicker((prev) => !prev);
-  }
   return (
     <>
       <Item
@@ -32,13 +27,7 @@ export default function ItemList({
         rightText={unit}
       />
 
-      <Item
-        title="Edit Rest Time"
-        icon={"time-outline"}
-        iconColor={ColorPalette.dark.secondary200}
-        onPress={togglePicker}
-        rightText={formatTime(exercise.restTime)}
-      />
+      <RestTimePicker restTime={restTime} handleChange={handleRestTimeChange} />
 
       <Item
         title="Remove Exercise"

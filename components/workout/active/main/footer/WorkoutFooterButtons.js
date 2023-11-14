@@ -1,29 +1,40 @@
 import CustomButton from "../../../../shared/ui/CustomButton";
 import { ColorPalette } from "../../../../../ColorPalette";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 
 export default function WorkoutFooterButtons({
   openAddExercise,
   cancelWorkout,
+  openFinishModal,
 }) {
   return (
     <View style={styles.footer}>
       <CustomButton
         title="Add Exercise"
-        color={ColorPalette.dark.secondary200}
+        color={ColorPalette.dark.gray500}
         iconName={"add-outline"}
         onPress={openAddExercise}
         style={styles.buttonStyle}
-        textColor="#000000"
+        textColor="#FFFFFF"
       />
       <CustomButton
         title="Cancel Workout"
-        color={ColorPalette.dark.gray500}
+        color={ColorPalette.dark.error}
         iconName={"trash-outline"}
         onPress={cancelWorkout}
         style={styles.buttonStyle}
-        textColor="#FFFFFF"
+        textColor="#000000"
       />
+      {Platform.OS === "android" && (
+        <CustomButton
+          title="Finish Workout"
+          color={ColorPalette.dark.secondary200}
+          iconName={"checkmark-outline"}
+          onPress={openFinishModal}
+          style={styles.buttonStyle}
+          textColor="#000000"
+        />
+      )}
     </View>
   );
 }

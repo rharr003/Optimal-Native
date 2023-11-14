@@ -33,7 +33,11 @@ export default function CurrentWeightMain({ handleOpenModal }) {
       );
     }
     if (!currWeight || !bmi) {
-      fetch();
+      try {
+        fetch();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [currWeight, bmi]);
   return (
@@ -57,7 +61,7 @@ export default function CurrentWeightMain({ handleOpenModal }) {
 const styles = StyleSheet.create({
   container: {
     width: "95%",
-    height: "40%",
+    height: 325,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: ColorPalette.dark.gray900,

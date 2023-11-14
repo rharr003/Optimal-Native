@@ -38,8 +38,11 @@ export default function TdeeMain() {
 
       dispatch(updatePacing());
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (
@@ -68,6 +71,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignItems: "center",
+    marginBottom: 25,
   },
   innerContainer: {
     width: "95%",

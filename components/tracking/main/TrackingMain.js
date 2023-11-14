@@ -1,20 +1,28 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import WeightMain from "./weight/WeightMain";
 import TdeeMain from "./tdee/TdeeMain";
 
 export default function TrackingMain() {
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      alwaysBounceVertical={false}
+    >
       <WeightMain />
       <TdeeMain />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
+    paddingBottom: 25,
+  },
+
+  content: {
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "100%",
   },
 });

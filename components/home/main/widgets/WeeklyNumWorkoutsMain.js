@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { useEffect } from "react";
-import { fetchNumWorkoutsLastSixWeeks } from "../../../../../util/sqlite/db";
+import { fetchNumWorkoutsLastSixWeeks } from "../../../../util/sqlite/db";
 import { BarChart } from "react-native-chart-kit";
-import { ColorPalette } from "../../../../../ColorPalette";
+import { ColorPalette } from "../../../../ColorPalette";
 import {
   chartConfig,
   buildChartDataObj,
-} from "../../../../../util/chart/home/weeklyNumWorkouts";
+} from "../../../../util/chart/home/weeklyNumWorkouts";
 import { useDispatch, useSelector } from "react-redux";
-import { setNumWorkoutsLastSixWeeksData } from "../../../../../util/redux/slices/widgets";
+import { setNumWorkoutsLastSixWeeksData } from "../../../../util/redux/slices/widgets";
 
 export default function WeeklyNumWorkoutsMain() {
   const numWorkouts = useSelector(
@@ -23,8 +23,11 @@ export default function WeeklyNumWorkoutsMain() {
       const result = await fetchNumWorkoutsLastSixWeeks();
       dispatch(setNumWorkoutsLastSixWeeksData(result));
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   const data = buildChartDataObj(numWorkouts);

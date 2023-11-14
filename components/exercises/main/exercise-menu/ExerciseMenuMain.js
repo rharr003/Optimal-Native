@@ -23,8 +23,11 @@ export default function ExerciseMenuMain({ onPress, onAddNewExercise }) {
       dispatch(setExercises(result));
       setLoading(false);
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   function handleAddModalOpen() {

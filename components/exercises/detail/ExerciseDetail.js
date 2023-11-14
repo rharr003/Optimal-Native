@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { useState, useEffect, useLayoutEffect } from "react";
 import {
   getBestSets1RM,
@@ -13,10 +13,10 @@ import {
   fetchTemplateExercises,
 } from "../../../util/sqlite/db";
 import { createChartDataObjExercise } from "../../../util/chart/createChartDataObjExercise";
-import ExerciseEditButton from "./header-buttons/ExerciseEditButton";
-import ExerciseDeleteButton from "./header-buttons/ExerciseDeleteButton";
+import ExerciseEditButton from "./edit-delete/ExerciseEditButton";
+import ExerciseDeleteButton from "./edit-delete/ExerciseDeleteButton";
 import AddOrEditExerciseModalMain from "../../shared/modals/add-or-edit-exercise/AddOrEditExerciseModalMain";
-import DeleteModal from "./modals/DeleteModal";
+import DeleteModal from "./DeleteModal";
 import { useDispatch } from "react-redux";
 import {
   deleteExercise as deleteExerciseRedux,
@@ -49,11 +49,13 @@ export default function ExerciseDetail({ route, navigation }) {
   }
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: exercise.name,
-      headerRight: () => <ExerciseEditButton onPress={openModal} />,
-      headerLeft: () => <ExerciseDeleteButton onPress={openDeleteModal} />,
-    });
+    if (Platform.OS === "ios") {
+      navigation.setOptions({
+        headerTitle: exercise.name,
+        headerRight: () => <ExerciseEditButton onPress={openModal} />,
+        headerLeft: () => <ExerciseDeleteButton onPress={openDeleteModal} />,
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -79,60 +81,85 @@ export default function ExerciseDetail({ route, navigation }) {
       }
       setChartData(createChartDataObjExercise(chartData));
     }
-
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   async function onUpdateExercise(name, equipment, bodyPart) {
-    const oldLetter = exercise.name[0].toUpperCase();
-    const letter = name[0].toUpperCase();
-    const newExercise = await updateExercise(
-      exercise.id,
-      name,
-      equipment.toLowerCase(),
-      bodyPart
-    );
-    dispatch(
-      updateExerciseRedux({
-        oldLetter,
-        letterGroup: letter,
-        exercise: newExercise,
-        id: exercise.id,
-      })
-    );
-    navigation.setOptions({
-      headerTitle: newExercise.name,
-    });
+    try {
+      const oldLetter = exercise.name[0].toUpperCase();
+      const letter = name[0].toUpperCase();
+      await updateExercise(
+        exercise.id,
+        name,
+        equipment.toLowerCase(),
+        bodyPart
+      );
+      dispatch(
+        updateExerciseRedux({
+          oldLetter,
+          letterGroup: letter,
+          exercise: {
+            name,
+            equipment: equipment.toLowerCase(),
+            muscleGroup: bodyPart,
+            id: exercise.id,
+          },
+          id: exercise.id,
+        })
+      );
+      if (Platform.OS === "android") {
+        navigation.goBack();
+      }
+      navigation.setOptions({
+        headerTitle: name,
+      });
+    } catch (e) {
+      console.log(e);
+    }
     setShowModal(false);
   }
 
   async function handleDeleteExercise() {
-    const letterGroup = exercise.name[0].toUpperCase();
-    await deleteExercise(exercise.id);
-    dispatch(deleteExerciseRedux({ id: exercise.id, letterGroup }));
-    const templatesToFetch = await fetchTemplates();
-    const promises = [];
-    templatesToFetch.forEach((template) => {
-      promises.push(
-        fetchTemplateExercises(
-          template.name,
-          template.workout_id,
-          template.date
+    try {
+      const letterGroup = exercise.name[0].toUpperCase();
+      await deleteExercise(exercise.id);
+      dispatch(deleteExerciseRedux({ id: exercise.id, letterGroup }));
+      const templatesToFetch = await fetchTemplates();
+      const promises = [];
+      templatesToFetch.forEach((template) => {
+        promises.push(
+          fetchTemplateExercises(
+            template.name,
+            template.workout_id,
+            template.date
+          )
+        );
+      });
+      const fetchedTemplates = await Promise.all(promises);
+      dispatch(
+        populateTemplates(
+          fetchedTemplates.filter((template) => template !== null)
         )
       );
-    });
-    const fetchedTemplates = await Promise.all(promises);
-    console.log(fetchedTemplates);
-    dispatch(
-      populateTemplates(
-        fetchedTemplates.filter((template) => template !== null)
-      )
-    );
+    } catch (e) {
+      console.log(e);
+    }
     navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
+      {Platform.OS === "android" && (
+        <View style={styles.innerContainer}>
+          <ExerciseEditButton onPress={openModal} />
+          <ExerciseDeleteButton onPress={openDeleteModal} />
+        </View>
+      )}
+
       <AddOrEditExerciseModalMain
         showModal={showModal}
         setShowModal={setShowModal}
@@ -164,5 +191,13 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  innerContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 25,
+    paddingHorizontal: 15,
   },
 });

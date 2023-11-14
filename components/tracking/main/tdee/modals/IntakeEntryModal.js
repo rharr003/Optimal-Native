@@ -24,9 +24,13 @@ export default function IntakeEntryModal({ showModal, setShowModal }) {
       handleClose();
       return;
     }
-    await dbSetIntake(parseFloat(text));
-    dispatch(setCurrentIntakeRedux(parseFloat(text)));
-    dispatch(updatePacing());
+    try {
+      await dbSetIntake(parseFloat(text));
+      dispatch(setCurrentIntakeRedux(parseFloat(text)));
+      dispatch(updatePacing());
+    } catch (e) {
+      console.log(e);
+    }
     setText("");
     setShowModal(false);
   }
@@ -54,6 +58,7 @@ export default function IntakeEntryModal({ showModal, setShowModal }) {
         <View style={styles.buttonContainer}>
           <CustomButton
             title="Save"
+            iconName={"save-outline"}
             color={ColorPalette.dark.secondary200}
             onPress={handleSave}
             style={styles.customButtonStyle}
@@ -61,7 +66,9 @@ export default function IntakeEntryModal({ showModal, setShowModal }) {
 
           <CustomButton
             title="Cancel"
+            iconName={"exit-outline"}
             color={ColorPalette.dark.gray500}
+            textColor="#FFFFFF"
             onPress={handleClose}
             style={styles.customButtonStyle}
           />

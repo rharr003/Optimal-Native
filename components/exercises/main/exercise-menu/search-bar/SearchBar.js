@@ -1,8 +1,9 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Platform } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ColorPalette } from "../../../../../ColorPalette";
-import AddNewButton from "./add-new/AddNewButton";
+import AddNewButton from "./AddNewButton";
 import BodyPartFilter from "./body-part-filter/BodyPartFilter";
+import BodyPartFilterAndroid from "./body-part-filter/BodyPartFilterAndroid";
 
 export default function SearchBar({
   search,
@@ -54,7 +55,12 @@ export default function SearchBar({
       </View>
       <View style={styles.buttonContainer}>
         <AddNewButton onPress={handleAddModalOpen} />
-        <BodyPartFilter handleChange={handleSearch} search={search} />
+        {Platform.OS === "ios" && (
+          <BodyPartFilter handleChange={handleSearch} search={search} />
+        )}
+        {Platform.OS === "android" && (
+          <BodyPartFilterAndroid handleChange={handleSearch} search={search} />
+        )}
       </View>
     </>
   );

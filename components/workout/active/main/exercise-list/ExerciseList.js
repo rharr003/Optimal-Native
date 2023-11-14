@@ -10,7 +10,7 @@ import TouchableHeader from "./exercise/TouchableHeader";
 import WorkoutFooter from "../footer/WorkoutFooter";
 import * as Haptics from "expo-haptics";
 
-export default function ExerciseList({ interval, handleCancel }) {
+export default function ExerciseList({ interval, handleCancel, handleFinish }) {
   const exercises = useSelector((state) => state.workout.workout.exercisesNew);
   const dispatch = useDispatch();
   function hapticDrag(drag) {
@@ -22,7 +22,13 @@ export default function ExerciseList({ interval, handleCancel }) {
   }
 
   function Footer() {
-    return <WorkoutFooter interval={interval} handleCancel={handleCancel} />;
+    return (
+      <WorkoutFooter
+        interval={interval}
+        handleCancel={handleCancel}
+        handleFinish={handleFinish}
+      />
+    );
   }
 
   // I had to customize the npm package to get this to work sometimes items would get stuck on top of each other if the drag was released too quickly I forced the drag end function in the package to run everytime regardless of if it thought the user had actually dragged an item.

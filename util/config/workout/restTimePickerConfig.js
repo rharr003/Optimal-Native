@@ -1,5 +1,6 @@
 import { ColorPalette } from "../../../ColorPalette";
 import { formatTime } from "../../formatTime";
+import { Platform } from "react-native";
 
 export const pickerStyle = {
   modalViewBottom: {
@@ -22,6 +23,6 @@ export const restTimeOptions = [
   255, 270, 285, 300,
 ].map((val) => ({
   label: formatTime(val),
-  color: "#FFFFFF",
+  color: Platform.OS === "ios" ? "#FFFFFF" : "#000000",
   value: val,
 }));

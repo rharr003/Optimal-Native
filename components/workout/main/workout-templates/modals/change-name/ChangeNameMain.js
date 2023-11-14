@@ -26,8 +26,12 @@ export default function ChangeNameMain({
 
   async function handleSave() {
     if (newName !== "") {
-      await updateTemplateName(templateId, newName);
-      dispatch(renameTemplate({ id: templateId, name: newName }));
+      try {
+        await updateTemplateName(templateId, newName);
+        dispatch(renameTemplate({ id: templateId, name: newName }));
+      } catch (e) {
+        console.log(e);
+      }
     }
     handleClose();
   }

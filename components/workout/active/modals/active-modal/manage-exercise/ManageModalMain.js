@@ -7,8 +7,7 @@ import {
 import { updateExerciseRestTime } from "../../../../../../util/sqlite/db";
 import { updateExerciseRestTime as updateRestTimeState } from "../../../../../../util/redux/slices/workout";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
-import RestTimePicker from "./rest-time-picker/RestTimePicker";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
@@ -28,14 +27,27 @@ export default function ManageModalMain({
   const exercise = useSelector(
     (state) => state.workout.workout.exercisesNew[index]
   );
+  const [restTime, setRestTime] = useState(exercise.restTime);
 
-  const [showPicker, setShowPicker] = useState(false);
+  useEffect(() => {
+    if (!showModal && exercise.restTime !== restTime) {
+      close(restTime);
+    }
+  }, [showModal]);
 
-  async function closePicker(value) {
-    setShowPicker(false);
-    if (value === exercise.restTime || !value) return;
-    await updateExerciseRestTime(exercise.id, value);
-    dispatch(updateRestTimeState({ id: exercise.id, restTime: value }));
+  async function close(value) {
+    try {
+      if (value === exercise.restTime || !value) return;
+      await updateExerciseRestTime(exercise.id, value);
+      dispatch(updateRestTimeState({ id: exercise.id, restTime: value }));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function handleRestTimePickerChange(val) {
+    if (val === restTime || !val) return;
+    setRestTime(val);
   }
 
   function toggleExerciseModal() {
@@ -63,7 +75,11 @@ export default function ManageModalMain({
   }
 
   return (
-    <CenteredModal showModal={showModal} handleClose={handleClose}>
+    <CenteredModal
+      style={{ height: 280 }}
+      showModal={showModal}
+      handleClose={handleClose}
+    >
       <View style={styles.modalHeader}>
         <Text style={styles.modalTitle}>{exercise.name}</Text>
         <Pressable
@@ -76,16 +92,14 @@ export default function ManageModalMain({
           <Ionicons name="close-outline" size={30} color="#FFFFFF" />
         </Pressable>
       </View>
-      {showPicker && (
-        <RestTimePicker close={closePicker} restTime={exercise.restTime} />
-      )}
       <ItemList
-        setShowPicker={setShowPicker}
         handleToggleUnit={handleToggleUnit}
         handleRemove={handleRemove}
         toggleExerciseModal={toggleExerciseModal}
         unit={unit}
         exercise={exercise}
+        restTime={restTime}
+        handleRestTimeChange={handleRestTimePickerChange}
       />
     </CenteredModal>
   );

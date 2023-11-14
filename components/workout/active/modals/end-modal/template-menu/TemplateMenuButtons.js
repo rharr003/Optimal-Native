@@ -17,7 +17,7 @@ export default function TemplateMenuButtons({
           onPress={finishAndUpdate}
           iconName={"save-outline"}
           style={styles.buttonStyle}
-          color={ColorPalette.dark.secondary200}
+          color={ColorPalette.dark.primary200}
           textColor="#000000"
         />
       )}

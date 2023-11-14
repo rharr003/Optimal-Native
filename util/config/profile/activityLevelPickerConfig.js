@@ -1,4 +1,5 @@
 import { ColorPalette } from "../../../ColorPalette";
+import { Platform } from "react-native";
 
 export const pickerStyle = {
   modalViewBottom: {
@@ -14,6 +15,9 @@ export const pickerStyle = {
   chevron: {
     display: "none",
   },
+  inputAndroid: {
+    width: 500,
+  },
 };
 
 export const activityLevelOptions = [
@@ -23,6 +27,6 @@ export const activityLevelOptions = [
   "Hard exercise 6-7 days/week",
 ].map((val) => ({
   label: val,
-  color: "#FFFFFF",
+  color: Platform.OS === "ios" ? "#FFFFFF" : "#000000",
   value: val,
 }));

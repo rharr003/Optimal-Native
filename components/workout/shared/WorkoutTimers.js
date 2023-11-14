@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { formatTime } from "../../../util/formatTime";
 import { stopRestTimer } from "../../../util/redux/slices/restTimer";
-import RestTimerCombined from "../active/shared/RestTimerCombined";
+import RestTimerCombined from "../active/rest-timer/RestTimerCombined";
 
 export default function WorkoutTimers({
   color = "#FFFFFF",

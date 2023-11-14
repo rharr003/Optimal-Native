@@ -33,13 +33,11 @@ export function checkWorkoutDidNotChange(workout, prevWorkout) {
       if (
         weight !== prevWorkout.exerciseSets[key][index]?.prevWeight.toString()
       ) {
-        console.log("weight mismatch");
         return false;
       }
       if (
         set.reps !== prevWorkout.exerciseSets[key][index]?.prevReps.toString()
       ) {
-        console.log("reps mismatch");
         return false;
       }
       return true;

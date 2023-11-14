@@ -27,7 +27,11 @@ export default function CurrentWeight() {
         dispatch(updateWeight({ weight: result.value, date: result.date }));
       }
     }
-    fetch();
+    try {
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

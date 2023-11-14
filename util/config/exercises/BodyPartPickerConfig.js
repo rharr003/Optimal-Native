@@ -1,4 +1,5 @@
 import { ColorPalette } from "../../../ColorPalette";
+import { Platform } from "react-native";
 
 export const pickerStyle = {
   modalViewBottom: {
@@ -26,6 +27,6 @@ export const bodyPartOptions = [
   "Triceps",
 ].map((val) => ({
   label: val,
-  color: "#FFFFFF",
+  color: Platform.OS === "ios" ? "#FFFFFF" : "#000000",
   value: val,
 }));

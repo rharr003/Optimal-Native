@@ -4,6 +4,8 @@ import WorkoutActiveMain from "./WorkoutActiveMain";
 import WorkoutTimers from "../../shared/WorkoutTimers";
 import AddExercise from "../add-exercise/AddExercise";
 import WorkoutName from "./header/WorkoutName";
+import { Platform } from "react-native";
+import HeaderAndroid from "./header/HeaderAndroid";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,17 +23,30 @@ export default function WorkoutActive({ route }) {
         },
       }}
     >
-      <Stack.Screen
-        name="main"
-        options={{
-          headerLeft: WorkoutTimers,
-          headerTitle: WorkoutName,
-          title: "Workout",
-          presentation: "modal",
-        }}
-      >
-        {() => <WorkoutActiveMain interval={interval} />}
-      </Stack.Screen>
+      {Platform.OS === "ios" ? (
+        <Stack.Screen
+          name="main"
+          options={{
+            headerLeft: WorkoutTimers,
+            headerTitle: WorkoutName,
+            presentation: "modal",
+          }}
+        >
+          {() => <WorkoutActiveMain interval={interval} />}
+        </Stack.Screen>
+      ) : (
+        <Stack.Screen
+          name="main"
+          options={{
+            header: (props) => (
+              <HeaderAndroid goBack={props.navigation.goBack} />
+            ),
+          }}
+        >
+          {() => <WorkoutActiveMain interval={interval} />}
+        </Stack.Screen>
+      )}
+
       <Stack.Screen
         name="addExercise"
         component={AddExercise}
