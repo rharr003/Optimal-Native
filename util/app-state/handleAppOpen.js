@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import store from "../redux/store";
 import {
-  startWorkout,
   setWorkout,
   incrementTimer,
   stopWorkout,
@@ -10,7 +9,7 @@ import {
 import { setSavedRestTimer } from "../redux/slices/restTimer";
 
 export default async function handleAppOpen() {
-  await AsyncStorage.getItem("prevState").then((data) => {
+  AsyncStorage.getItem("prevState").then((data) => {
     const prevState = JSON.parse(data);
     store.dispatch(stopWorkout());
     if (prevState && prevState.isActive) {
@@ -32,7 +31,7 @@ export default async function handleAppOpen() {
     }
   });
 
-  await AsyncStorage.getItem("prevRestTimerState").then((data) => {
+  AsyncStorage.getItem("prevRestTimerState").then((data) => {
     const prevRestTimerState = JSON.parse(data);
 
     if (prevRestTimerState && prevRestTimerState.restTimerActive) {
@@ -40,7 +39,6 @@ export default async function handleAppOpen() {
         (new Date().getTime() - prevRestTimerState.timeClosed) / 1000
       );
 
-      console.log(timePassedInSeconds);
       store.dispatch(
         setSavedRestTimer({
           restTime: prevRestTimerState.restTimer - timePassedInSeconds,
@@ -48,5 +46,7 @@ export default async function handleAppOpen() {
         })
       );
     }
+
+    AsyncStorage.removeItem("prevRestTimerState");
   });
 }

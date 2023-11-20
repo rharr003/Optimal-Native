@@ -27,6 +27,7 @@ export default function WorkoutActive({ route }) {
         <Stack.Screen
           name="main"
           options={{
+            title: "Workout",
             headerLeft: WorkoutTimers,
             headerTitle: WorkoutName,
             presentation: "modal",

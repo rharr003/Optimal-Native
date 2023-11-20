@@ -40,6 +40,7 @@ export function createChartDataObjExercise(data) {
 
         color: (opacity = 1) => ColorPalette.dark.secondary200,
         strokeWidth: 2,
+        withDots: false,
       },
       {
         data: [Math.max(minData - 5, 0)],

@@ -63,12 +63,12 @@ export default function SwipeToDeleteView({
 
         // haptic feedback when the set is dragged past the point needed to delete it and when it is dragged back into the safe zone
 
-        if (event.translationX < -300 && hasCrossed.value === 0) {
+        if (event.translationX < -width * 0.7 && hasCrossed.value === 0) {
           runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
           hasCrossed.value = 1;
         }
 
-        if (event.translationX > -300 && hasCrossed.value === 1) {
+        if (event.translationX > -width * 0.7 && hasCrossed.value === 1) {
           runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Heavy);
           hasCrossed.value = 0;
         }
@@ -81,9 +81,9 @@ export default function SwipeToDeleteView({
     .onEnd((event) => {
       // if the set is dragged past the point needed to delete it, animate it out of view and then remove it from the state array we check the offset value to prevent an issue where sets that were released in the safe zone and resetting would sometimes be removed if the user deleted another set in quick succession
       if (
-        event.translationX < -300 &&
+        event.translationX < -width * 0.7 &&
         activeIdx.value === index &&
-        offset.value.x < 300
+        offset.value.x < width * 0.7
       ) {
         opacity.value = withTiming(0);
         height.value = withTiming(0);

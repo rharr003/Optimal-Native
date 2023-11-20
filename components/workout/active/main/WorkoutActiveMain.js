@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
   },
 
   modalStyle: {
-    height: "30%",
+    height: 250,
   },
 });

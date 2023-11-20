@@ -10,8 +10,9 @@ export default function DeleteTemplateMain({
 }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Delete Template "{templateName}"?</Text>
-      <Text style={styles.disclaimer}>This cannot be undone</Text>
+      <Text style={styles.title}>Are you sure you want to delete?</Text>
+      <Text style={styles.templateName}>{templateName}</Text>
+      <Text style={styles.disclaimer}>(This cannot be undone)</Text>
 
       <CustomButton
         title="Delete (press and hold)"
@@ -44,18 +45,26 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 20,
-    color: ColorPalette.dark.secondary200,
+    color: "#FFFFFF",
     marginBottom: 10,
+    opacity: 0.7,
     textAlign: "center",
   },
 
+  templateName: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 10,
+    opacity: 1,
+    color: ColorPalette.dark.secondary200,
+  },
+
   disclaimer: {
-    color: ColorPalette.dark.gray400,
+    color: ColorPalette.dark.gray300,
     opacity: 0.7,
     fontStyle: "italic",
     textAlign: "center",
-    marginBottom: 25,
-    marginTop: 10,
+
     fontSize: 18,
   },
 

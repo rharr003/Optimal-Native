@@ -14,6 +14,7 @@ import { updateAfterWorkout } from "../../../../../../util/redux/slices/widgets"
 import { calculateWorkoutVolume } from "../../../../../../util/calculateWorkoutVolume";
 import { checkWorkoutDidNotChange } from "../../../../../../util/checkWorkoutDidNotChange";
 import TemplateMenuButtons from "./TemplateMenuButtons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function TemplateMenuMain({ workout }) {
   const navigation = useNavigation();
@@ -77,6 +78,7 @@ export default function TemplateMenuMain({ workout }) {
     } catch (e) {
       console.log(e);
     }
+    AsyncStorage.removeItem("prevState");
     navigation.goBack();
   }
 

@@ -77,10 +77,14 @@ export default function AddOrEditExerciseModalMain({
   }, []);
 
   return (
-    <CenteredModal showModal={showModal} handleClose={handleClose}>
-      <Text style={styles.title}>
+    <CenteredModal
+      showModal={showModal}
+      handleClose={handleClose}
+      style={{ height: 325 }}
+    >
+      {/* <Text style={styles.title}>
         {isEditing ? "Edit Exercise" : "Add Exercise"}
-      </Text>
+      </Text> */}
       <View style={styles.container}>
         <FormInput
           placeholder={"Example:  Bicep Curl"}
@@ -150,8 +154,8 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 24,
-    color: ColorPalette.dark.secondary200,
+    fontSize: 28,
+    color: "#FFFFFF",
     marginTop: 10,
   },
 });

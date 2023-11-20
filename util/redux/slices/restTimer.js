@@ -75,6 +75,11 @@ const restTimerSlice = createSlice({
       state.restTimer = action.payload;
     },
     setSavedRestTimer(state, action) {
+      console.log(
+        "rest timer being updated from saved state",
+        action.payload.restTime
+      );
+      if (action.payload.restTime <= 0) return;
       state.restTimerActive = true;
       state.restTimerMinimized = true;
       state.restTimer = action.payload.restTime;

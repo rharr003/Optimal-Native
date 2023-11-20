@@ -23,7 +23,6 @@ export default function RestTimerCombined({
   isMinimized,
   strokeWidth = 12,
   trailStrokeWidth = 12,
-  minimize,
 }) {
   const appState = AppState.currentState;
   const initialRestTime = useSelector(
@@ -31,8 +30,8 @@ export default function RestTimerCombined({
   );
   const restTimer = useSelector((state) => state.restTimer.restTimer);
   const [key, setKey] = useState(0);
+  const [renderCount, setRenderCount] = useState(0);
   const currentRestTimeRef = useRef(restTimer);
-  const [hasReset, setHasReset] = useState(false);
   const dispatch = useDispatch();
 
   function handleAppStateChange(nextAppState) {
@@ -45,6 +44,9 @@ export default function RestTimerCombined({
       //     amount: initialRestTime - currentRestTimeRef.current,
       //   })
       // );
+      dispatch(
+        updateAndMinimizeRestTimer({ restTime: currentRestTimeRef.current })
+      );
       persistRestTimer(initialRestTime, currentRestTimeRef.current);
     }
   }
@@ -59,9 +61,9 @@ export default function RestTimerCombined({
   }, [appState]);
 
   useEffect(() => {
+    console.log("restTime being loaded by component", restTimer);
     // resets the countdown timer when component mounts to avoid stale state showing the wrong remaining time when navigating back to the workout screen
     setKey(Math.random());
-    setHasReset(true);
     // cancels all notifications when component mounts
     Notifications.cancelAllScheduledNotificationsAsync();
     currentRestTimeRef.current = restTimer;
@@ -104,11 +106,11 @@ export default function RestTimerCombined({
     // when we change the remaining time in the store
     setKey(Math.random());
   }
+
   return (
     <View style={isMinimized ? styles.containerMinimized : styles.container}>
       {!isMinimized && (
         <View>
-          {/* <Text style={styles.title}>Rest Timer</Text> */}
           <Text style={styles.italic}>Tap outside to minimize</Text>
         </View>
       )}
@@ -126,7 +128,7 @@ export default function RestTimerCombined({
         key={key}
       >
         {!isMinimized &&
-          (({ remainingTime, animatedColor }) => (
+          (({ remainingTime }) => (
             <RestTimerCenter
               time={remainingTime}
               increase={increaseCurrentTimeBy15}

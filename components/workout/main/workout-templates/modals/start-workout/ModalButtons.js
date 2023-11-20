@@ -6,7 +6,7 @@ export default function ModalButtons({ handleStart, handleClose }) {
   return (
     <View style={styles.container}>
       <CustomButton
-        title="Start Workout"
+        title="Start"
         iconName="flash-outline"
         onPress={handleStart}
         color={ColorPalette.dark.secondary200}

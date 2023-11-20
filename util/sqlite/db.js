@@ -509,7 +509,7 @@ export const fetchWorkouts = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT workouts.id, workouts.name AS workout_name, exercises.name, date, duration, exercises.id as exercise_id FROM workouts JOIN workout_exercises ON workouts.id = workout_exercises.workout_id JOIN exercises ON workout_exercises.exercise_id = exercises.id ORDER BY workouts.id DESC;`,
+        `SELECT workouts.id, workouts.name AS workout_name, exercises.name, date, duration, exercises.id as exercise_id, weight, reps, unit FROM workouts JOIN workout_exercises ON workouts.id = workout_exercises.workout_id JOIN exercises ON workout_exercises.exercise_id = exercises.id ORDER BY workouts.id DESC LIMIT 180;`,
         [],
         (_, result) => {
           const workouts = result.rows._array.reduce((acc, curr) => {
@@ -523,11 +523,19 @@ export const fetchWorkouts = () => {
                   id: curr.exercise_id,
                   name: curr.name,
                   setCount: 1,
+                  sets: [
+                    { weight: curr.weight, reps: curr.reps, unit: curr.unit },
+                  ],
                 });
               } else {
                 acc[curr.id].exercises.forEach((exercise) => {
                   if (exercise.id === curr.exercise_id) {
                     exercise.setCount++;
+                    exercise.sets.push({
+                      weight: curr.weight,
+                      reps: curr.reps,
+                      unit: curr.unit,
+                    });
                   }
                 });
               }
@@ -543,6 +551,9 @@ export const fetchWorkouts = () => {
                     id: curr.exercise_id,
                     name: curr.name,
                     setCount: 1,
+                    sets: [
+                      { weight: curr.weight, reps: curr.reps, unit: curr.unit },
+                    ],
                   },
                 ],
               };

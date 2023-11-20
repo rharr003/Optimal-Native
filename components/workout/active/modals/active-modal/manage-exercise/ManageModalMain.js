@@ -76,7 +76,7 @@ export default function ManageModalMain({
 
   return (
     <CenteredModal
-      style={{ height: 280 }}
+      style={{ height: 250 }}
       showModal={showModal}
       handleClose={handleClose}
     >
@@ -127,8 +127,7 @@ const styles = StyleSheet.create({
   },
 
   modalTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
     color: ColorPalette.dark.secondary200,
     textAlign: "center",
     marginLeft: 10,

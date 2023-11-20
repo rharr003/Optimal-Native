@@ -61,7 +61,7 @@ export default function CurrentWeightMain({ handleOpenModal }) {
 const styles = StyleSheet.create({
   container: {
     width: "95%",
-    height: 325,
+    height: 250,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: ColorPalette.dark.gray900,

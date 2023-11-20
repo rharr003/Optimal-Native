@@ -18,7 +18,7 @@ export default function WeightStatus({ bmi }) {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Weight Status:</Text>
+      <Text style={styles.title}>Status:</Text>
       <Text style={styles.text}>{calculateWeightStatus()}</Text>
     </View>
   );
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    color: ColorPalette.dark.secondary200,
+    color: "#FFFFFF",
   },
 });

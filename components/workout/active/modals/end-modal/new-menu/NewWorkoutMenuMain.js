@@ -12,6 +12,7 @@ import { addTemplate } from "../../../../../../util/redux/slices/templates";
 import { updateAfterWorkout } from "../../../../../../util/redux/slices/widgets";
 import { calculateWorkoutVolume } from "../../../../../../util/calculateWorkoutVolume";
 import NewWorkoutMenuButtons from "./NewWorkoutMenuButtons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function NewWorkoutMain({ workout }) {
   const navigation = useNavigation();
@@ -46,6 +47,8 @@ export default function NewWorkoutMain({ workout }) {
       });
     });
     await Promise.all(promiseArray);
+
+    AsyncStorage.removeItem("prevState");
 
     return workoutId;
   }

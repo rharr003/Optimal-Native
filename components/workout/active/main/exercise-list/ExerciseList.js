@@ -54,6 +54,7 @@ export default function ExerciseList({ interval, handleCancel, handleFinish }) {
               drag={drag}
               hapticDrag={hapticDrag}
               isActive={isActive}
+              equipment={item.equipment}
             />
             <ExerciseMain exercise={item} index={getIndex()} />
           </OpacityDecorator>

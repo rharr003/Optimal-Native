@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "optimal",
-    "slug": "optimal",
+    "slug": "optimal_native",
     "version": "1.0.0",
     "icon": "./assets/optimal_icon.png",
     "userInterfaceStyle": "dark",

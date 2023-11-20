@@ -24,18 +24,15 @@ export default function DeleteModal({
       showModal={showModal}
       setShowModal={setShowModal}
       handleClose={handleClose}
-      style={{ height: 240 }}
+      style={{ height: 230 }}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Delete Exercise</Text>
         <View style={styles.textContainer}>
-          <Text style={styles.disclaimer}>
-            Are you sure you want to delete{" "}
-          </Text>
+          <Text style={styles.title}>Are you sure you want to delete?</Text>
           <Text style={[styles.disclaimer, styles.exerciseInfo]}>
-            {exercise.name} ({exercise.equipment})?
+            {exercise.name} ({exercise.equipment})
           </Text>
-          {/* <Text style={styles.disclaimer}>(this cannot be undone)</Text> */}
+          <Text style={styles.disclaimer}>(this cannot be undone)</Text>
         </View>
         <CustomButton
           title="Delete (press and hold)"
@@ -63,7 +60,6 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "100%",
     alignItems: "center",
-    paddingTop: 10,
   },
 
   textContainer: {
@@ -74,13 +70,15 @@ const styles = StyleSheet.create({
 
   exerciseInfo: {
     fontWeight: "bold",
+    marginBottom: 10,
     opacity: 1,
     color: ColorPalette.dark.secondary200,
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     color: "#FFFFFF",
     marginBottom: 10,
+    opacity: 0.7,
     textAlign: "center",
   },
 

@@ -38,8 +38,8 @@ export default function ChangeNameMain({
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Edit Template</Text>
       <View>
-        <Text style={styles.title}>Edit Template</Text>
         <FormInput
           iconName={"reader-outline"}
           handleChange={handleChangeText}
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
-    color: ColorPalette.dark.secondary200,
+    fontSize: 28,
+    color: "#FFFFFF",
     textAlign: "center",
   },
   input: {

@@ -39,8 +39,15 @@ export default function AddExercise({ navigation, route }) {
   async function onAddNewExercise(name, equipment, bodyPart) {
     try {
       if (name === "" || equipment === "" || bodyPart === "") return;
-      const result = await insertExercise(name.trim(), equipment, bodyPart);
-      const newExercise = { ...result };
+      const newId = await insertExercise(name.trim(), equipment, bodyPart);
+
+      const newExercise = {
+        name: name.trim(),
+        equipment,
+        muscleGroup: bodyPart,
+        id: newId,
+      };
+
       dispatch(
         addExercise({
           newExercise,
