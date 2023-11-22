@@ -19,6 +19,7 @@ import {
   setWeightMeasurements,
   deleteWeightMeasurement,
   updateWeight,
+  updatePacing,
 } from "../../../../util/redux/slices/userData";
 import { ColorPalette } from "../../../../ColorPalette";
 
@@ -87,6 +88,9 @@ export default function MeasurementListMain({ route }) {
           dispatch(setTdee(0));
           dispatch(setOverlayMessage(result));
         }
+        setTimeout(() => {
+          dispatch(updatePacing());
+        }, 100);
       }
     } catch (e) {
       console.log(e);
