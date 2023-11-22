@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import * as Notifications from "expo-notifications";
+import { scheduleRestTimerNotification } from "../../app-state/restTimerNotification";
 
 const restTimerSlice = createSlice({
   name: "restTimer",
@@ -18,9 +18,6 @@ const restTimerSlice = createSlice({
       state.restTimerActive = true;
     },
     stopRestTimer(state) {
-      setTimeout(() => {
-        Notifications.cancelAllScheduledNotificationsAsync();
-      }, 1000);
       state.restTimerActive = false;
       state.restTimerMinimized = false;
       state.restTimer = 0;
@@ -37,6 +34,7 @@ const restTimerSlice = createSlice({
       if (state.restTimer + 15 > state.initialRestTime) {
         state.initialRestTime = state.restTimer + 15;
       }
+      scheduleRestTimerNotification(state.restTimer + 15);
       state.restTimer += 15;
     },
 
@@ -46,6 +44,7 @@ const restTimerSlice = createSlice({
         state.restTimerActive = false;
         return;
       }
+      scheduleRestTimerNotification(state.restTimer - 15);
       state.restTimer -= 15;
     },
     decrementRestTimer(state, action) {
@@ -75,10 +74,6 @@ const restTimerSlice = createSlice({
       state.restTimer = action.payload;
     },
     setSavedRestTimer(state, action) {
-      console.log(
-        "rest timer being updated from saved state",
-        action.payload.restTime
-      );
       if (action.payload.restTime <= 0) return;
       state.restTimerActive = true;
       state.restTimerMinimized = true;

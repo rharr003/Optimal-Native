@@ -2,6 +2,7 @@ import * as Notifications from "expo-notifications";
 
 export async function scheduleRestTimerNotification(delay) {
   await Notifications.cancelAllScheduledNotificationsAsync();
+  console.log("notification scheduled");
   Notifications.scheduleNotificationAsync({
     content: {
       title: "Rest Timer Complete",
@@ -15,5 +16,6 @@ export async function scheduleRestTimerNotification(delay) {
 }
 
 export function cancelRestTimerNotifications() {
+  console.log("notifcation cancelled");
   Notifications.cancelAllScheduledNotificationsAsync();
 }

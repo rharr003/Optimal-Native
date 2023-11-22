@@ -91,6 +91,7 @@ function ExerciseSet({
             style={[styles.input]}
             keyboardType="numeric"
             value={set.weight}
+            maxLength={4}
             onChangeText={(text) => handleChangeText(text, "weight")}
             placeholder={set.prevWeight ? set.prevWeight.toString() : ""}
           />
@@ -104,6 +105,7 @@ function ExerciseSet({
           style={[styles.input, { width: "80%" }]}
           keyboardType="numeric"
           value={set.reps}
+          maxLength={3}
           onChangeText={(text) => handleChangeText(text, "reps")}
           placeholder={set.prevReps ? set.prevReps.toString() : ""}
         />

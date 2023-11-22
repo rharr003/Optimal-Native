@@ -12,6 +12,7 @@ import * as Haptics from "expo-haptics";
 import ActiveModalsMain from "../../../modals/active-modal/ActiveModalsMain";
 import SetListMain from "./set-list/SetListMain";
 import { useSelector } from "react-redux";
+import { cancelRestTimerNotifications } from "../../../../../../util/app-state/restTimerNotification";
 
 function ExerciseMain({ exercise, index }) {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function ExerciseMain({ exercise, index }) {
   function finishRestTimer() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     setShowRestTimerModal(false);
+    cancelRestTimerNotifications();
     dispatch(stopRestTimer());
   }
 

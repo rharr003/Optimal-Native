@@ -19,8 +19,13 @@ export default function TdeeMain() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const overlayMessage = useSelector((state) => state.userData.overlayMessage);
-
   function handlePress() {
+    if (overlayMessage === "No recent weight data") {
+      navigation.navigate("weight-detail", {
+        metric: { id: 1, name: "weight", unit: "lbs" },
+      });
+      return;
+    }
     navigation.navigate("profile");
   }
 

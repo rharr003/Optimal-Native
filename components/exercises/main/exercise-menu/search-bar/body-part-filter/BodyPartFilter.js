@@ -10,7 +10,7 @@ import CustomButton from "../../../../../shared/ui/CustomButton";
 export default function BodyPartFilter({ handleChange, search }) {
   function onValueChange(val) {
     if (!val) return;
-    handleChange({ ...search, category: val });
+    handleChange({ name: "", category: val });
   }
   return (
     <View style={styles.container}>

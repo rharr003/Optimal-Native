@@ -17,7 +17,7 @@ import TemplateMenuButtons from "./TemplateMenuButtons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { cancelRestTimerNotifications } from "../../../../../../util/app-state/restTimerNotification";
 
-export default function TemplateMenuMain({ workout }) {
+export default function TemplateMenuMain({ workout, name }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const prevWorkout = useSelector((state) => state.workout.prevWorkout);
@@ -37,7 +37,7 @@ export default function TemplateMenuMain({ workout }) {
         updateAfterWorkout({ duration: workout.duration, volume: volume })
       );
       const workoutId = await insertWorkout(
-        workout.name,
+        name,
         workout.duration,
         new Date().toISOString().split("T")[0]
       );
@@ -62,11 +62,11 @@ export default function TemplateMenuMain({ workout }) {
       if (shouldUpdateTemplate) {
         const templateId = await updateTemplate(
           workoutId,
-          workout.name,
+          name,
           prevWorkout.prevWorkoutId
         );
         const templateForRedux = await fetchTemplateExercises(
-          workout.name,
+          name,
           workoutId,
           new Date().toISOString().split("T")[0],
           templateId

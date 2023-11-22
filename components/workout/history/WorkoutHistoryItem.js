@@ -8,33 +8,52 @@ export default function WorkoutHistoryItem({ workout }) {
     <View style={styles.container}>
       <View style={styles.titleView}>
         <Text style={styles.title}>{workout.name}</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, styles.date]}>
           {new Date(workout.date).toLocaleDateString()}
         </Text>
       </View>
       <View style={styles.exerciseContainer}>
         {workout.exercises.map((exercise) => {
           return (
-            <>
-              <Text style={styles.text} key={exercise.id + workout.date}>
-                {exercise.name}
+            <View key={Math.random()}>
+              <Text style={styles.text}>
+                {exercise.name}{" "}
+                {exercise.equipment !== "Body" &&
+                exercise.equipment !== "Static"
+                  ? `(${exercise.equipment})`
+                  : ""}
               </Text>
               {exercise.sets.map((set, idx) => (
-                <Text
-                  style={styles.setText}
-                  key={exercise.id + workout.date + idx}
+                // <Text
+                //   style={styles.setText}
+                //   key={exercise.id + workout.date + idx + Math.random()}
+                // >
+                //   {parseInt(set.weight)
+                //     ? `${idx + 1} - ${set.weight} ${set.unit} (x${set.reps})`
+                //     : `${idx + 1} - ${set.reps} reps`}
+                // </Text>
+                <View
+                  style={styles.set}
+                  key={exercise.id + workout.date + idx + Math.random()}
                 >
-                  {parseInt(set.weight)
-                    ? `${idx + 1} - ${set.weight} ${set.unit} (x${set.reps})`
-                    : `${idx + 1} - ${set.reps} reps`}
-                </Text>
+                  <Text style={styles.setText}>{idx + 1} -</Text>
+                  <View style={styles.setInfo}>
+                    <Text style={styles.setText}>
+                      {parseInt(set.weight)
+                        ? `${set.weight} ${set.unit} (x${set.reps})`
+                        : `${set.reps} reps`}
+                    </Text>
+                  </View>
+                </View>
               ))}
-            </>
+            </View>
           );
         })}
       </View>
 
-      <Text style={styles.text}>{formatTime(workout.duration)}</Text>
+      <Text style={[styles.text, styles.date]}>
+        {formatTime(workout.duration, true)}
+      </Text>
     </View>
   );
 }
@@ -64,19 +83,33 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "bold",
-    color: ColorPalette.dark.secondary200,
+    color: "#FFFFFF",
   },
 
   text: {
     fontSize: 16,
     fontWeight: "bold",
-    color: ColorPalette.dark.gray300,
+    color: ColorPalette.dark.secondary200,
     marginVertical: 10,
     textAlign: "left",
   },
 
+  date: {
+    color: ColorPalette.dark.gray400,
+  },
+
+  set: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 125,
+  },
+
+  setInfo: {
+    flexDirection: "row",
+    width: 100,
+  },
   setText: {
     fontSize: 16,
     color: ColorPalette.dark.gray400,

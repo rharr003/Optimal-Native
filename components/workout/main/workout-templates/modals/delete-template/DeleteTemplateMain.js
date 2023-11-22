@@ -53,8 +53,7 @@ const styles = StyleSheet.create({
 
   templateName: {
     fontWeight: "bold",
-    fontSize: 18,
-    marginBottom: 10,
+    fontSize: 28,
     opacity: 1,
     color: ColorPalette.dark.secondary200,
   },

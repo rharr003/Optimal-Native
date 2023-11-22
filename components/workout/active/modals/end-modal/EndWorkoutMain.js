@@ -5,6 +5,8 @@ import { ColorPalette } from "../../../../../ColorPalette";
 import EmptyMenuMain from "./empty-menu/EmptyMenuMain";
 import NewWorkoutMain from "./new-menu/NewWorkoutMenuMain";
 import TemplateMenuMain from "./template-menu/TemplateMenuMain";
+import FormInput from "../../../../shared/ui/FormInput";
+import { useState } from "react";
 
 export default function EndWorkoutMain({ handleClose, cancelling }) {
   const workout = useSelector((state) => state.workout.workout);
@@ -15,9 +17,24 @@ export default function EndWorkoutMain({ handleClose, cancelling }) {
       (acc += workout.exerciseSets[key].filter((set) => set.completed).length),
     0
   );
+  const [workoutName, setWorkoutName] = useState(workout.name);
+  function handleNameChange(text) {
+    setWorkoutName(text);
+  }
 
   return (
     <View style={styles.centeredView}>
+      {numSetsCompleted > 0 && !cancelling && (
+        <FormInput
+          placeholder={"Enter a name"}
+          handleChange={handleNameChange}
+          iconName={"reader-outline"}
+          text={workoutName}
+          keyboardType="default"
+          label="Workout Name"
+          style={{ marginBottom: 10 }}
+        />
+      )}
       <Text style={[styles.title]}>
         {numSetsCompleted === 0 || cancelling
           ? "Cancel Workout?"
@@ -26,10 +43,10 @@ export default function EndWorkoutMain({ handleClose, cancelling }) {
       <Text style={styles.disclaimer}>Any incomplete sets will be lost</Text>
       {(numSetsCompleted === 0 || cancelling) && <EmptyMenuMain />}
       {numSetsCompleted > 0 && !cancelling && !isTemplate && (
-        <NewWorkoutMain workout={workout} />
+        <NewWorkoutMain workout={workout} name={workoutName} />
       )}
       {numSetsCompleted > 0 && isTemplate && !cancelling && (
-        <TemplateMenuMain workout={workout} />
+        <TemplateMenuMain workout={workout} name={workoutName} />
       )}
 
       <CustomButton
@@ -56,16 +73,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     color: "#FFFFFF",
-    marginBottom: 10,
     textAlign: "center",
   },
 
   disclaimer: {
-    color: ColorPalette.dark.gray500,
+    color: ColorPalette.dark.error,
     fontStyle: "italic",
     textAlign: "center",
+    marginVertical: 10,
     marginBottom: 25,
-    marginTop: 10,
     fontSize: 18,
   },
 

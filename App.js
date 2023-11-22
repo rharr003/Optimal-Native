@@ -10,6 +10,7 @@ import * as Notifications from "expo-notifications";
 import MainTabNavigator from "./MainTabNavigator";
 import * as SplashScreen from "expo-splash-screen";
 import { ColorPalette } from "./ColorPalette";
+import { scheduleRestTimerNotification } from "./util/app-state/restTimerNotification";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -34,8 +35,6 @@ const requestNotificationsAsync = async () => {
   return granted;
 };
 
-SplashScreen.preventAutoHideAsync();
-
 export default function App() {
   const [appState, setAppState] = useState(AppState.currentState);
   const [loading, setLoading] = useState(true);
@@ -48,10 +47,8 @@ export default function App() {
       }
     }
   }
-
   useEffect(() => {
     async function load() {
-      // await wipeDatabase();
       await init();
       await initNotifications();
       await SplashScreen.hideAsync();

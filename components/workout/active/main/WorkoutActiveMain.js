@@ -1,10 +1,8 @@
 import { View, StyleSheet, AppState, Platform } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import WorkoutExerciseList from "./exercise-list/ExerciseList";
 import React, { useState } from "react";
-import * as Notifications from "expo-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTimeClosed,
@@ -38,20 +36,7 @@ export default function WorkoutActiveMain({ interval }) {
     setCancelling(true);
   }
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     // cancels rest timer notifications if the user is on the active workout screen
-  //     Notifications.cancelAllScheduledNotificationsAsync();
-  //   }
-  // }, [isFocused]);
-
   useEffect(() => {
-    // cancel notifications for rest timer if app cycles to active as isFocused will not fire off based on active/background status.
-    // const subscription = AppState.addEventListener("change", (newAppState) => {
-    //   if (newAppState === "active") {
-    //     Notifications.cancelAllScheduledNotificationsAsync();
-    //   }
-    // });
     if (Platform.OS === "ios") {
       navigation.setOptions({
         headerRight: () => (
@@ -59,10 +44,6 @@ export default function WorkoutActiveMain({ interval }) {
         ),
       });
     }
-
-    // return () => {
-    //   subscription.remove();
-    // };
   }, [appState]);
 
   useEffect(() => {
@@ -110,6 +91,6 @@ const styles = StyleSheet.create({
   },
 
   modalStyle: {
-    height: 250,
+    height: 300,
   },
 });

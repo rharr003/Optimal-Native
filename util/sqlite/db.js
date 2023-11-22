@@ -509,7 +509,7 @@ export const fetchWorkouts = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT workouts.id, workouts.name AS workout_name, exercises.name, date, duration, exercises.id as exercise_id, weight, reps, unit FROM workouts JOIN workout_exercises ON workouts.id = workout_exercises.workout_id JOIN exercises ON workout_exercises.exercise_id = exercises.id ORDER BY workouts.id DESC LIMIT 180;`,
+        `SELECT workouts.id, workouts.name AS workout_name, exercises.name, date, duration, exercises.id as exercise_id, weight, reps, unit, equipment FROM workouts JOIN workout_exercises ON workouts.id = workout_exercises.workout_id JOIN exercises ON workout_exercises.exercise_id = exercises.id ORDER BY workouts.id DESC LIMIT 180;`,
         [],
         (_, result) => {
           const workouts = result.rows._array.reduce((acc, curr) => {
@@ -522,6 +522,8 @@ export const fetchWorkouts = () => {
                 acc[curr.id].exercises.push({
                   id: curr.exercise_id,
                   name: curr.name,
+                  equipment:
+                    curr.equipment[0].toUpperCase() + curr.equipment.slice(1),
                   setCount: 1,
                   sets: [
                     { weight: curr.weight, reps: curr.reps, unit: curr.unit },
@@ -550,6 +552,8 @@ export const fetchWorkouts = () => {
                   {
                     id: curr.exercise_id,
                     name: curr.name,
+                    equipment:
+                      curr.equipment[0].toUpperCase() + curr.equipment.slice(1),
                     setCount: 1,
                     sets: [
                       { weight: curr.weight, reps: curr.reps, unit: curr.unit },

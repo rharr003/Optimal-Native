@@ -10,9 +10,10 @@ export default function FormInput({
   maxLength = 24,
   keyboardType = "numeric",
   label,
+  style,
 }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.fakeInput}>
         <Ionicons name={iconName} size={20} color={ColorPalette.dark.gray500} />
@@ -40,12 +41,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: ColorPalette.dark.secondary200,
     marginBottom: 5,
+    marginLeft: 10,
   },
 
   fakeInput: {
     width: "100%",
     backgroundColor: "#121212f5",
-    borderRadius: 25,
+    borderRadius: 10,
     padding: 5,
     paddingLeft: 25,
     height: 40,
