@@ -8,12 +8,11 @@ import calculateTdee from "../../../../util/calculateTdee";
 import {
   setTdee,
   setOverlayMessage,
-} from "../../../../util/redux/slices/userData";
-import AddMeasurementButtonGroup from "./AddMeasurementButtonGroup";
-import {
+  updatePacing,
   addWeightMeasurement,
   updateWeight,
 } from "../../../../util/redux/slices/userData";
+import AddMeasurementButtonGroup from "./AddMeasurementButtonGroup";
 import WeightDateSelector from "./WeightDateSelector";
 import FormInput from "../../../shared/ui/FormInput";
 
@@ -51,6 +50,10 @@ export default function AddMeasurementMain({ showModal, handleClose, metric }) {
           dispatch(setTdee(0));
           dispatch(setOverlayMessage(result));
         }
+        // lazy implementation blindly adding to build without any testing.
+        setTimeout(() => {
+          dispatch(updatePacing());
+        }, 100);
       }
     } catch (e) {
       console.log(e);
