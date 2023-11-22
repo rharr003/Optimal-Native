@@ -2,7 +2,10 @@ import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ColorPalette } from "../../../../../../../../ColorPalette";
 import * as Haptics from "expo-haptics";
-import * as Notifications from "expo-notifications";
+import {
+  scheduleRestTimerNotification,
+  cancelRestTimerNotifications,
+} from "../../../../../../../../util/app-state/restTimerNotification";
 import { useDispatch } from "react-redux";
 import {
   stopRestTimer,
@@ -34,11 +37,12 @@ function ExerciseSet({
     dispatch(updateSet(payload));
   }
 
-  function handleComplete() {
+  async function handleComplete() {
     if (!setCanBeCompleted()) {
       return;
     }
     if (!set.completed) {
+      scheduleRestTimerNotification(restTime);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       dispatch(stopRestTimer());
       setTimeout(() => {
@@ -46,7 +50,7 @@ function ExerciseSet({
         setShowRestTimerModal(true);
       }, 100);
     } else {
-      Notifications.cancelAllScheduledNotificationsAsync();
+      cancelRestTimerNotifications();
       dispatch(stopRestTimer());
     }
 

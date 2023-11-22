@@ -1,5 +1,9 @@
 {
   "expo": {
+    "plugins": [
+      ["expo-notifications"],
+      { "sounds": ["./assets/restTimerComplete.wav"] }
+    ],
     "name": "Optimize Fitness",
     "slug": "optimal_native",
     "version": "1.0.1",
@@ -10,20 +14,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#181818"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "optimal-dev",
       "requiresFullScreen": true,
       "infoPlist": {
-        "UISupportedInterfaceOrientations": [
-          "UIInterfaceOrientationPortrait"
-        ],
-        "UISupportedInterfaceOrientations~ipad": [
-          "UIDeviceOrientationPortrait"
-        ]
+        "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
+        "UISupportedInterfaceOrientations~ipad": ["UIDeviceOrientationPortrait"]
       }
     },
     "android": {

@@ -46,6 +46,7 @@ export default function AddExercise({ navigation, route }) {
         equipment,
         muscleGroup: bodyPart,
         id: newId,
+        restTime: 60,
       };
 
       dispatch(

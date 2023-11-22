@@ -20,6 +20,7 @@ export default function ExerciseMenuMain({ onPress, onAddNewExercise }) {
   useEffect(() => {
     async function fetch() {
       const result = await fetchExercises();
+
       dispatch(setExercises(result));
       setLoading(false);
     }

@@ -20,7 +20,13 @@ export default function ExercisesMain({ navigation }) {
       // update redux store with new exercise
       dispatch(
         addExercise({
-          newExercise: { name, equipment, muscleGroup: bodyPart, id: newId },
+          newExercise: {
+            name,
+            equipment,
+            muscleGroup: bodyPart,
+            id: newId,
+            restTime: 60,
+          },
           letterGroup: letter,
         })
       );

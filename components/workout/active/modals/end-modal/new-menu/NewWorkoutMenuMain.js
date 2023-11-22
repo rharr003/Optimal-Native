@@ -13,6 +13,7 @@ import { updateAfterWorkout } from "../../../../../../util/redux/slices/widgets"
 import { calculateWorkoutVolume } from "../../../../../../util/calculateWorkoutVolume";
 import NewWorkoutMenuButtons from "./NewWorkoutMenuButtons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cancelRestTimerNotifications } from "../../../../../../util/app-state/restTimerNotification";
 
 export default function NewWorkoutMain({ workout }) {
   const navigation = useNavigation();
@@ -70,6 +71,7 @@ export default function NewWorkoutMain({ workout }) {
 
   async function finishWorkout() {
     try {
+      cancelRestTimerNotifications();
       await saveWorkout();
     } catch (e) {
       console.log(e);

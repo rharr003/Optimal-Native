@@ -16,7 +16,7 @@ import CenteredModal from "../../../shared/modals/CenteredModal";
 import EndWorkoutMain from "../modals/end-modal/EndWorkoutMain";
 
 export default function WorkoutActiveMain({ interval }) {
-  const isFocused = useIsFocused();
+  // const isFocused = useIsFocused();
   const appState = AppState.currentState;
   const dispatch = useDispatch();
   const [showFinishModal, setShowFinishModal] = useState(false);
@@ -38,20 +38,20 @@ export default function WorkoutActiveMain({ interval }) {
     setCancelling(true);
   }
 
-  useEffect(() => {
-    if (isFocused) {
-      // cancels rest timer notifications if the user is on the active workout screen
-      Notifications.cancelAllScheduledNotificationsAsync();
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     // cancels rest timer notifications if the user is on the active workout screen
+  //     Notifications.cancelAllScheduledNotificationsAsync();
+  //   }
+  // }, [isFocused]);
 
   useEffect(() => {
     // cancel notifications for rest timer if app cycles to active as isFocused will not fire off based on active/background status.
-    const subscription = AppState.addEventListener("change", (newAppState) => {
-      if (newAppState === "active") {
-        Notifications.cancelAllScheduledNotificationsAsync();
-      }
-    });
+    // const subscription = AppState.addEventListener("change", (newAppState) => {
+    //   if (newAppState === "active") {
+    //     Notifications.cancelAllScheduledNotificationsAsync();
+    //   }
+    // });
     if (Platform.OS === "ios") {
       navigation.setOptions({
         headerRight: () => (
@@ -60,9 +60,9 @@ export default function WorkoutActiveMain({ interval }) {
       });
     }
 
-    return () => {
-      subscription.remove();
-    };
+    // return () => {
+    //   subscription.remove();
+    // };
   }, [appState]);
 
   useEffect(() => {

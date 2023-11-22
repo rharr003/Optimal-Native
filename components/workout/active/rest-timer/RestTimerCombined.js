@@ -30,24 +30,17 @@ export default function RestTimerCombined({
   );
   const restTimer = useSelector((state) => state.restTimer.restTimer);
   const [key, setKey] = useState(0);
-  const [renderCount, setRenderCount] = useState(0);
   const currentRestTimeRef = useRef(restTimer);
   const dispatch = useDispatch();
 
   function handleAppStateChange(nextAppState) {
     // if app is active and goes to background, schedule notification and update store
     if (appState.match("active") && nextAppState === "background") {
-      scheduleRestTimerNotification(currentRestTimeRef.current);
-      // I dont think I need to do this as the restTimer is up to date in redux now
-      // dispatch(
-      //   decrementRestTimer({
-      //     amount: initialRestTime - currentRestTimeRef.current,
-      //   })
-      // );
       dispatch(
         updateAndMinimizeRestTimer({ restTime: currentRestTimeRef.current })
       );
       persistRestTimer(initialRestTime, currentRestTimeRef.current);
+      // scheduleRestTimerNotification(currentRestTimeRef.current);
     }
   }
   useEffect(() => {
@@ -65,20 +58,20 @@ export default function RestTimerCombined({
     // resets the countdown timer when component mounts to avoid stale state showing the wrong remaining time when navigating back to the workout screen
     setKey(Math.random());
     // cancels all notifications when component mounts
-    Notifications.cancelAllScheduledNotificationsAsync();
+    // Notifications.cancelAllScheduledNotificationsAsync();
     currentRestTimeRef.current = restTimer;
     // only updates store when component unmounts as the shared state is not neeeded until then.
     return () => {
       if (currentRestTimeRef.current <= 0) return;
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Rest Timer",
-          body: "Get back to work!",
-        },
-        trigger: {
-          seconds: currentRestTimeRef.current,
-        },
-      });
+      // Notifications.scheduleNotificationAsync({
+      //   content: {
+      //     title: "Rest Timer",
+      //     body: "Get back to work!",
+      //   },
+      //   trigger: {
+      //     seconds: currentRestTimeRef.current,
+      //   },
+      // });
       dispatch(
         updateAndMinimizeRestTimer({ restTime: currentRestTimeRef.current })
       );
@@ -128,13 +121,7 @@ export default function RestTimerCombined({
         key={key}
       >
         {!isMinimized &&
-          (({ remainingTime }) => (
-            <RestTimerCenter
-              time={remainingTime}
-              increase={increaseCurrentTimeBy15}
-              decrease={decreaseCurrentTimeBy15}
-            />
-          ))}
+          (({ remainingTime }) => <RestTimerCenter time={remainingTime} />)}
       </CountdownCircleTimer>
       {isMinimized && (
         <Text style={{ color: "#FFFFFF", fontSize: 20, marginLeft: 10 }}>

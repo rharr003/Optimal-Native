@@ -12,18 +12,13 @@ export default function SearchBar({
   setFilteredExercises,
   exercises,
 }) {
-  function handleSearch(searchObj) {
-    setSearch(searchObj);
+  function handleSearch(search) {
+    setSearch({ category: "", name: search });
     const filteredExercises = Object.keys(exercises).reduce(
       (filteredExercises, letterGroup) => {
         const filteredMuscleGroupExercises = exercises[letterGroup].filter(
           (exercise) =>
-            exercise.name
-              .toLowerCase()
-              .includes(searchObj.name.toLowerCase()) &&
-            (searchObj.category === "" ||
-              searchObj.category === "Any" ||
-              exercise.muscleGroup === searchObj.category)
+            exercise.name.toLowerCase().includes(search.toLowerCase())
         );
         if (filteredMuscleGroupExercises.length > 0) {
           filteredExercises[letterGroup] = filteredMuscleGroupExercises;
@@ -49,7 +44,7 @@ export default function SearchBar({
           style={styles.input}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => handleSearch({ ...search, name: text })}
+          onChangeText={handleSearch}
           value={search.name}
         />
       </View>

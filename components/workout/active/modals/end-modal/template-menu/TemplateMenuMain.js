@@ -15,6 +15,7 @@ import { calculateWorkoutVolume } from "../../../../../../util/calculateWorkoutV
 import { checkWorkoutDidNotChange } from "../../../../../../util/checkWorkoutDidNotChange";
 import TemplateMenuButtons from "./TemplateMenuButtons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cancelRestTimerNotifications } from "../../../../../../util/app-state/restTimerNotification";
 
 export default function TemplateMenuMain({ workout }) {
   const navigation = useNavigation();
@@ -28,6 +29,7 @@ export default function TemplateMenuMain({ workout }) {
 
   async function handleFinishWorkout(shouldUpdateTemplate = false) {
     try {
+      cancelRestTimerNotifications();
       dispatch(stopWorkout());
       dispatch(stopRestTimer());
       const volume = calculateWorkoutVolume(workout);
