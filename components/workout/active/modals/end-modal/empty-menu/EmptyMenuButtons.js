@@ -18,7 +18,8 @@ export default function EmpytMenuButtons({ handleCancelWorkout }) {
 const styles = StyleSheet.create({
   buttonStyle: {
     margin: 0,
-    paddingVertical: 3,
+    marginBottom: 10,
+    paddingVertical: 5,
     width: "90%",
   },
 });

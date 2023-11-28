@@ -17,7 +17,7 @@ export function createChartDataObjExercise(data) {
     return "";
   });
 
-  if (!data.length) {
+  if (data.length < 2) {
     return {
       labels: [],
       datasets: [

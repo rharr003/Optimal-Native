@@ -51,7 +51,6 @@ export default function App() {
     async function load() {
       await init();
       await initNotifications();
-      await SplashScreen.hideAsync();
       setLoading(false);
     }
     load();

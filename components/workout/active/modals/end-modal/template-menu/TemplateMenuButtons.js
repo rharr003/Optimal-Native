@@ -35,9 +35,9 @@ export default function TemplateMenuButtons({
 
 const styles = StyleSheet.create({
   buttonStyle: {
-    marginBottom: 10,
+    marginBottom: 12,
     marginTop: 0,
-    paddingVertical: 3,
+    paddingVertical: 5,
     width: "90%",
   },
 });

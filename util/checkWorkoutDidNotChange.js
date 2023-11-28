@@ -25,20 +25,30 @@ export function checkWorkoutDidNotChange(workout, prevWorkout) {
     },
     0
   );
-
   if (numSetsNew !== numSetsOld) return false;
   const setsAreSame = Object.keys(workout.exerciseSets).every((key, index) => {
     return workout.exerciseSets[key].every((set, setIndex) => {
       const weight = set.weight ? set.weight : "0";
       if (
-        weight !== prevWorkout.exerciseSets[key][index]?.prevWeight.toString()
+        weight !==
+        prevWorkout.exerciseSets[key][setIndex]?.prevWeight.toString()
       ) {
-        return false;
+        if (prevWorkout.exerciseSets[key][setIndex]?.prevWeight.toString()) {
+          return false;
+        }
       }
       if (
-        set.reps !== prevWorkout.exerciseSets[key][index]?.prevReps.toString()
+        set.reps !==
+        prevWorkout.exerciseSets[key][setIndex]?.prevReps.toString()
       ) {
-        return false;
+        console.log(
+          setIndex,
+          set.reps,
+          prevWorkout.exerciseSets[key][setIndex]?.prevReps.toString()
+        );
+        if (prevWorkout.exerciseSets[key][setIndex]?.prevReps.toString()) {
+          return false;
+        }
       }
       return true;
     });

@@ -35,11 +35,7 @@ export default function HeaderButton({
           replaceExercise({
             index: indexForReplacing,
             oldId: idBeingReplaced,
-            exercise: {
-              id: exercise.id,
-              name: exercise.name,
-              restTime: exercise.restTime,
-            },
+            exercise,
             sets:
               recentExercisePerformance.length > 0
                 ? recentExercisePerformance.map((prevSet) => ({

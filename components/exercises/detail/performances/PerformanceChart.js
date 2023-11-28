@@ -10,7 +10,7 @@ export default function PerformanceChart({ title, data }) {
         data={data}
         chartConfig={chartConfig}
         withFilterButton={false}
-        emptyDataText="No Recent Data"
+        emptyDataText="Not Enough Recent Data"
         hideHorizontalLabels={false}
       />
     </View>

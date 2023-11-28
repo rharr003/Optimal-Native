@@ -17,6 +17,11 @@ export default function EndWorkoutMain({ handleClose, cancelling }) {
       (acc += workout.exerciseSets[key].filter((set) => set.completed).length),
     0
   );
+  const numSetsNotCompleted = keys.reduce(
+    (acc, key) =>
+      (acc += workout.exerciseSets[key].filter((set) => !set.completed).length),
+    0
+  );
   const [workoutName, setWorkoutName] = useState(workout.name);
   function handleNameChange(text) {
     setWorkoutName(text);
@@ -24,39 +29,45 @@ export default function EndWorkoutMain({ handleClose, cancelling }) {
 
   return (
     <View style={styles.centeredView}>
-      {numSetsCompleted > 0 && !cancelling && (
+      <Text style={[styles.title]}>
+        {numSetsCompleted === 0 || cancelling
+          ? "Cancel Workout?"
+          : "End Workout?"}
+      </Text>
+      {numSetsCompleted > 0 && !cancelling && !isTemplate && (
         <FormInput
           placeholder={"Enter a name"}
           handleChange={handleNameChange}
           iconName={"reader-outline"}
           text={workoutName}
           keyboardType="default"
-          label="Workout Name"
           style={{ marginBottom: 10 }}
         />
       )}
-      <Text style={[styles.title]}>
-        {numSetsCompleted === 0 || cancelling
-          ? "Cancel Workout?"
-          : "End Workout?"}
-      </Text>
-      <Text style={styles.disclaimer}>Any incomplete sets will be lost</Text>
-      {(numSetsCompleted === 0 || cancelling) && <EmptyMenuMain />}
-      {numSetsCompleted > 0 && !cancelling && !isTemplate && (
-        <NewWorkoutMain workout={workout} name={workoutName} />
+      {numSetsNotCompleted > 0 && (
+        <Text style={styles.disclaimer}>
+          {numSetsNotCompleted} incomplete{" "}
+          {numSetsNotCompleted > 1 ? "sets" : "set"} will be lost
+        </Text>
       )}
-      {numSetsCompleted > 0 && isTemplate && !cancelling && (
-        <TemplateMenuMain workout={workout} name={workoutName} />
-      )}
+      <View style={styles.innerView}>
+        {(numSetsCompleted === 0 || cancelling) && <EmptyMenuMain />}
+        {numSetsCompleted > 0 && !cancelling && !isTemplate && (
+          <NewWorkoutMain workout={workout} name={workoutName} />
+        )}
+        {numSetsCompleted > 0 && isTemplate && !cancelling && (
+          <TemplateMenuMain workout={workout} name={workoutName} />
+        )}
 
-      <CustomButton
-        onPress={handleClose}
-        title="Go Back"
-        iconName="log-out-outline"
-        style={styles.buttonStyle}
-        color={ColorPalette.dark.gray500}
-        textColor="#FFFFFF"
-      />
+        <CustomButton
+          onPress={handleClose}
+          title="Go Back"
+          iconName="log-out-outline"
+          style={styles.buttonStyle}
+          color={ColorPalette.dark.gray500}
+          textColor="#FFFFFF"
+        />
+      </View>
     </View>
   );
 }
@@ -68,6 +79,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingVertical: 10,
+  },
+
+  innerView: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   title: {
@@ -86,8 +103,9 @@ const styles = StyleSheet.create({
   },
 
   buttonStyle: {
-    margin: 0,
-    paddingVertical: 3,
+    marginHorizontal: 0,
+    marginTop: 0,
+    paddingVertical: 5,
     width: "90%",
   },
 });
