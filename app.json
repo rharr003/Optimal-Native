@@ -1,7 +1,7 @@
 {
   "expo": {
     "plugins": [
-      ["expo-notifications", { "sounds": ["./assets/restTimerComplete.wav"] }]
+      ["expo-notifications", { "sounds": ["./assets/rest_timer_complete.wav"] }]
     ],
     "name": "Optimize Fitness",
     "slug": "optimal_native",
