@@ -30,6 +30,10 @@ export default function ManageModalMain({
   const [restTime, setRestTime] = useState(exercise.restTime);
 
   useEffect(() => {
+    setRestTime(exercise.restTime);
+  }, [exercise.restTime]);
+
+  useEffect(() => {
     if (!showModal && exercise.restTime !== restTime) {
       close(restTime);
     }
@@ -53,7 +57,7 @@ export default function ManageModalMain({
   function toggleExerciseModal() {
     navigation.navigate("addExercise", {
       index: index,
-      idBeingReplaced: exercise.id,
+      idBeingReplaced: exercise.reactId,
     });
     dispatch(
       startReplacing({
@@ -70,7 +74,7 @@ export default function ManageModalMain({
   }
 
   function handleRemove() {
-    dispatch(removeExercise({ id: exercise.id, index }));
+    dispatch(removeExercise({ id: exercise.reactId, index }));
     handleClose();
   }
 

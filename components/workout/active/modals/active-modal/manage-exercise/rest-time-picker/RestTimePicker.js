@@ -7,7 +7,6 @@ import Item from "../manage-modal-items/Item";
 import { formatTime } from "../../../../../../../util/formatTime";
 import { ColorPalette } from "../../../../../../../ColorPalette";
 import { View, StyleSheet } from "react-native";
-import CustomButton from "../../../../../../shared/ui/CustomButton";
 
 export default function RestTimePicker({ restTime, handleChange }) {
   return (

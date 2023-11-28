@@ -107,8 +107,6 @@ const workoutSlice = createSlice({
         ...state.workout.exercisesNew,
         ...action.payload.exercises,
       ];
-      console.log(state.workout.exercisesNew);
-
       action.payload.setsArray.forEach((exercise) => {
         state.workout.exerciseSets[exercise.id] = exercise.sets;
       });
@@ -127,7 +125,6 @@ const workoutSlice = createSlice({
     replaceExercise(state, action) {
       const index = action.payload.index;
       const exercise = action.payload.exercise;
-      console.log(exercise);
       const newState = state.workout.exerciseSets;
       delete newState[action.payload.oldId];
       newState[action.payload.exercise.reactId] = action.payload.sets;

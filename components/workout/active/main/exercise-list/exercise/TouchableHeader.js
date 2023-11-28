@@ -11,7 +11,6 @@ export default function TouchableHeader({
   function handleDrag() {
     hapticDrag(drag);
   }
-  console.log(name, equipment);
   return (
     <TouchableOpacity onLongPress={handleDrag} disabled={isActive}>
       <Text style={styles.text}>
