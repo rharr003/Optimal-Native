@@ -12,6 +12,7 @@ import FinishWorkoutButton from "./header/FinishWorkoutButton";
 import { useNavigation } from "@react-navigation/native";
 import CenteredModal from "../../../shared/modals/CenteredModal";
 import EndWorkoutMain from "../modals/end-modal/EndWorkoutMain";
+import { updateWorkoutDuration } from "../../../../util/redux/slices/workout";
 
 export default function WorkoutActiveMain({ interval }) {
   // const isFocused = useIsFocused();

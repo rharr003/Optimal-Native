@@ -3,7 +3,6 @@ import { ColorPalette } from "../../../ColorPalette";
 import { formatTime } from "../../../util/formatTime";
 
 export default function WorkoutHistoryItem({ workout }) {
-  console.log(workout.exercises[0]);
   return (
     <View style={styles.container}>
       <View style={styles.titleView}>
