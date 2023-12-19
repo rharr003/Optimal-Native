@@ -11,6 +11,7 @@ export default function HeaderAndroid({ goBack, name }) {
           iconName="arrow-back-outline"
           textColor={ColorPalette.dark.gray100}
           style={styles.buttonStyle}
+          testId={"go-back"}
         />
 
         <Text style={styles.title}>{name}</Text>

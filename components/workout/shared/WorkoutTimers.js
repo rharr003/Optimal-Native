@@ -29,10 +29,10 @@ export default function WorkoutTimers({
       {restTimerActive && restTimerMinimized && !overRideRestTimer ? (
         <RestTimerCombined
           finishRestTimer={finishRestTimer}
-          size={40}
+          size={30}
           isMinimized={true}
-          strokeWidth={4}
-          trailStrokeWidth={6}
+          strokeWidth={3}
+          trailStrokeWidth={5}
         />
       ) : (
         <View>

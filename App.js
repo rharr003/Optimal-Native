@@ -8,9 +8,7 @@ import handleAppOpen from "./util/app-state/handleAppOpen";
 import { useState } from "react";
 import * as Notifications from "expo-notifications";
 import MainTabNavigator from "./MainTabNavigator";
-import * as SplashScreen from "expo-splash-screen";
 import { ColorPalette } from "./ColorPalette";
-import { scheduleRestTimerNotification } from "./util/app-state/restTimerNotification";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -50,7 +48,9 @@ export default function App() {
   useEffect(() => {
     async function load() {
       await init();
-      await initNotifications();
+      if (!process?.env?.NODE_ENV || process.env.NODE_ENV !== "test") {
+        await initNotifications();
+      }
       setLoading(false);
     }
     load();

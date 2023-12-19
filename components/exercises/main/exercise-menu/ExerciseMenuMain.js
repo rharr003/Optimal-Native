@@ -21,7 +21,7 @@ export default function ExerciseMenuMain({ onPress, onAddNewExercise }) {
     async function fetch() {
       const result = await fetchExercises();
 
-      dispatch(setExercises(result));
+      dispatch(setExercises(result || {}));
       setLoading(false);
     }
     try {

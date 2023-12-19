@@ -1,5 +1,5 @@
 import CustomButton from "../../../shared/ui/CustomButton";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ColorPalette } from "../../../../ColorPalette";
 
 export default function ExerciseEditButton({ onPress }) {

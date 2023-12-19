@@ -1,6 +1,5 @@
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Platform } from "react-native";
 
 export const db = SQLite.openDatabase("optimal.db");
 

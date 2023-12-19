@@ -1,7 +1,17 @@
 import { ColorPalette } from "../../ColorPalette";
 export function createChartDataObjExercise(data) {
+  if (!data?.length) {
+    return {
+      labels: [],
+      datasets: [
+        { data: [0], withDots: false },
+        { data: [300], withDots: false },
+      ],
+      legend: [],
+    };
+  }
   function calculateSpacingInterval() {
-    if (data.length < 5) return 1;
+    if (!data?.length || data.length < 5) return 1;
     return Math.floor(data.length / 5);
   }
 

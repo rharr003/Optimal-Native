@@ -13,7 +13,6 @@ import {
   updateAndMinimizeRestTimer,
   decrementRestTimerBy15,
 } from "../../../../util/redux/slices/restTimer";
-import { scheduleRestTimerNotification } from "../../../../util/app-state/restTimerNotification";
 import RestTimerCenter from "./RestTimerCenter";
 import RestTimerButtons from "./RestTimerButtons";
 

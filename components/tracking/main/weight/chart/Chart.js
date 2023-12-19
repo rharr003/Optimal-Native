@@ -26,14 +26,25 @@ export default function Chart() {
         let data;
         let hiddenIndexes;
         if (currFormat === "weekly") {
-          [data, hiddenIndexes] = await fetchRecentWeightDataWeeklyAvg();
+          const result = await fetchRecentWeightDataWeeklyAvg();
+          if (result) {
+            [data, hiddenIndexes] = result;
+          }
         } else if (currFormat === "monthly") {
-          [data, hiddenIndexes] = await fetchRecentWeightDataMonthlyAvg();
+          const result = await fetchRecentWeightDataMonthlyAvg();
+          if (result) {
+            [data, hiddenIndexes] = result;
+          }
         } else if (currFormat === "daily") {
-          [data, hiddenIndexes] = await fetchRecentWeightDataDailyAvg();
+          const result = await fetchRecentWeightDataDailyAvg();
+          if (result) {
+            [data, hiddenIndexes] = result;
+          }
         }
-        setMetricData(data);
-        setIndexesToHide(hiddenIndexes);
+        if (data && hiddenIndexes) {
+          setMetricData(data);
+          setIndexesToHide(hiddenIndexes);
+        }
       }
     }
     if (isFocused) {

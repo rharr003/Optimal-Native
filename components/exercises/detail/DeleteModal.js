@@ -36,6 +36,7 @@ export default function DeleteModal({
         </View>
         <CustomButton
           title="Delete (press and hold)"
+          testId="delete-modal-button"
           onLongPress={handleDelete}
           iconName={"trash-outline"}
           style={styles.buttonStyle}
@@ -45,6 +46,7 @@ export default function DeleteModal({
         <CustomButton
           onPress={handleClose}
           title="Go Back"
+          testId="delete-modal-close-button"
           iconName="log-out-outline"
           style={styles.buttonStyle}
           color={ColorPalette.dark.gray500}

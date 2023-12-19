@@ -23,23 +23,25 @@ export default function TemplatesMain() {
   useEffect(() => {
     async function fetch() {
       const templatesToFetch = await fetchTemplates();
-      const promises = [];
-      templatesToFetch.forEach((template) => {
-        promises.push(
-          fetchTemplateExercises(
-            template.name,
-            template.workout_id,
-            template.date,
-            template.id
+      if (templatesToFetch && templatesToFetch.length) {
+        const promises = [];
+        templatesToFetch.forEach((template) => {
+          promises.push(
+            fetchTemplateExercises(
+              template.name,
+              template.workout_id,
+              template.date,
+              template.id
+            )
+          );
+        });
+        const fetchedTemplates = await Promise.all(promises);
+        dispatch(
+          populateTemplates(
+            fetchedTemplates.filter((template) => template !== null)
           )
         );
-      });
-      const fetchedTemplates = await Promise.all(promises);
-      dispatch(
-        populateTemplates(
-          fetchedTemplates.filter((template) => template !== null)
-        )
-      );
+      }
     }
     try {
       fetch();

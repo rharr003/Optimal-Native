@@ -11,6 +11,7 @@ export default function CustomButton({
   size = 24,
   onLongPress,
   disabled = false,
+  testId,
 }) {
   return (
     <Pressable
@@ -23,6 +24,7 @@ export default function CustomButton({
       onPress={onPress}
       onLongPress={onLongPress}
       disabled={disabled}
+      testID={testId}
     >
       <Ionicons
         name={iconName}
