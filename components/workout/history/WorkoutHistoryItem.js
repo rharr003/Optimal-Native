@@ -8,7 +8,7 @@ export default function WorkoutHistoryItem({ workout }) {
       <View style={styles.titleView}>
         <Text style={styles.title}>{workout.name}</Text>
         <Text style={[styles.text, styles.date]}>
-          {new Date(workout.date).toLocaleDateString()}
+          {new Date(workout.date).toDateString()}
         </Text>
       </View>
       <View style={styles.exerciseContainer}>
@@ -23,14 +23,6 @@ export default function WorkoutHistoryItem({ workout }) {
                   : ""}
               </Text>
               {exercise.sets.map((set, idx) => (
-                // <Text
-                //   style={styles.setText}
-                //   key={exercise.id + workout.date + idx + Math.random()}
-                // >
-                //   {parseInt(set.weight)
-                //     ? `${idx + 1} - ${set.weight} ${set.unit} (x${set.reps})`
-                //     : `${idx + 1} - ${set.reps} reps`}
-                // </Text>
                 <View
                   style={styles.set}
                   key={exercise.id + workout.date + idx + Math.random()}

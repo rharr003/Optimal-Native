@@ -71,10 +71,13 @@ function ExerciseSet({
 
   function setCanBeCompleted() {
     if (useAltLayout) {
-      return set.reps !== "";
+      return set.reps !== "" || set.prevReps.toString() !== "";
     }
 
-    return set.weight !== "" && set.reps !== "";
+    return (
+      (set.weight !== "" || set.prevWeight.toString() !== "") &&
+      (set.reps !== "" || set.prevReps.toString() !== "")
+    );
   }
 
   return (

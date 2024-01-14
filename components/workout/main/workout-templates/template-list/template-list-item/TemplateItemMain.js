@@ -49,8 +49,8 @@ export default function TemplateItemMain({
         {exercisesToShow.map((exercise, index) => (
           <Text style={styles.text} key={Math.random()}>
             {/* if there are more than 3 show a different message on the last exercise listed */}
-            {index === 3 && template.exercises.length > 3
-              ? `${exercise.name} + ${template.exercises.length - 3} more...`
+            {index === 3 && template.exercises.length > 4
+              ? `${exercise.name} + ${template.exercises.length - 4} more...`
               : `${exercise.name}`}
           </Text>
         ))}

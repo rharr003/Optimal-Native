@@ -802,7 +802,7 @@ export const getBestSets1RM = (exercise_id) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT (weight * IIF(unit == "lbs", 1, 2.20462) * (1 + (0.0333 * reps))) AS predicted_max, workout_exercises.id, weight, reps, unit, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? ORDER BY weight DESC LIMIT 15;`,
+        `SELECT (weight * IIF(unit == "lbs", 1, 2.20462) * (1 + (0.0333 * reps))) AS predicted_max, workout_exercises.id, weight, reps, unit, date FROM workout_exercises JOIN workouts ON workouts.id = workout_id WHERE exercise_id = ? ORDER BY predicted_max DESC LIMIT 15;`,
         [exercise_id],
         (_, result) => {
           if (!result.rows._array[0]?.id) {
