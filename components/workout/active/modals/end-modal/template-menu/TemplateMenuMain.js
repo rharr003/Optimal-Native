@@ -39,7 +39,7 @@ export default function TemplateMenuMain({ workout, name }) {
       const workoutId = await insertWorkout(
         name,
         workout.duration,
-        new Date().toISOString().split("T")[0]
+        new Date().toLocaleDateString()
       );
       const promiseArray = [];
       workout.exercisesNew.forEach((exercise) => {

@@ -41,11 +41,6 @@ export function checkWorkoutDidNotChange(workout, prevWorkout) {
         set.reps !==
         prevWorkout.exerciseSets[key][setIndex]?.prevReps.toString()
       ) {
-        console.log(
-          setIndex,
-          set.reps,
-          prevWorkout.exerciseSets[key][setIndex]?.prevReps.toString()
-        );
         if (prevWorkout.exerciseSets[key][setIndex]?.prevReps.toString()) {
           return false;
         }

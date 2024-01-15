@@ -6,6 +6,7 @@ import {
 import CustomButton from "../../../shared/ui/CustomButton";
 import { ColorPalette } from "../../../../ColorPalette";
 import { StyleSheet } from "react-native";
+import * as Haptics from "expo-haptics";
 
 export default function MainButtons({
   interval,
@@ -14,6 +15,7 @@ export default function MainButtons({
   dispatch,
 }) {
   function handleStartWorkout() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     dispatch(startWorkout());
 
     interval.current = setInterval(() => {
@@ -25,6 +27,7 @@ export default function MainButtons({
   }
 
   function handleContinueWorkout() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     navigation.navigate("active", { interval: interval });
   }
 
@@ -59,5 +62,6 @@ export default function MainButtons({
 const styles = StyleSheet.create({
   buttonStyle: {
     width: "100%",
+    paddingVertical: 10,
   },
 });

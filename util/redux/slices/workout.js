@@ -182,15 +182,14 @@ const workoutSlice = createSlice({
         [action.payload.type]: action.payload.text,
       };
     },
-
     completeSet(state, action) {
       const copy =
         state.workout.exerciseSets[action.payload.id][action.payload.index];
-      if (!copy.reps && copy.prevReps.toString() !== "") {
-        copy.reps = copy.prevReps;
+      if (!copy.reps && copy.prevReps) {
+        copy.reps = copy.prevReps.toString();
       }
-      if (!copy.weight && copy.prevWeight.toString() !== "") {
-        copy.weight = copy.prevWeight;
+      if (!copy.weight && copy.prevWeight) {
+        copy.weight = copy.prevWeight.toString();
       }
       state.workout.exerciseSets[action.payload.id][action.payload.index] = {
         ...copy,

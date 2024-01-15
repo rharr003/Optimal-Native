@@ -53,7 +53,6 @@ export default function RestTimerCombined({
   }, [appState]);
 
   useEffect(() => {
-    console.log("restTime being loaded by component", restTimer);
     // resets the countdown timer when component mounts to avoid stale state showing the wrong remaining time when navigating back to the workout screen
     setKey(Math.random());
     // cancels all notifications when component mounts
@@ -62,15 +61,6 @@ export default function RestTimerCombined({
     // only updates store when component unmounts as the shared state is not neeeded until then.
     return () => {
       if (currentRestTimeRef.current <= 0) return;
-      // Notifications.scheduleNotificationAsync({
-      //   content: {
-      //     title: "Rest Timer",
-      //     body: "Get back to work!",
-      //   },
-      //   trigger: {
-      //     seconds: currentRestTimeRef.current,
-      //   },
-      // });
       dispatch(
         updateAndMinimizeRestTimer({ restTime: currentRestTimeRef.current })
       );

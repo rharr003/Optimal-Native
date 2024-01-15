@@ -3,7 +3,7 @@ import { ColorPalette } from "../../../../../../ColorPalette";
 
 export default function ExerciseList({ exercises, exerciseSets }) {
   return (
-    <View>
+    <View style={styles.container}>
       {exercises.map((exercise, index) => (
         <Text style={styles.text} key={Math.random()}>
           {index === 5 && exercises.length > 5
@@ -36,5 +36,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: ColorPalette.dark.gray400,
     marginVertical: 5,
+  },
+
+  container: {
+    flex: 1,
+    paddingTop: 10,
+    justifyContent: "flex-start",
   },
 });

@@ -3,13 +3,20 @@ import { ColorPalette } from "../../../ColorPalette";
 import { formatTime } from "../../../util/formatTime";
 
 export default function WorkoutHistoryItem({ workout }) {
+  let date = new Date(workout.date);
+  date = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+
+  const fullDate = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.titleView}>
         <Text style={styles.title}>{workout.name}</Text>
-        <Text style={[styles.text, styles.date]}>
-          {new Date(workout.date).toDateString()}
-        </Text>
+        <Text style={[styles.text, styles.date]}>{fullDate}</Text>
       </View>
       <View style={styles.exerciseContainer}>
         {workout.exercises.map((exercise) => {

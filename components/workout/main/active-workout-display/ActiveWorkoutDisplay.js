@@ -30,10 +30,12 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     width: "100%",
     backgroundColor: ColorPalette.dark.secondary200,
     borderRadius: 15,
+    margin: 10,
   },
   innerContainer: {
     flexDirection: "row",
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#000000",
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: 10,
   },
 
