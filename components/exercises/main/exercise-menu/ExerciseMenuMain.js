@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
 
   backdrop: {
-    backgroundColor: ColorPalette.dark.gray800,
+    backgroundColor: ColorPalette.dark.gray900,
     flex: 1,
     justifyContent: "center",
   },

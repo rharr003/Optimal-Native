@@ -30,14 +30,14 @@ export default function Tracking() {
             component={WeightDetailMain}
             options={{
               presentation: "modal",
-              title: "Weight",
-              headerShown: false,
+              title: "Weight Tracking",
+              headerShown: true,
               headerStyle: {
                 backgroundColor: ColorPalette.dark.gray700,
               },
               headerTintColor: ColorPalette.dark.gray100,
               contentStyle: {
-                backgroundColor: ColorPalette.dark.gray800,
+                backgroundColor: ColorPalette.dark.gray900,
               },
             }}
           />

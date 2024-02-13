@@ -491,6 +491,7 @@ export const fetchRecentExercisePerformance = (id) => {
 };
 
 export const insertWorkout = (name, duration, date) => {
+  console.log(date);
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -1127,7 +1128,7 @@ export const fetchTemplates = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT workout_id, date, templates.id, templates.name FROM templates JOIN workouts on workout_id = workouts.id;`,
+        `SELECT workout_id, date, templates.id, templates.name FROM templates JOIN workouts on workout_id = workouts.id ORDER BY date ASC, workout_id ASC;`,
         [],
         (_, result) => resolve(result.rows._array),
         (_, err) => reject(err)

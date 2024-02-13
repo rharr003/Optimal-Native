@@ -66,15 +66,15 @@ export default function TemplateItemMain({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ColorPalette.dark.gray800,
+    // backgroundColor: ColorPalette.dark.gray800,
     padding: 5,
     paddingTop: 10,
     borderWidth: 1,
     borderColor: ColorPalette.dark.secondary200,
     borderRadius: 25,
-    margin: 10,
-    marginVertical: 15,
-    width: "45%",
+    // margin: 10,
+    marginVertical: 10,
+    width: "48%",
     height: 150,
     justifyContent: "space-between",
     alignItems: "center",

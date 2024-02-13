@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
 
   checkBox: {
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 5,
     paddingVertical: 4,
     alignItems: "center",
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 15,
     paddingVertical: 2,
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     width: "80%",
     textAlign: "center",
     color: "white",

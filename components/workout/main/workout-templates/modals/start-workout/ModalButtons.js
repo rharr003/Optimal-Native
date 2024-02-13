@@ -16,7 +16,7 @@ export default function ModalButtons({ handleStart, handleClose }) {
         title="Go Back"
         iconName="exit-outline"
         onPress={handleClose}
-        color={ColorPalette.dark.gray500}
+        color={ColorPalette.dark.gray600}
         style={styles.button}
         textColor="#FFFFFF"
       />

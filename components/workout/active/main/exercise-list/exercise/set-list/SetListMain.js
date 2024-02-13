@@ -57,7 +57,7 @@ export default function SetListMain({
         title="Add Set"
         onPress={addSet}
         iconName="add-outline"
-        color={ColorPalette.dark.gray900}
+        color={ColorPalette.dark.gray800}
         textColor={"#FFFFFF"}
         style={styles.buttonStyle}
       />

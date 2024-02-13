@@ -20,7 +20,7 @@ export default function WorkoutFooterButtons({
     <View style={styles.footer}>
       <CustomButton
         title="Add Exercise"
-        color={ColorPalette.dark.gray500}
+        color={ColorPalette.dark.gray600}
         iconName={"add-outline"}
         onPress={openAddExercise}
         style={styles.buttonStyle}

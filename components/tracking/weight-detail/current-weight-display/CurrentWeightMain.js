@@ -42,7 +42,7 @@ export default function CurrentWeightMain({ handleOpenModal }) {
   }, [currWeight, bmi]);
   return (
     <View style={styles.container}>
-      <WeightStatus bmi={bmi} />
+      {/* <WeightStatus bmi={bmi} /> */}
       <View style={styles.innerContainer}>
         <Weight currWeight={currWeight} />
         <Bmi bmi={bmi} />
@@ -61,13 +61,13 @@ export default function CurrentWeightMain({ handleOpenModal }) {
 const styles = StyleSheet.create({
   container: {
     width: "95%",
-    height: 250,
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: ColorPalette.dark.gray900,
-    borderColor: ColorPalette.dark.secondary200,
-    borderWidth: 1,
-    borderRadius: 25,
+    // backgroundColor: ColorPalette.dark.gray900,
+    // borderColor: ColorPalette.dark.secondary200,
+    // borderWidth: 1,
+    // borderRadius: 25,
   },
   innerContainer: {
     width: "100%",

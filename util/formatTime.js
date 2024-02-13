@@ -9,7 +9,7 @@ export const formatTime = (time, asText = false) => {
   if (asText) {
     const result =
       Math.floor(time / 3600) > 0
-        ? `${getHours}h ${getMinutes}`
+        ? `${getHours}h ${getMinutes}m`
         : `${getMinutes}m ${getSeconds}s`;
     return result;
   }

@@ -46,10 +46,10 @@ export default function Workout() {
             options={{
               presentation: "modal",
               headerStyle: {
-                backgroundColor: ColorPalette.dark.gray700,
+                backgroundColor: ColorPalette.dark.gray800,
               },
               contentStyle: {
-                backgroundColor: ColorPalette.dark.gray800,
+                backgroundColor: ColorPalette.dark.gray900,
               },
               title: "Past Workouts",
             }}

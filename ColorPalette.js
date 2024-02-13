@@ -2,6 +2,7 @@ export const ColorPalette = {
   dark: {
     gray1000: "#0c0c0c",
     gray900: "#181818",
+    gray850: "#222222",
     gray800: "#2b2b2b",
     gray700: "#333333",
     gray600: "#464646",

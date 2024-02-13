@@ -38,7 +38,6 @@ export default function ChangeNameMain({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Template</Text>
       <View>
         <FormInput
           iconName={"reader-outline"}

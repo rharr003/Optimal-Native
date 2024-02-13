@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   container: {
     width: Math.min(width, 350),
     height: Math.min(height, 375),
-    backgroundColor: ColorPalette.dark.gray800,
+    backgroundColor: ColorPalette.dark.gray850,
     position: "absolute",
     borderRadius: 25,
     alignItems: "center",

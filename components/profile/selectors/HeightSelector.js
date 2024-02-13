@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     maxHeight: 200,
   },
   buttonStyle: {
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 10,
     width: Platform.OS === "ios" ? "100%" : width * 0.85,
     padding: 5,

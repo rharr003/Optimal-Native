@@ -24,7 +24,7 @@ export default function BodyPartFilter({ handleChange, search }) {
         <CustomButton
           title={search.category || "Any"}
           iconName="filter-outline"
-          color={ColorPalette.dark.gray900}
+          color={ColorPalette.dark.gray800}
           textColor="#FFFFFF"
           style={styles.buttonStyle}
         />

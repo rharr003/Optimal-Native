@@ -49,7 +49,7 @@ export default function TemplateModals({ showModal, setShowModal }) {
     <CenteredModal
       showModal={showModal}
       handleClose={handleClose}
-      style={styles.modal}
+      style={[styles.modal, templateToEdit && styles.modalSmall]}
     >
       {loadedWorkout && (
         <StartWorkoutMain handleClose={handleClose} workout={loadedWorkout} />
@@ -78,5 +78,9 @@ export default function TemplateModals({ showModal, setShowModal }) {
 const styles = StyleSheet.create({
   modal: {
     height: 300,
+  },
+
+  modalSmall: {
+    height: 240,
   },
 });

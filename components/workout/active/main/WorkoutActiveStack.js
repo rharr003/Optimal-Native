@@ -19,7 +19,7 @@ export default function WorkoutActive({ route }) {
         },
         headerTintColor: ColorPalette.dark.gray100,
         contentStyle: {
-          backgroundColor: ColorPalette.dark.gray800,
+          backgroundColor: ColorPalette.dark.gray900,
         },
       }}
     >

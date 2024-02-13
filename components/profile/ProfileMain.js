@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: ColorPalette.dark.gray800,
+    backgroundColor: ColorPalette.dark.gray900,
     height: "100%",
     width: "100%",
   },

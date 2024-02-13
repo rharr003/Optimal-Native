@@ -2,7 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { stopWorkout } from "../../../../../../util/redux/slices/workout";
 import { stopRestTimer } from "../../../../../../util/redux/slices/restTimer";
-import { updateTemplate as updateTemplateRedux } from "../../../../../../util/redux/slices/templates";
+import {
+  updateTemplate as updateTemplateRedux,
+  reorderTemplates,
+} from "../../../../../../util/redux/slices/templates";
 import {
   insertWorkout,
   insertWorkoutExercise,
@@ -39,7 +42,7 @@ export default function TemplateMenuMain({ workout, name }) {
       const workoutId = await insertWorkout(
         name,
         workout.duration,
-        new Date().toLocaleDateString()
+        new Date().toISOString().split("T")[0]
       );
       const promiseArray = [];
       workout.exercisesNew.forEach((exercise) => {
@@ -74,8 +77,13 @@ export default function TemplateMenuMain({ workout, name }) {
         const payload = {
           id: templateId,
           template: templateForRedux,
+          prevWorkoutId: prevWorkout.prevWorkoutId,
         };
         dispatch(updateTemplateRedux(payload));
+      } else {
+        dispatch(
+          reorderTemplates({ prevWorkoutId: prevWorkout.prevWorkoutId })
+        );
       }
     } catch (e) {
       console.log(e);

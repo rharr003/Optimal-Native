@@ -20,7 +20,9 @@ export const pickerStyle = {
 export function parseHeight(height) {
   const feet = Math.floor(height / 12);
   const inches = height % 12;
-  return `${feet} ft. ${inches} in.`;
+  return feet === 0 && inches === 0
+    ? "Tap to set"
+    : `${feet} ft. ${inches} in.`;
 }
 
 export const heightOptions = [

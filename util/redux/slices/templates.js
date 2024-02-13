@@ -32,12 +32,20 @@ const templateSlice = createSlice({
     },
 
     updateTemplate(state, action) {
-      state.templates = state.templates.map((template) => {
-        if (template.id === action.payload.id) {
-          return action.payload.template;
-        }
-        return template;
+      // state.templates = state.templates.map((template) => {
+      //   if (template.id === action.payload.id) {
+      //     return action.payload.template;
+      //   }
+      //   return template;
+      // });
+      // reorder templates so that the workouts that havent been performed recently go to the top
+      const copy = state.templates;
+      const index = copy.findIndex((el) => {
+        return el.prevWorkoutId === action.payload.prevWorkoutId;
       });
+      copy.splice(index, 1);
+      copy.push(action.payload.template);
+      state.templates = copy;
     },
 
     setTemplateToEdit(state, action) {
@@ -55,6 +63,16 @@ const templateSlice = createSlice({
     clearLoadedWorkout(state, action) {
       state.loadedWorkout = null;
     },
+
+    reorderTemplates(state, action) {
+      const copy = state.templates;
+      const index = copy.findIndex((el) => {
+        return el.prevWorkoutId === action.payload.prevWorkoutId;
+      });
+      const templateToMove = copy.splice(index, 1);
+      copy.push(templateToMove);
+      state.templates = copy;
+    },
   },
 });
 
@@ -69,4 +87,5 @@ export const {
   setLoadedWorkout,
   clearLoadedWorkout,
   updateTemplate,
+  reorderTemplates,
 } = templateSlice.actions;

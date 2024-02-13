@@ -4,7 +4,7 @@ import { ColorPalette } from "../../../../ColorPalette";
 export default function Bmi({ bmi }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>BMI</Text>
+      <Text style={styles.title}>Current BMI:</Text>
       <Text style={styles.text}>{bmi ? bmi.toFixed(1) : "No Data"}</Text>
     </View>
   );

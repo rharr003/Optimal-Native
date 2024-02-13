@@ -19,7 +19,7 @@ export default function AddMeasurementButtonGroup({
       <CustomButton
         title="Cancel"
         iconName="exit-outline"
-        color={ColorPalette.dark.gray500}
+        color={ColorPalette.dark.gray600}
         textColor="#FFFFFF"
         style={styles.buttonStyle}
         onPress={handleCancel}

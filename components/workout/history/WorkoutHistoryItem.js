@@ -58,11 +58,12 @@ export default function WorkoutHistoryItem({ workout }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ColorPalette.dark.gray700,
+    // backgroundColor: ColorPalette.dark.gray800,
+    borderBottomWidth: 1,
+    borderColor: ColorPalette.dark.secondary200,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderRadius: 10,
-    marginVertical: 15,
+    marginVertical: 10,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
 
   setInfo: {
     flexDirection: "row",
-    width: 100,
+    width: 125,
   },
   setText: {
     fontSize: 16,

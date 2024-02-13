@@ -7,6 +7,7 @@ import {
 } from "../../../util/config/profile/activityLevelPickerConfig";
 const { width } = Dimensions.get("window");
 export default function ActivityLevelSelector({ handleChange, userData }) {
+  console.log(userData.activity_level);
   return (
     <View style={styles.container}>
       <RNPickerSelect
@@ -17,9 +18,11 @@ export default function ActivityLevelSelector({ handleChange, userData }) {
       >
         <View style={styles.buttonStyle}>
           <Text style={styles.buttonTextStyle}>
-            {userData && userData.activity_level !== "placeholder"
+            {userData &&
+            userData.activity_level !== "placeholder" &&
+            userData.activity_level
               ? `Activity Level: ${userData.activity_level}`
-              : `Select Activity Level`}
+              : `Activity Level: Tap to set`}
           </Text>
         </View>
       </RNPickerSelect>
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   buttonStyle: {
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 10,
     width: Platform.OS === "ios" ? "100%" : width * 0.85,
     padding: 5,

@@ -19,19 +19,21 @@ export default function ModalButtons({
           onPress={handleSave}
         />
         <CustomButton
-          title="Go Back"
-          iconName={"exit-outline"}
-          color={ColorPalette.dark.gray500}
-          textColor="#FFFFFF"
+          title={"Delete"}
+          textColor={"#000000"}
+          iconName={"trash-outline"}
+          color={ColorPalette.dark.error}
           style={styles.button}
-          onPress={handleClose}
+          onPress={openDeleteModal}
         />
       </View>
       <CustomButton
-        title={"Delete"}
-        textColor={ColorPalette.dark.error}
-        style={styles.delete}
-        onPress={openDeleteModal}
+        title="Go Back"
+        iconName={"exit-outline"}
+        color={ColorPalette.dark.gray600}
+        textColor="#FFFFFF"
+        style={styles.bigButton}
+        onPress={handleClose}
       />
     </View>
   );
@@ -52,9 +54,17 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: "45%",
+    width: "47%",
     marginHorizontal: 0,
+    marginVertical: 5,
     paddingVertical: 4,
+  },
+
+  bigButton: {
+    width: "100%",
+    margin: 0,
+    paddingVertical: 4,
+    marginBottom: 5,
   },
 
   delete: {

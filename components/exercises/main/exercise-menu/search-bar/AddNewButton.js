@@ -7,7 +7,7 @@ export default function AddNewButton({ onPress }) {
     <CustomButton
       title="Add New"
       iconName="add-outline"
-      color={ColorPalette.dark.gray900}
+      color={ColorPalette.dark.gray800}
       textColor="#FFFFFF"
       style={styles.buttonStyle}
       onPress={onPress}

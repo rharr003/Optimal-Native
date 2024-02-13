@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { ColorPalette } from "../../../../../ColorPalette";
 import TemplateItemMain from "./template-list-item/TemplateItemMain";
 export default function TemplateList({
@@ -6,12 +6,17 @@ export default function TemplateList({
   handleSelect,
   setShowModal,
 }) {
+  const footer = () => {
+    return <View style={{ height: 50 }}></View>;
+  };
   return (
     <FlatList
       data={templates}
       numColumns={2}
       contentContainerStyle={styles.content}
       columnWrapperStyle={styles.columnWrapper}
+      ListFooterComponent={footer}
+      showsVerticalScrollIndicator={false}
       renderItem={({ item }) => (
         <TemplateItemMain
           template={item}
@@ -32,7 +37,7 @@ const styles = StyleSheet.create({
 
   content: {
     marginVertical: 10,
-    alignItems: "flex-start",
+    // alignItems: "flex-start",
   },
 
   columnWrapper: {

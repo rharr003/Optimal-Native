@@ -19,10 +19,14 @@ export default function BirthDateSelector({ handleChange, userData }) {
     setShowPicker((prev) => !prev);
   }
 
-  const birthDate =
-    new Date(userData?.birth_date).toLocaleDateString("en-US", {
-      timeZone: "UTC",
-    }) || "Tap to select";
+  const birthDate = userData.birth_date
+    ? new Date(userData.birth_date).toLocaleDateString("en-US", {
+        timeZone: "UTC",
+      })
+    : "Tap to set";
+
+  console.log(userData?.birth_date);
+
   return (
     <View style={styles.container}>
       <Pressable onPress={togglePicker} style={styles.buttonStyle}>
@@ -30,7 +34,11 @@ export default function BirthDateSelector({ handleChange, userData }) {
           {`Date of Birth: ${birthDate}`}
         </Text>
         <DatePicker
-          date={new Date(userData?.birth_date || Date.now())}
+          date={
+            userData?.birth_date
+              ? new Date(userData.birth_date)
+              : new Date(Date.now())
+          }
           modal
           open={showPicker}
           onConfirm={handleChange}
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   buttonStyle: {
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 10,
     width: Platform.OS === "ios" ? "100%" : width * 0.85,
     padding: 5,

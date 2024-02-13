@@ -47,6 +47,7 @@ export default function ExerciseList({ interval, handleCancel, handleFinish }) {
         autoscrollSpeed={200}
         autoscrollThreshold={25}
         ListFooterComponent={Footer}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item, getIndex, drag, isActive }) => (
           <OpacityDecorator>
             <TouchableHeader

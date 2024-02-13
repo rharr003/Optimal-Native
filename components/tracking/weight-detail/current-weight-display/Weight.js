@@ -5,7 +5,7 @@ export default function Weight({ currWeight }) {
   const value = currWeight === 0 ? "No Data" : currWeight + " lbs";
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Weight</Text>
+      <Text style={styles.title}>Last Weight:</Text>
       <Text style={styles.text}>{value}</Text>
     </View>
   );

@@ -50,7 +50,7 @@ export default function MainButtons({
       <CustomButton
         title="View Past Workouts"
         iconName="calendar-outline"
-        color={ColorPalette.dark.gray500}
+        color={ColorPalette.dark.gray700}
         textColor="#FFFFFF"
         onPress={viewHistory}
         style={styles.buttonStyle}
@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: "100%",
     paddingVertical: 10,
+    marginVertical: 5,
   },
 });

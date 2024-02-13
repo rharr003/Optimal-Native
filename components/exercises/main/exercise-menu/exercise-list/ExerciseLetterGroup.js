@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import AddExerciseExerciseItem from "./ExerciseItem";
 import React from "react";
+import { ColorPalette } from "../../../../../ColorPalette";
 
 function AddExerciseLetterGroup({ exerciseArr, letter, onPress, setSearch }) {
   return (
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     margin: 10,
-    color: "#FFFFFF",
+    color: ColorPalette.dark.secondary200,
   },
 });
 

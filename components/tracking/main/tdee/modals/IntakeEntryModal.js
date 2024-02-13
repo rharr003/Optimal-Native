@@ -44,7 +44,7 @@ export default function IntakeEntryModal({ showModal, setShowModal }) {
     <CenteredModal
       showModal={showModal}
       handleClose={handleClose}
-      style={{ height: 170 }}
+      style={{ height: 200 }}
     >
       <View style={styles.modalContainer}>
         <FormInput
@@ -67,7 +67,7 @@ export default function IntakeEntryModal({ showModal, setShowModal }) {
           <CustomButton
             title="Cancel"
             iconName={"exit-outline"}
-            color={ColorPalette.dark.gray500}
+            color={ColorPalette.dark.gray600}
             textColor="#FFFFFF"
             onPress={handleClose}
             style={styles.customButtonStyle}

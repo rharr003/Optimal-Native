@@ -18,7 +18,9 @@ export default function GenderSelector({ handleChange, userData }) {
       >
         <View style={styles.buttonStyle}>
           <Text style={styles.buttonTextStyle}>
-            {`Biological Sex: ${userData.biological_sex}`}
+            {`Biological Sex: ${
+              userData.biological_sex ? userData.biological_sex : "Tap to set"
+            }`}
           </Text>
         </View>
       </RNPickerSelect>
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   buttonStyle: {
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 10,
     width: Platform.OS === "ios" ? "100%" : width * 0.85,
     padding: 5,

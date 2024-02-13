@@ -13,11 +13,11 @@ export default function Exercises() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: ColorPalette.dark.gray800,
+            backgroundColor: ColorPalette.dark.gray900,
           },
           headerTintColor: ColorPalette.dark.gray100,
           contentStyle: {
-            backgroundColor: ColorPalette.dark.gray800,
+            backgroundColor: ColorPalette.dark.gray900,
           },
         }}
       >
@@ -27,7 +27,7 @@ export default function Exercises() {
           options={{
             headerShown: false,
             contentStyle: {
-              backgroundColor: ColorPalette.dark.gray800,
+              backgroundColor: ColorPalette.dark.gray900,
             },
           }}
         />
@@ -39,10 +39,10 @@ export default function Exercises() {
             options={{
               headerShown: true,
               headerStyle: {
-                backgroundColor: ColorPalette.dark.gray700,
+                backgroundColor: ColorPalette.dark.gray900,
               },
               contentStyle: {
-                backgroundColor: ColorPalette.dark.gray800,
+                backgroundColor: ColorPalette.dark.gray900,
               },
               presentation: "modal",
             }}
@@ -60,10 +60,10 @@ export default function Exercises() {
                 />
               ),
               headerStyle: {
-                backgroundColor: ColorPalette.dark.gray700,
+                backgroundColor: ColorPalette.dark.gray900,
               },
               contentStyle: {
-                backgroundColor: ColorPalette.dark.gray800,
+                backgroundColor: ColorPalette.dark.gray900,
               },
             }}
           />
@@ -76,7 +76,7 @@ export default function Exercises() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ColorPalette.dark.gray800,
+    backgroundColor: ColorPalette.dark.gray900,
     paddingTop: 50,
   },
 });

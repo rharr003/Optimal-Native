@@ -29,7 +29,14 @@ export default function PickerInput({
             size={20}
             color={ColorPalette.dark.gray500}
           />
-          <Text style={[styles.text, { color: textColor }]}>{value}</Text>
+          <Text
+            style={[
+              styles.text,
+              { color: value ? textColor : ColorPalette.dark.gray500 },
+            ]}
+          >
+            {value || "Select option"}
+          </Text>
         </View>
       </RNPickerSelect>
     </View>
@@ -53,7 +60,9 @@ const styles = StyleSheet.create({
 
   fakeInput: {
     width: "100%",
-    backgroundColor: "#121212f5",
+    // backgroundColor: "#121212f5",
+    borderBottomWidth: 1,
+    borderColor: ColorPalette.dark.secondary200,
     borderRadius: 10,
     padding: 5,
     paddingLeft: 25,

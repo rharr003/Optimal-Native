@@ -68,7 +68,7 @@ export default function SearchBar({
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 5,
     padding: 10,
     width: "90%",
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: ColorPalette.dark.gray900,
+    backgroundColor: ColorPalette.dark.gray800,
     borderRadius: 5,
     paddingHorizontal: 10,
   },

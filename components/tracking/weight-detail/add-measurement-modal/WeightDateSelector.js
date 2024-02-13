@@ -63,8 +63,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   buttonStyle: {
-    backgroundColor: ColorPalette.dark.gray900,
-    borderRadius: 25,
+    // backgroundColor: ColorPalette.dark.gray900,
+    borderBottomWidth: 1,
+    borderColor: ColorPalette.dark.secondary200,
+    borderRadius: 10,
     width: "100%",
     padding: 5,
     alignItems: "center",

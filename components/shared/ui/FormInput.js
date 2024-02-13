@@ -41,12 +41,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: ColorPalette.dark.secondary200,
     marginBottom: 5,
-    marginLeft: 10,
+    marginLeft: 0,
   },
 
   fakeInput: {
     width: "100%",
-    backgroundColor: "#121212f5",
+    // backgroundColor: "#121212f5",
+    // borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: ColorPalette.dark.secondary200,
     borderRadius: 10,
     padding: 5,
     paddingLeft: 25,
