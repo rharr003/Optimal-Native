@@ -8,6 +8,7 @@ export default function handleAppClose() {
       "prevState",
       JSON.stringify({
         workout: state.workout,
+        prevWorkout: state.prevWorkout,
         isActive: state.isActive,
         timeClosed: new Date().getTime(),
         currTimer: state.timer,

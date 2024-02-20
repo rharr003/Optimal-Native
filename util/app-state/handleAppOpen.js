@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import store from "../redux/store";
 import {
-  setWorkout,
+  setWorkoutFromAppState,
   incrementTimer,
   stopWorkout,
   addInterval,
@@ -25,8 +25,12 @@ export default async function handleAppOpen() {
       }, 1000);
       store.dispatch(addInterval(interval));
       // for some reason moving this dispatch to the end of the function prevents a weird flicker on the ActiveWorkoutDisplay
-      store.dispatch(setWorkout(prevState.workout));
-      console.log(prevState.workout);
+      store.dispatch(
+        setWorkoutFromAppState({
+          workout: prevState.workout,
+          prevWorkout: prevState.prevWorkout,
+        })
+      );
       // store.dispatch(startWorkout()); removed not sure why i had this in the first place
     }
   });

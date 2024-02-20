@@ -5,7 +5,7 @@
     ],
     "name": "Optimize Fitness",
     "slug": "optimal_native",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "icon": "./assets/optimal_icon.png",
     "userInterfaceStyle": "dark",
     "splash": {

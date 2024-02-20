@@ -74,6 +74,12 @@ const workoutSlice = createSlice({
       state.isActive = true;
     },
 
+    setWorkoutFromAppState(state, action) {
+      state.workout = action.payload.workout;
+      state.prevWorkout = action.payload.prevWorkout;
+      state.isActive = true;
+    },
+
     stopWorkout(state) {
       state.isActive = false;
       state.restTimerActive = false;
@@ -228,4 +234,6 @@ export const clearSelectedExercises =
 export const removeSelectedExercise =
   workoutSlice.actions.removeSelectedExercise;
 export const startReplacing = workoutSlice.actions.startReplacing;
+export const setWorkoutFromAppState =
+  workoutSlice.actions.setWorkoutFromAppState;
 export default workoutSlice.reducer;
