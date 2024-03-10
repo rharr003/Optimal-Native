@@ -9,6 +9,10 @@ export default function TemplateMenuButtons({
   function finishAndUpdate() {
     handleFinishWorkout(true);
   }
+
+  function finishAndNoUpdate() {
+    handleFinishWorkout();
+  }
   return (
     <>
       {!workoutIsSame && (
@@ -23,7 +27,7 @@ export default function TemplateMenuButtons({
       )}
       <CustomButton
         title={`Finish${!workoutIsSame ? " (discard changes)" : ""}`}
-        onPress={handleFinishWorkout}
+        onPress={finishAndNoUpdate}
         iconName={"flag-outline"}
         style={styles.buttonStyle}
         color={ColorPalette.dark.secondary200}

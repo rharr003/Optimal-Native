@@ -19,7 +19,7 @@ export default function TemplateItemMain({
   });
 
   //truncate the exercises to just the first 3
-  const exercisesToShow = template.exercises.slice(0, 4);
+  const exercisesToShow = template.exercises?.slice(0, 4);
 
   function parseCompletedMessage() {
     if (daysPassed === 0) return "Completed today";
@@ -46,7 +46,7 @@ export default function TemplateItemMain({
     >
       <View style={styles.fullWidth}>
         <Text style={styles.title}>{template.name}</Text>
-        {exercisesToShow.map((exercise, index) => (
+        {exercisesToShow?.map((exercise, index) => (
           <Text style={styles.text} key={Math.random()}>
             {/* if there are more than 3 show a different message on the last exercise listed */}
             {index === 3 && template.exercises.length > 4

@@ -71,11 +71,12 @@ function ExerciseSet({
 
   function setCanBeCompleted() {
     if (useAltLayout) {
-      return set.reps !== "" || set.prevReps;
+      return set.reps !== "" || set.templateReps;
     }
 
     return (
-      (set.weight !== "" || set.prevWeight) && (set.reps !== "" || set.prevReps)
+      (set.weight !== "" || set.templateWeight) &&
+      (set.reps !== "" || set.templateReps)
     );
   }
 
@@ -95,7 +96,9 @@ function ExerciseSet({
             value={set.weight}
             maxLength={4}
             onChangeText={(text) => handleChangeText(text, "weight")}
-            placeholder={set.prevWeight ? set.prevWeight.toString() : ""}
+            placeholder={
+              set.templateWeight ? set.templateWeight.toString() : ""
+            }
           />
         </View>
       )}
@@ -109,7 +112,7 @@ function ExerciseSet({
           value={set.reps}
           maxLength={3}
           onChangeText={(text) => handleChangeText(text, "reps")}
-          placeholder={set.prevReps ? set.prevReps.toString() : ""}
+          placeholder={set.templateReps ? set.templateReps.toString() : ""}
         />
       </View>
       <Pressable

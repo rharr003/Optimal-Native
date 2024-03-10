@@ -1,6 +1,4 @@
 export function checkWorkoutDidNotChange(workout, prevWorkout) {
-  console.log(workout.exercisesNew);
-  console.log(prevWorkout.exercisesNew);
   const namesAreSame = workout.name === prevWorkout.name;
   if (!namesAreSame) return false;
   const numExercisesAreSame =
@@ -13,7 +11,6 @@ export function checkWorkoutDidNotChange(workout, prevWorkout) {
     return true;
   });
   if (!exercisesAreSame) return false;
-  console.log(exercisesAreSame);
 
   const numSetsNew = Object.keys(workout.exerciseSets).reduce((acc, key) => {
     // only count completed sets
@@ -34,17 +31,19 @@ export function checkWorkoutDidNotChange(workout, prevWorkout) {
       const weight = set.weight ? set.weight : "0";
       if (
         weight !==
-        prevWorkout.exerciseSets[key][setIndex]?.prevWeight?.toString()
+        prevWorkout.exerciseSets[key][setIndex]?.templateWeight?.toString()
       ) {
-        if (prevWorkout.exerciseSets[key][setIndex]?.prevWeight?.toString()) {
+        if (
+          prevWorkout.exerciseSets[key][setIndex]?.templateWeight?.toString()
+        ) {
           return false;
         }
       }
       if (
         set.reps !==
-        prevWorkout.exerciseSets[key][setIndex]?.prevReps?.toString()
+        prevWorkout.exerciseSets[key][setIndex]?.templateReps?.toString()
       ) {
-        if (prevWorkout.exerciseSets[key][setIndex]?.prevReps?.toString()) {
+        if (prevWorkout.exerciseSets[key][setIndex]?.templateReps?.toString()) {
           return false;
         }
       }

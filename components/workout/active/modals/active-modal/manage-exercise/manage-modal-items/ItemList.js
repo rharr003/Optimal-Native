@@ -9,7 +9,9 @@ export default function ItemList({
   unit,
   restTime,
   handleRestTimeChange,
+  exercise,
 }) {
+  console.log(unit);
   return (
     <>
       <Item
@@ -19,13 +21,15 @@ export default function ItemList({
         onPress={toggleExerciseModal}
       />
 
-      <Item
-        title="Change Unit"
-        icon={"barbell-outline"}
-        iconColor={ColorPalette.dark.secondary200}
-        onPress={handleToggleUnit}
-        rightText={unit}
-      />
+      {exercise.equipment !== "static" && exercise.equipment !== "body" && (
+        <Item
+          title="Change Unit"
+          icon={"barbell-outline"}
+          iconColor={ColorPalette.dark.secondary200}
+          onPress={handleToggleUnit}
+          rightText={unit}
+        />
+      )}
 
       <RestTimePicker restTime={restTime} handleChange={handleRestTimeChange} />
 

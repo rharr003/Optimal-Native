@@ -3,6 +3,7 @@ import {
   fetchTemplates,
   fetchTemplateExercises,
   fetchTemplateExercisesFormatted,
+  fetchRecentExercisePerformance,
 } from "../../../../util/sqlite/db";
 import TemplateModals from "./modals/TemplateModals";
 import TemplateList from "./template-list/TemplateList";
@@ -53,10 +54,33 @@ export default function TemplatesMain() {
   async function handleSelect(template) {
     try {
       const exerciseNames = template.exercises.map((exercise) => exercise.name);
-      const fullExerciseData = await fetchTemplateExercisesFormatted(
+      let fullExerciseData = await fetchTemplateExercisesFormatted(
         template.prevWorkoutId,
         exerciseNames
       );
+      const promiseArray = [];
+      fullExerciseData.forEach((exercise) => {
+        promiseArray.push(fetchRecentExercisePerformance(exercise.exercise.id));
+      });
+      const previousPerformances = await Promise.all(promiseArray);
+
+      fullExerciseData = fullExerciseData.map((exercise, idx) => {
+        const updatedExercise = {
+          ...exercise,
+          sets: exercise.sets.map((set, setIdx) => {
+            if (setIdx > previousPerformances[idx].length - 1) {
+              return set;
+            }
+            const updatedSet = {
+              ...set,
+              prevWeight: previousPerformances[idx][setIdx].weight.toString(),
+              prevReps: previousPerformances[idx][setIdx].reps.toString(),
+            };
+            return updatedSet;
+          }),
+        };
+        return updatedExercise;
+      });
 
       const fullWorkoutData = {
         name: template.name,
@@ -70,6 +94,7 @@ export default function TemplatesMain() {
       fullExerciseData.forEach((data) => {
         fullWorkoutData.exerciseSets[data.exercise.reactId] = data.sets;
       });
+
       dispatch(setLoadedWorkout(fullWorkoutData));
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setShowModal(true);

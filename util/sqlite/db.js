@@ -1188,8 +1188,10 @@ export const fetchTemplateExercisesFormatted = (id, exerciseNames) => {
                 reactId: Date.now() * Math.random(),
               },
               sets: matchingExercises.map((row) => ({
-                prevWeight: row.weight,
-                prevReps: row.reps,
+                templateWeight: row.weight,
+                templateReps: row.reps,
+                prevWeight: "",
+                prevReps: "",
                 weight: "",
                 reps: "",
                 prevUnit: row.unit,
